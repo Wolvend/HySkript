@@ -1,0 +1,18 @@
+{
+  "Group": "skript",
+  "Name": "HySk",
+  "Version": "$pluginVersion",
+  "Description": "Skripty Skripty gonna make a script!",
+  "Authors": [
+    {
+      "Name": "ShaneBee"
+    }
+  ],
+  "Website": "null",
+  "ServerVersion": "*",
+  "Dependencies": {},
+  "OptionalDependencies": {},
+  "DisabledByDefault": false,
+  "Main": "com.shanebeestudios.skript.plugin.HySk",
+  "IncludesAssetPack": false
+}

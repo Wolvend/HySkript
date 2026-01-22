@@ -1,0 +1,53 @@
+package com.shanebeestudios.skript.plugin.elements.types;
+
+import com.hypixel.hytale.server.core.asset.type.blocktype.config.BlockType;
+import com.hypixel.hytale.server.core.asset.type.item.config.Item;
+import com.hypixel.hytale.server.core.command.system.CommandSender;
+import com.hypixel.hytale.server.core.entity.Entity;
+import com.hypixel.hytale.server.core.entity.LivingEntity;
+import com.hypixel.hytale.server.core.inventory.ItemStack;
+import com.shanebeestudios.skript.api.utils.Utils;
+import io.github.syst3ms.skriptparser.registration.SkriptRegistration;
+
+public class Types {
+
+    public static void register(SkriptRegistration registration) {
+        Utils.log("Setting up Types");
+        registerServerTypes(registration);
+        registerEntityTypes(registration);
+        registerItemTypes(registration);
+        registerBlockTypes(registration);
+    }
+
+    private static void registerServerTypes(SkriptRegistration registration) {
+        registration.newType(CommandSender.class, "commandsender", "commandSender@s")
+            .toStringFunction(CommandSender::getDisplayName)
+            .register();
+    }
+
+    private static void registerEntityTypes(SkriptRegistration registration) {
+        registration.newType(Entity.class, "entity", "entit@y@ies")
+            .toStringFunction(Entity::toString) // TODO get its name or something
+            .register();
+        registration.newType(LivingEntity.class, "livingentity", "livingEntit@y@ies")
+            .toStringFunction(LivingEntity::toString) // TODO get its name or something
+            .register();
+    }
+
+    private static void registerItemTypes(SkriptRegistration registration) {
+        registration.newType(Item.class, "item", "item@s")
+            .toStringFunction(Item::getId)
+            .register();
+        registration.newType(ItemStack.class, "itemstack", "itemstack@s")
+            .toStringFunction(ItemStack::getItemId)
+            .register();
+    }
+
+    private static void registerBlockTypes(SkriptRegistration registration) {
+        registration.newType(BlockType.class, "blocktype", "blockType@s")
+            .toStringFunction(BlockType::getId)
+            .register();
+    }
+
+
+}
