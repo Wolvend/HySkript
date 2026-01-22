@@ -23,6 +23,7 @@ public class Skript extends SkriptAddon {
     private final SkriptLogger logger;
     private SkriptRegistration registration;
     private ListenerHandler listenerHandler;
+    private ScriptsLoader scriptsLoader;
 
     public Skript(HySk hySk) {
         this.hySk = hySk;
@@ -54,10 +55,8 @@ public class Skript extends SkriptAddon {
         Utils.log("HySk setup complete!");
 
         // LOAD SCRIPTS
-        ScriptsLoader.loadScripts(this.scriptsPath, false);
-
-        // FINALIZE LOADING
-        finishedLoading();
+        this.scriptsLoader = new ScriptsLoader(this.listenerHandler);
+        this.scriptsLoader.loadScripts(this.scriptsPath, false);
     }
 
     public HySk getPlugin() {
@@ -78,6 +77,10 @@ public class Skript extends SkriptAddon {
 
     public ListenerHandler getListenerHandler() {
         return this.listenerHandler;
+    }
+
+    public ScriptsLoader getScriptsLoader() {
+        return this.scriptsLoader;
     }
 
     @Override

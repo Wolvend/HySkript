@@ -26,8 +26,7 @@ public class Utils {
         if (args.length > 0) {
             message = String.format(message, args);
         }
-        Message mess = Message.empty().insert(Message.raw(message));
-        receiver.sendMessage(mess);
+        receiver.sendMessage(Message.raw(message));
     }
 
     public static void log(Level level, String message, Object... args) {

@@ -4,7 +4,6 @@ import com.hypixel.hytale.server.core.command.system.AbstractCommand;
 import com.hypixel.hytale.server.core.command.system.CommandContext;
 import com.hypixel.hytale.server.core.command.system.CommandRegistry;
 import com.hypixel.hytale.server.core.command.system.basecommands.AbstractCommandCollection;
-import com.shanebeestudios.skript.api.skript.ScriptsLoader;
 import com.shanebeestudios.skript.plugin.HySk;
 import com.shanebeestudios.skript.plugin.Skript;
 import org.jetbrains.annotations.NotNull;
@@ -29,7 +28,7 @@ public class SkriptCommand extends AbstractCommandCollection {
                 return CompletableFuture.runAsync(() -> {
                     Skript skript = HySk.getInstance().getSkript();
                     skript.getListenerHandler().clearTriggers();
-                    ScriptsLoader.loadScripts(skript.getScriptsPath(), true);
+                    skript.getScriptsLoader().loadScripts(skript.getScriptsPath(), true);
                 });
             }
         };

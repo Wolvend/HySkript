@@ -1,7 +1,7 @@
 package com.shanebeestudios.skript.api.skript;
 
 import com.shanebeestudios.skript.api.utils.Utils;
-import com.shanebeestudios.skript.plugin.HySk;
+import com.shanebeestudios.skript.plugin.elements.listeners.ListenerHandler;
 import io.github.syst3ms.skriptparser.log.LogEntry;
 import io.github.syst3ms.skriptparser.parsing.ScriptLoader;
 
@@ -11,11 +11,16 @@ import java.util.List;
 
 public class ScriptsLoader {
 
-    private static int LOADED_SCRIPT_COUNT = 0;
+    private final ListenerHandler listenerHandler;
+    private int loadedScriptCount = 0;
 
-    public static void loadScripts(Path directory, boolean reload) {
+    public ScriptsLoader(ListenerHandler listenerHandler) {
+        this.listenerHandler = listenerHandler;
+    }
+
+    public void loadScripts(Path directory, boolean reload) {
         ScriptLoader.getTriggerMap().clear();
-        LOADED_SCRIPT_COUNT = 0;
+        this.loadedScriptCount = 0;
         Utils.log((reload ? "Reloading" : "Loading") + " scripts...");
         long start = System.currentTimeMillis();
 
@@ -29,13 +34,13 @@ public class ScriptsLoader {
         loadScriptsInDirectory(directoryFile);
 
         long end = System.currentTimeMillis() - start;
-        Utils.log((reload ? "Reloaded" : "Loaded") + " %s scripts in %sms", LOADED_SCRIPT_COUNT, end);
+        Utils.log((reload ? "Reloaded" : "Loaded") + " %s scripts in %sms", this.loadedScriptCount, end);
 
         // Call load event and start periodical events
-        HySk.getInstance().getSkript().getListenerHandler().finishedLoading();
+        this.listenerHandler.finishedLoading();
     }
 
-    public static void loadScriptsInDirectory(File directory) {
+    public void loadScriptsInDirectory(File directory) {
         if (directory == null) return;
 
         for (File file : directory.listFiles()) {
@@ -44,7 +49,7 @@ public class ScriptsLoader {
             } else {
                 Utils.log("Loading script " + file.getName() + "...");
                 List<LogEntry> logEntries = ScriptLoader.loadScript(file.toPath(), false);
-                LOADED_SCRIPT_COUNT++;
+                this.loadedScriptCount++;
                 for (LogEntry logEntry : logEntries) {
                     Utils.log(logEntry.getMessage());
                 }
