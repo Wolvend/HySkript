@@ -5,6 +5,7 @@ import com.hypixel.hytale.server.core.asset.type.item.config.Item;
 import com.hypixel.hytale.server.core.command.system.CommandSender;
 import com.hypixel.hytale.server.core.entity.Entity;
 import com.hypixel.hytale.server.core.entity.LivingEntity;
+import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.inventory.ItemStack;
 import com.shanebeestudios.skript.api.utils.Utils;
 import io.github.syst3ms.skriptparser.registration.SkriptRegistration;
@@ -31,6 +32,9 @@ public class Types {
             .register();
         registration.newType(LivingEntity.class, "livingentity", "livingEntit@y@ies")
             .toStringFunction(LivingEntity::toString) // TODO get its name or something
+            .register();
+        registration.newType(Player.class, "player", "player@s")
+            .toStringFunction(Player::getDisplayName)
             .register();
     }
 
