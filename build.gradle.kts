@@ -1,33 +1,30 @@
 plugins {
     id("java")
     id("com.gradleup.shadow") version "9.2.0"
+    id("maven-publish")
 }
 
 java.sourceCompatibility = JavaVersion.VERSION_21
 
-group = "com.shanebeestudios"
+group = "com.github.SkriptDev"
 val projectVersion = "1.0.0"
 
 repositories {
     mavenCentral()
+    mavenLocal()
     maven("https://jitpack.io")
 }
 
 dependencies {
     compileOnly(files("/Users/ShaneBee/Desktop/Server/Hytale/Assets/HytaleServer.jar"))
     compileOnly("org.jetbrains:annotations:26.0.2")
-    implementation("com.github.SkriptDev:skript-parser:master-SNAPSHOT")
+    implementation("com.github.SkriptDev:skript-parser:1.0.0") { // temp version (jitpack not pulling master)
+        isTransitive = false
+    }
 }
 
 tasks {
-    register("survival-server", Copy::class) {
-        dependsOn("jar")
-        from("build/libs") {
-            include("HySkript-*.jar")
-            destinationDir = file("/Users/ShaneBee/Desktop/Server/Hytale/Survival/mods/")
-        }
-    }
-    register("creative-server", Copy::class) {
+    register("server", Copy::class) {
         dependsOn("jar")
         from("build/libs") {
             include("HySkript-*.jar")
@@ -46,9 +43,28 @@ tasks {
     }
     shadowJar {
         archiveFileName = project.name + "-" + projectVersion + ".jar"
-        relocate("io.github.syst3ms", "com.shanebeestudios.skript.base")
+        relocate("io.github.syst3ms", "com.github.skriptdev.skript")
     }
     jar {
         dependsOn(shadowJar)
+    }
+    register("sourcesJar", Jar::class) {
+        archiveClassifier.set("sources")
+        from(sourceSets.main.get().allSource)
+    }
+}
+
+publishing {
+    publications {
+        create<MavenPublication>("mavenShadow") {
+            // Use the "shadow" component to include the shadowed JAR and its dependencies in the POM
+            from(components["shadow"])
+
+            // Add the sources JAR as an additional artifact
+            artifact(tasks["sourcesJar"])
+            group = "com.github.SkriptDev"
+            version = projectVersion
+            artifactId = "HySkript"
+        }
     }
 }
