@@ -8,8 +8,10 @@ import com.shanebeestudios.skript.api.utils.Utils;
 import com.shanebeestudios.skript.plugin.HySk;
 import com.shanebeestudios.skript.plugin.Skript;
 import io.github.syst3ms.skriptparser.Parser;
+import io.github.syst3ms.skriptparser.docs.Documentation;
 import io.github.syst3ms.skriptparser.lang.CodeSection;
 import io.github.syst3ms.skriptparser.lang.Effect;
+import io.github.syst3ms.skriptparser.pattern.PatternElement;
 import io.github.syst3ms.skriptparser.registration.SkriptRegistration;
 import io.github.syst3ms.skriptparser.registration.SyntaxInfo;
 import io.github.syst3ms.skriptparser.registration.context.ContextValue;
@@ -134,9 +136,8 @@ public class SkriptCommand extends AbstractCommandCollection {
         List<ContextValue<?, ?>> contextValues = registration.getContextValues();
 
         registration.getEvents().forEach(event -> {
-            writer.println("### Event: " + event.getSyntaxClass().getSimpleName());
-            writer.println("- **Patterns**:");
-            event.getPatterns().forEach(pattern -> writer.println("   - `" + pattern + "`"));
+            Documentation documentation = event.getDocumentation();
+            printDocumentation("Event", writer, documentation, event.getPatterns());
 
             List<ContextValue<?, ?>> valuesForThisEvent = new ArrayList<>();
             contextValues.forEach(contextValue -> {
@@ -153,11 +154,10 @@ public class SkriptCommand extends AbstractCommandCollection {
 
     private void printExpressions(PrintWriter writer, SkriptRegistration registration) {
         registration.getExpressions().forEach((aClass, expressionInfos) -> {
-            writer.println("### Expression: " + aClass.getSimpleName());
             expressionInfos.forEach(expressionInfo -> {
+                Documentation documentation = expressionInfo.getDocumentation();
+                printDocumentation("Expression", writer, documentation, expressionInfo.getPatterns());
                 writer.println("- **Return Type**: " + expressionInfo.getReturnType());
-                writer.println("- **Patterns**:");
-                expressionInfo.getPatterns().forEach(pattern -> writer.println("   - `" + pattern + "`"));
             });
             writer.println();
         });
@@ -165,9 +165,8 @@ public class SkriptCommand extends AbstractCommandCollection {
 
     private void printEffects(PrintWriter writer, SkriptRegistration registration) {
         for (SyntaxInfo<? extends Effect> effect : registration.getEffects()) {
-            writer.println("### Effect: " + effect.getSyntaxClass().getSimpleName());
-            writer.println("- **Patterns**:");
-            effect.getPatterns().forEach(pattern -> writer.println("   - `" + pattern + "`"));
+            Documentation documentation = effect.getDocumentation();
+            printDocumentation("Effect", writer, documentation, effect.getPatterns());
         }
     }
 
@@ -175,16 +174,60 @@ public class SkriptCommand extends AbstractCommandCollection {
         List<Type<?>> types = new ArrayList<>(registration.getTypes());
         types.sort(Comparator.comparing(Type::getBaseName));
         types.forEach(type -> {
-            writer.println("### Type: " + type.getBaseName());
-            writer.println();
+            Documentation documentation = type.getDocumentation();
+            printDocumentation("Type", writer, documentation, List.of());
         });
     }
 
     private void printSections(PrintWriter writer, SkriptRegistration registration) {
         for (SyntaxInfo<? extends CodeSection> section : registration.getSections()) {
-            writer.println("### Section: " + section.getSyntaxClass().getSimpleName());
+            Documentation documentation = section.getDocumentation();
+            printDocumentation("Section", writer, documentation, List.of());
+        }
+    }
+
+    private void printDocumentation(String type, PrintWriter writer, Documentation documentation, List<PatternElement> patterns) {
+        writer.println("### " + type + ": " + documentation.getName());
+        String[] description = documentation.getDescription();
+        if (description != null) {
+            writer.println("- **Description**:");
+            for (String s : description) {
+                writer.println("  " + s);
+            }
+        }
+        if (documentation.getUsage() != null) {
+            writer.println("- **Usage**:  ");
+            String usage = documentation.getUsage();
+            if (usage.length() > 100) {
+                // Asset store stuff gets really long
+                writer.println("<details>");
+                writer.println("  <summary>Usages</summary>");
+                writer.println();
+                writer.println("`");
+                writer.println(documentation.getUsage());
+                writer.println("`");
+                writer.println("</details>");
+                writer.println();
+            } else {
+                writer.println("`");
+                writer.println(documentation.getUsage());
+                writer.println("`");
+            }
+        }
+        if (!patterns.isEmpty()) {
             writer.println("- **Patterns**:");
-            section.getPatterns().forEach(pattern -> writer.println("   - `" + pattern + "`"));
+            patterns.forEach(pattern -> writer.println("   - `" + pattern + "`"));
+        }
+        if (documentation.getExamples() != null) {
+            writer.println("- **Examples**:  ");
+            writer.println("```applescript");
+            for (String s : documentation.getExamples()) {
+                writer.println(s);
+            }
+            writer.println("```");
+        }
+        if (documentation.getSince() != null) {
+            writer.println("- **Since**: " + documentation.getSince());
         }
     }
 

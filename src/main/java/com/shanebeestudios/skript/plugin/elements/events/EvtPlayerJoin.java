@@ -7,28 +7,35 @@ import io.github.syst3ms.skriptparser.lang.SkriptEvent;
 import io.github.syst3ms.skriptparser.lang.TriggerContext;
 import io.github.syst3ms.skriptparser.parsing.ParseContext;
 import io.github.syst3ms.skriptparser.registration.SkriptRegistration;
+import io.github.syst3ms.skriptparser.registration.context.ContextValue;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class EvtPlayerJoin extends SkriptEvent {
 
     public static void register(SkriptRegistration registration) {
         registration.newEvent(EvtPlayerJoin.class, "player connect", "player ready", "player quit")
+            .name("Player Join/Quit")
+            .description("Events triggered when a player joins or quits the server.")
+            .since("INSERT VERSION")
             .setHandledContexts(PlayerEventContext.class)
             .register();
 
-        registration.addContextValue(PlayerEventContext.class, Player.class, true, "player", PlayerEventContext::getPlayer);
+        registration.newContextValue(PlayerEventContext.class, Player.class, true, "player", PlayerEventContext::getPlayer)
+            .setUsage(ContextValue.Usage.EXPRESSION_OR_ALONE)
+            .register();
     }
 
     private int pattern;
 
     @Override
-    public boolean init(Expression<?>[] expressions, int matchedPattern, ParseContext parseContext) {
+    public boolean init(Expression<?> @NotNull [] expressions, int matchedPattern, @NotNull ParseContext parseContext) {
         this.pattern = matchedPattern;
         return true;
     }
 
     @Override
-    public boolean check(TriggerContext ctx) {
+    public boolean check(@NotNull TriggerContext ctx) {
         if (!(ctx instanceof PlayerEventContext playerEventContext)) return false;
         if (this.pattern != playerEventContext.getPattern()) return false;
         return true;

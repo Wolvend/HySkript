@@ -1,6 +1,7 @@
 package com.shanebeestudios.skript.plugin.elements.effects;
 
 import com.hypixel.hytale.server.core.command.system.CommandSender;
+import com.shanebeestudios.skript.api.skript.eventcontext.PlayerEventContext;
 import com.shanebeestudios.skript.api.utils.Utils;
 import io.github.syst3ms.skriptparser.lang.Effect;
 import io.github.syst3ms.skriptparser.lang.Expression;
@@ -13,7 +14,12 @@ import org.jetbrains.annotations.Nullable;
 public class EffSendMessage extends Effect {
 
     public static void register(SkriptRegistration registration) {
-        registration.addEffect(EffSendMessage.class, "send [message[s]] %strings% [to %-commandsenders%]");
+        registration.newEffect(EffSendMessage.class, "send [message[s]] %strings% [to %-commandsenders%]")
+            .name("Send Message")
+            .description("Sends a message to a command sender such as a player or the console.")
+            .examples("send \"Welcome to the server\" to player")
+            .since("INSERT VERSION")
+            .register();
     }
 
     private Expression<String> message;
@@ -39,6 +45,13 @@ public class EffSendMessage extends Effect {
                 }
             }
         } else {
+            if (ctx instanceof PlayerEventContext playerEventContext) {
+                for (CommandSender commandSender : playerEventContext.getPlayer()) {
+                    for (String value : messages) {
+                        Utils.sendMessage(commandSender, value);
+                    }
+                }
+            }
             for (String value : messages) {
                 Utils.log(value);
             }

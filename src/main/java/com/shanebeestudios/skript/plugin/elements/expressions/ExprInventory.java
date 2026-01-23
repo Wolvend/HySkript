@@ -14,8 +14,13 @@ import java.util.Optional;
 public class ExprInventory implements Expression<Inventory> {
 
     public static void register(SkriptRegistration registration) {
-        registration.addExpression(ExprInventory.class, Inventory.class, false,
-            "inventory of %livingentity%");
+        registration.newExpression(ExprInventory.class, Inventory.class, false,
+            "inventory of %livingentity%")
+            .name("Inventory")
+            .description("Returns the inventory of a living entity.")
+            .examples("set {_inv} to inventory of player")
+            .since("INSERT VERSION")
+            .register();
     }
 
     private Expression<LivingEntity> entity;

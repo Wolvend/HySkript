@@ -8,6 +8,12 @@ public class ExpressionHandler {
         ExprClassInfoOf.register(registration);
         ExprInventory.register(registration);
         ExprItemStack.register(registration);
+        ExprItemType.register(registration);
+        ExprName.register(registration);
+        ExprUUID.register(registration);
+        ExprUUIDRandom.register(registration);
+        ExprWorld.register(registration);
+        ExprWorldOfEntity.register(registration);
     }
 
 }
