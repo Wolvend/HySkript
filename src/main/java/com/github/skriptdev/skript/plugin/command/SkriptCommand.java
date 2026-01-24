@@ -3,6 +3,8 @@ package com.github.skriptdev.skript.plugin.command;
 import com.hypixel.hytale.server.core.command.system.AbstractCommand;
 import com.hypixel.hytale.server.core.command.system.CommandContext;
 import com.hypixel.hytale.server.core.command.system.CommandRegistry;
+import com.hypixel.hytale.server.core.command.system.arguments.system.OptionalArg;
+import com.hypixel.hytale.server.core.command.system.arguments.types.ArgTypes;
 import com.hypixel.hytale.server.core.command.system.basecommands.AbstractCommandCollection;
 import com.github.skriptdev.skript.api.utils.Utils;
 import com.github.skriptdev.skript.plugin.HySk;
@@ -17,11 +19,13 @@ import io.github.syst3ms.skriptparser.registration.SyntaxInfo;
 import io.github.syst3ms.skriptparser.registration.context.ContextValue;
 import io.github.syst3ms.skriptparser.types.Type;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -33,23 +37,35 @@ public class SkriptCommand extends AbstractCommandCollection {
         super("skript", "Skript commands");
         addAliases("sk");
 
-        addSubCommand(reloadCommand());
+        addSubCommand(new ReloadCommand());
         addSubCommand(docsCommand());
 
         registry.registerCommand(this);
     }
 
-    private AbstractCommand reloadCommand() {
-        return new AbstractCommand("reload", "Reloads all scripts.") {
-            @Override
-            protected CompletableFuture<Void> execute(@NotNull CommandContext commandContext) {
-                return CompletableFuture.runAsync(() -> {
-                    Skript skript = HySk.getInstance().getSkript();
-                    skript.getElementRegistration().clearTriggers();
-                    skript.getScriptsLoader().loadScripts(skript.getScriptsPath(), true);
-                });
-            }
-        };
+    private static class ReloadCommand extends AbstractCommand {
+
+        private final OptionalArg<String> scriptArg;
+
+        protected ReloadCommand() {
+            super("reload", "Reloads all scripts.");
+            this.scriptArg = withOptionalArg("script", "A script to reload", ArgTypes.STRING);
+        }
+
+        @Override
+        protected @Nullable CompletableFuture<Void> execute(@NotNull CommandContext commandContext) {
+            return CompletableFuture.runAsync(() -> {
+                Skript skript = HySk.getInstance().getSkript();
+                skript.getElementRegistration().clearTriggers();
+                Path scriptsPath = skript.getScriptsPath();
+                if (this.scriptArg.provided(commandContext)) {
+                    String scriptName = this.scriptArg.get(commandContext);
+                    skript.getScriptsLoader().reloadScript(scriptName);
+                } else {
+                    skript.getScriptsLoader().loadScripts(scriptsPath, true);
+                }
+            });
+        }
     }
 
     private AbstractCommand docsCommand() {

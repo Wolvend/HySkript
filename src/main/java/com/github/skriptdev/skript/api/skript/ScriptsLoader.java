@@ -12,10 +12,12 @@ import java.util.List;
 
 public class ScriptsLoader {
 
+    private final Skript skript;
     private final ElementRegistration elementRegistration;
     private int loadedScriptCount = 0;
 
     public ScriptsLoader(Skript skript) {
+        this.skript = skript;
         this.elementRegistration = skript.getElementRegistration();
     }
 
@@ -49,13 +51,39 @@ public class ScriptsLoader {
                 loadScriptsInDirectory(file);
             } else {
                 if (!file.getName().endsWith(".sk")) continue;
-                Utils.log("Loading script " + file.getName() + "...");
+                Utils.log("Loading script '" + file.getName() + "'...");
                 List<LogEntry> logEntries = ScriptLoader.loadScript(file.toPath(), false);
                 this.loadedScriptCount++;
                 for (LogEntry logEntry : logEntries) {
                     Utils.log(logEntry.getMessage());
                 }
             }
+        }
+    }
+
+    public void reloadScript(String name) {
+        long start = System.currentTimeMillis();
+        Path path = this.skript.getScriptsPath().resolve(name);
+        if (path.toFile().isDirectory()) {
+            this.loadedScriptCount = 0;
+            Utils.log("Reloading scripts in path '%s'...", name);
+            loadScriptsInDirectory(path.toFile());
+            long fin = System.currentTimeMillis() - start;
+            Utils.log("Reloaded %s scripts in %sm.", this.loadedScriptCount, fin);
+        } else {
+            path = this.skript.getScriptsPath().resolve(name + (name.endsWith(".sk") ? "" : ".sk"));
+            if (!path.toFile().exists()) {
+                Utils.error("Script '%s' does not exist!", name);
+                return;
+            }
+
+            Utils.log("Reloading script '%s'...", name);
+            List<LogEntry> logEntries = ScriptLoader.loadScript(path, false);
+            for (LogEntry logEntry : logEntries) {
+                Utils.log(logEntry.getMessage());
+            }
+            long fin = System.currentTimeMillis() - start;
+            Utils.log("Reloaded script '%s' in %sms.", name, fin);
         }
     }
 
