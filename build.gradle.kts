@@ -8,15 +8,18 @@ java.sourceCompatibility = JavaVersion.VERSION_21
 
 group = "com.github.SkriptDev"
 val projectVersion = "1.0.0"
+val hytaleVersion = "2026.01.23-6e2d4fc36"
 
 repositories {
     mavenCentral()
     mavenLocal()
     maven("https://jitpack.io")
+    maven("https://maven.hytale.com/release")
+    maven("https://maven.hytale.com/pre-release")
 }
 
 dependencies {
-    compileOnly(files("/Users/ShaneBee/Desktop/Server/Hytale/Assets/HytaleServer.jar"))
+    compileOnly("com.hypixel.hytale:Server:${hytaleVersion}")
     compileOnly("org.jetbrains:annotations:26.0.2")
     implementation("com.github.SkriptDev:skript-parser:1.0.0") { // temp version (jitpack not pulling master)
         isTransitive = false
