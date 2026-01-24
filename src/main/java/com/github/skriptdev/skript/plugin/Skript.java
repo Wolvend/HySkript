@@ -5,6 +5,7 @@ import com.github.skriptdev.skript.api.utils.Utils;
 import com.github.skriptdev.skript.plugin.elements.ElementRegistration;
 import io.github.syst3ms.skriptparser.Parser;
 import io.github.syst3ms.skriptparser.lang.Trigger;
+import io.github.syst3ms.skriptparser.log.ErrorType;
 import io.github.syst3ms.skriptparser.log.SkriptLogger;
 import io.github.syst3ms.skriptparser.registration.SkriptAddon;
 import io.github.syst3ms.skriptparser.registration.SkriptRegistration;
@@ -14,6 +15,7 @@ import java.nio.file.Path;
 
 public class Skript extends SkriptAddon {
 
+    public static Skript INSTANCE;
     private final HySk hySk;
     private final Path scriptsPath;
     private final SkriptLogger logger;
@@ -22,6 +24,7 @@ public class Skript extends SkriptAddon {
     private ScriptsLoader scriptsLoader;
 
     public Skript(HySk hySk) {
+        INSTANCE = this;
         this.hySk = hySk;
         this.scriptsPath = hySk.getDataDirectory().resolve("scripts");
         this.logger = new SkriptLogger();
@@ -87,6 +90,35 @@ public class Skript extends SkriptAddon {
 
     public ScriptsLoader getScriptsLoader() {
         return this.scriptsLoader;
+    }
+
+    /**
+     * Send an error.
+     * ErrorType defaults to SEMANTIC_ERROR.
+     *
+     * @param error Error to send
+     */
+    public static void error(String error) {
+        error(error, ErrorType.SEMANTIC_ERROR);
+    }
+
+    /**
+     * Send an error.
+     *
+     * @param error     Error to send
+     * @param errorType Type of error
+     */
+    public static void error(String error, ErrorType errorType) {
+        INSTANCE.getLogger().error(error, errorType);
+    }
+
+    /**
+     * Send a warning.
+     *
+     * @param warning Warning to send
+     */
+    public static void warn(String warning) {
+        INSTANCE.getLogger().warn(warning);
     }
 
     @Override
