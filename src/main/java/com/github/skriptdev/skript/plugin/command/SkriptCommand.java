@@ -1,19 +1,20 @@
 package com.github.skriptdev.skript.plugin.command;
 
+import com.github.skriptdev.skript.api.utils.Utils;
+import com.github.skriptdev.skript.plugin.HySk;
+import com.github.skriptdev.skript.plugin.Skript;
 import com.hypixel.hytale.server.core.command.system.AbstractCommand;
 import com.hypixel.hytale.server.core.command.system.CommandContext;
 import com.hypixel.hytale.server.core.command.system.CommandRegistry;
 import com.hypixel.hytale.server.core.command.system.arguments.system.OptionalArg;
 import com.hypixel.hytale.server.core.command.system.arguments.types.ArgTypes;
 import com.hypixel.hytale.server.core.command.system.basecommands.AbstractCommandCollection;
-import com.github.skriptdev.skript.api.utils.Utils;
-import com.github.skriptdev.skript.plugin.HySk;
-import com.github.skriptdev.skript.plugin.Skript;
 import io.github.syst3ms.skriptparser.Parser;
 import io.github.syst3ms.skriptparser.docs.Documentation;
 import io.github.syst3ms.skriptparser.lang.CodeSection;
 import io.github.syst3ms.skriptparser.lang.Effect;
 import io.github.syst3ms.skriptparser.pattern.PatternElement;
+import io.github.syst3ms.skriptparser.registration.ExpressionInfo;
 import io.github.syst3ms.skriptparser.registration.SkriptRegistration;
 import io.github.syst3ms.skriptparser.registration.SyntaxInfo;
 import io.github.syst3ms.skriptparser.registration.context.ContextValue;
@@ -178,7 +179,10 @@ public class SkriptCommand extends AbstractCommandCollection {
     }
 
     private void printExpressions(PrintWriter exprWriter, PrintWriter condWriter, SkriptRegistration registration) {
-        registration.getExpressions().forEach((aClass, expressionInfos) -> {
+        List<List<ExpressionInfo<?, ?>>> values = new ArrayList<>(registration.getExpressions().values());
+        values.sort(Comparator.comparing(k -> k.getFirst().getSyntaxClass().getSimpleName()));
+
+        for (List<ExpressionInfo<?, ?>> expressionInfos : values) {
             expressionInfos.forEach(expressionInfo -> {
                 Documentation documentation = expressionInfo.getDocumentation();
                 if (expressionInfo.getSyntaxClass().getSimpleName().startsWith("Cond")) {
@@ -190,7 +194,7 @@ public class SkriptCommand extends AbstractCommandCollection {
                 }
             });
             exprWriter.println();
-        });
+        }
     }
 
     private void printEffects(PrintWriter writer, SkriptRegistration registration) {
@@ -210,7 +214,9 @@ public class SkriptCommand extends AbstractCommandCollection {
     }
 
     private void printSections(PrintWriter writer, SkriptRegistration registration) {
-        for (SyntaxInfo<? extends CodeSection> section : registration.getSections()) {
+        List<SyntaxInfo<? extends CodeSection>> sections = new ArrayList<>(registration.getSections());
+        sections.sort(Comparator.comparing(info -> info.getSyntaxClass().getSimpleName()));
+        for (SyntaxInfo<? extends CodeSection> section : sections) {
             Documentation documentation = section.getDocumentation();
             printDocumentation("Section", writer, documentation, section.getPatterns());
         }
@@ -222,7 +228,13 @@ public class SkriptCommand extends AbstractCommandCollection {
         if (description != null) {
             writer.println("- **Description**:");
             for (String s : description) {
-                writer.println("  " + s);
+                if (s.contains("\n")) {
+                    for (String string : s.split("\\n")) {
+                        writer.println("  " + string + "  ");
+                    }
+                } else {
+                    writer.println("  " + s + "  ");
+                }
             }
         }
         if (documentation.getUsage() != null) {

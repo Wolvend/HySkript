@@ -284,7 +284,7 @@ public class Types {
     private static String autoGenMessage() {
         String serverVersion = ManifestUtil.getImplementationVersion();
         return "This type is auto-generated with values from Hytale." +
-            "\nCurrently generated with Hytale Server version '" + serverVersion + "'.";
+            "\nCurrently generated with Hytale Server version `" + serverVersion + "`.";
 
     }
 
