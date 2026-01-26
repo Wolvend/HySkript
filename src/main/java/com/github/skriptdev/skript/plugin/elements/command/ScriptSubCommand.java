@@ -1,0 +1,67 @@
+package com.github.skriptdev.skript.plugin.elements.command;
+
+import com.github.skriptdev.skript.api.skript.command.ScriptCommandBuilder;
+import com.github.skriptdev.skript.api.skript.command.ScriptCommandParent;
+import com.github.skriptdev.skript.api.utils.Utils;
+import io.github.syst3ms.skriptparser.file.FileSection;
+import io.github.syst3ms.skriptparser.lang.CodeSection;
+import io.github.syst3ms.skriptparser.lang.Expression;
+import io.github.syst3ms.skriptparser.lang.Statement;
+import io.github.syst3ms.skriptparser.lang.TriggerContext;
+import io.github.syst3ms.skriptparser.log.SkriptLogger;
+import io.github.syst3ms.skriptparser.parsing.ParseContext;
+import io.github.syst3ms.skriptparser.parsing.ParserState;
+import io.github.syst3ms.skriptparser.registration.SkriptRegistration;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.Optional;
+
+public class ScriptSubCommand extends CodeSection implements ScriptCommandParent {
+
+    public static void register(SkriptRegistration registration) {
+        registration.newSection(ScriptSubCommand.class, "sub command <.+>")
+            .name("Sub Command")
+            .description("Creates a sub command for a top level command or another sub command.")
+            .since("INSERT VERSION")
+            .register();
+    }
+
+    private ScriptCommandBuilder commandBuilder;
+    private String commandLine;
+    private FileSection section;
+    private ParserState parserState;
+
+    @Override
+    public boolean init(Expression<?> @NotNull [] expressions, int matchedPattern, @NotNull ParseContext parseContext) {
+        this.commandLine = parseContext.getMatches().getFirst().group();
+        this.commandBuilder = ScriptCommandBuilder.create(-1, parseContext.getLogger());
+        this.commandBuilder.parseCommandLine(this.commandLine);
+        return true;
+    }
+
+    @Override
+    public void loadChild(ScriptCommandBuilder parent, SkriptLogger logger) {
+        Utils.log("Loading child");
+        this.commandBuilder.setupCommand(this.section, this.parserState, logger);
+        this.commandBuilder.commandType = parent.getCommandType();
+        this.commandBuilder.build(parent);
+    }
+
+    @Override
+    public boolean loadSection(@NotNull FileSection section, @NotNull ParserState parserState, @NotNull SkriptLogger logger) {
+        Utils.log("Loading section");
+        this.section = section;
+        this.parserState = parserState;
+        return true;
+    }
+
+    @Override
+    public Optional<? extends Statement> walk(@NotNull TriggerContext ctx) {
+        return Optional.empty();
+    }
+
+    @Override
+    public String toString(@NotNull TriggerContext ctx, boolean debug) {
+        return "sub command + " + this.commandLine;
+    }
+}

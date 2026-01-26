@@ -2,6 +2,7 @@ package com.github.skriptdev.skript.plugin.elements;
 
 import com.github.skriptdev.skript.plugin.Skript;
 import com.github.skriptdev.skript.plugin.elements.command.ScriptCommand;
+import com.github.skriptdev.skript.plugin.elements.command.ScriptSubCommand;
 import com.github.skriptdev.skript.plugin.elements.conditions.ConditionHandler;
 import com.github.skriptdev.skript.plugin.elements.effects.EffectHandler;
 import com.github.skriptdev.skript.plugin.elements.events.EventHandler;
@@ -47,6 +48,7 @@ public class ElementRegistration {
 
         // COMMAND
         ScriptCommand.register(this.registration);
+        ScriptSubCommand.register(this.registration);
     }
 
     public ListenerHandler getListenerHandler() {

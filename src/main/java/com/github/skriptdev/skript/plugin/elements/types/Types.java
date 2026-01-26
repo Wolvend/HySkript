@@ -1,5 +1,6 @@
 package com.github.skriptdev.skript.plugin.elements.types;
 
+import com.github.skriptdev.skript.api.skript.command.ArgUtils;
 import com.github.skriptdev.skript.api.skript.registration.AssetStoreRegistry;
 import com.github.skriptdev.skript.api.skript.registration.EnumRegistry;
 import com.github.skriptdev.skript.api.skript.registration.NPCRegistry;
@@ -26,6 +27,7 @@ import com.hypixel.hytale.server.core.asset.type.projectile.config.Projectile;
 import com.hypixel.hytale.server.core.asset.type.soundevent.config.SoundEvent;
 import com.hypixel.hytale.server.core.asset.type.weather.config.Weather;
 import com.hypixel.hytale.server.core.command.system.CommandSender;
+import com.hypixel.hytale.server.core.command.system.arguments.types.ArgumentType;
 import com.hypixel.hytale.server.core.entity.Entity;
 import com.hypixel.hytale.server.core.entity.LivingEntity;
 import com.hypixel.hytale.server.core.entity.entities.Player;
@@ -68,6 +70,12 @@ public class Types {
     }
 
     private static void registerServerTypes(SkriptRegistration registration) {
+        registration.newType(ArgumentType.class, "argumenttype", "argumentType@s")
+            .name("Argument Type")
+            .description("Represents the types of arguments that can be used in commands.")
+            .usage(ArgUtils.getTypeUsage())
+            .since("INSERT VERSION")
+            .register();
         registration.newType(CommandSender.class, "commandsender", "commandSender@s")
             .name("Command Sender")
             .description("Represents a command sender such as a player or the console.")

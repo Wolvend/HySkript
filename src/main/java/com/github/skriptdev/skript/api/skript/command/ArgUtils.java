@@ -1,4 +1,4 @@
-package com.github.skriptdev.skript.api.command;
+package com.github.skriptdev.skript.api.skript.command;
 
 import com.hypixel.hytale.server.core.command.system.arguments.types.ArgTypes;
 import com.hypixel.hytale.server.core.command.system.arguments.types.ArgumentType;
@@ -49,6 +49,10 @@ public class ArgUtils {
      */
     public static ArgumentType<?> getType(String name) {
         return TYPES_MAP.get(name);
+    }
+
+    public static String getTypeUsage() {
+        return String.join(", ", TYPES_MAP.keySet().stream().sorted().toList());
     }
 
 }

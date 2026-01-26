@@ -1,4 +1,4 @@
-package com.github.skriptdev.skript.api.command;
+package com.github.skriptdev.skript.api.skript.command;
 
 import com.hypixel.hytale.server.core.command.system.arguments.types.ArgumentType;
 
@@ -52,7 +52,7 @@ public class CommandArg {
     }
 
     /** Parse a string into a CommandArg.
-     * @param a String to parse in the format of [name:type:desc] or <name:type:desc>
+     * @param a String to parse in the format of {@code [<name:type:desc>]} or {@code <name:type:desc>}
      * @return CommandArg
      */
     public static CommandArg parseArg(String a) {
