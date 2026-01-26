@@ -1,6 +1,5 @@
 package com.github.skriptdev.skript.plugin.elements.command;
 
-import com.github.skriptdev.skript.api.skript.command.ArgUtils;
 import com.github.skriptdev.skript.api.skript.command.ScriptCommandBuilder;
 import com.github.skriptdev.skript.api.skript.command.ScriptCommandParent;
 import com.hypixel.hytale.server.core.command.system.CommandSender;
@@ -8,9 +7,9 @@ import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.universe.world.World;
 import io.github.syst3ms.skriptparser.file.FileSection;
 import io.github.syst3ms.skriptparser.lang.Expression;
-import io.github.syst3ms.skriptparser.lang.SkriptEvent;
 import io.github.syst3ms.skriptparser.lang.Statement;
 import io.github.syst3ms.skriptparser.lang.TriggerContext;
+import io.github.syst3ms.skriptparser.lang.event.SkriptEvent;
 import io.github.syst3ms.skriptparser.log.SkriptLogger;
 import io.github.syst3ms.skriptparser.parsing.ParseContext;
 import io.github.syst3ms.skriptparser.parsing.ParserState;
@@ -149,7 +148,7 @@ public class ScriptCommand extends SkriptEvent implements ScriptCommandParent {
     @Override
     public boolean init(Expression<?> @NotNull [] expressions, int matchedPattern, ParseContext parseContext) {
         this.commandType = matchedPattern;
-        this.commandBuilder = ScriptCommandBuilder.create( matchedPattern, parseContext.getLogger());
+        this.commandBuilder = ScriptCommandBuilder.create(matchedPattern, parseContext.getLogger());
         return this.commandBuilder.parseCommandLine(parseContext.getMatches().getFirst().group());
     }
 

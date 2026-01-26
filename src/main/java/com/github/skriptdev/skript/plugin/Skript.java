@@ -6,11 +6,9 @@ import com.github.skriptdev.skript.api.utils.ReflectionUtils;
 import com.github.skriptdev.skript.api.utils.Utils;
 import com.github.skriptdev.skript.plugin.elements.ElementRegistration;
 import io.github.syst3ms.skriptparser.Parser;
-import io.github.syst3ms.skriptparser.lang.Trigger;
 import io.github.syst3ms.skriptparser.log.SkriptLogger;
 import io.github.syst3ms.skriptparser.registration.SkriptAddon;
 import io.github.syst3ms.skriptparser.registration.SkriptRegistration;
-import org.jetbrains.annotations.NotNull;
 
 import java.nio.file.Path;
 
@@ -50,6 +48,9 @@ public class Skript extends SkriptAddon {
         // LOAD SCRIPTS
         this.scriptsLoader = new ScriptsLoader(this);
         this.scriptsLoader.loadScripts(this.scriptsPath, false);
+
+        // FINALIZE SCRIPT LOADING
+        Parser.getMainRegistration().getRegisterer().finishedLoading();
     }
 
     private void printSyntaxCount() {
@@ -93,11 +94,6 @@ public class Skript extends SkriptAddon {
 
     public ScriptsLoader getScriptsLoader() {
         return this.scriptsLoader;
-    }
-
-    @Override
-    public void handleTrigger(@NotNull String script, @NotNull Trigger trigger) {
-        this.elementRegistration.handleTrigger(script, trigger);
     }
 
 }

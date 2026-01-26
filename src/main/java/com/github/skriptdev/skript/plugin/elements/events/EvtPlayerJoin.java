@@ -1,15 +1,25 @@
 package com.github.skriptdev.skript.plugin.elements.events;
 
+import com.github.skriptdev.skript.plugin.HySk;
+import com.hypixel.hytale.event.EventRegistration;
+import com.hypixel.hytale.event.EventRegistry;
 import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.github.skriptdev.skript.api.skript.eventcontext.PlayerEventContext;
+import com.hypixel.hytale.server.core.event.events.player.PlayerConnectEvent;
+import com.hypixel.hytale.server.core.event.events.player.PlayerDisconnectEvent;
+import com.hypixel.hytale.server.core.event.events.player.PlayerReadyEvent;
 import io.github.syst3ms.skriptparser.lang.Expression;
-import io.github.syst3ms.skriptparser.lang.SkriptEvent;
+import io.github.syst3ms.skriptparser.lang.Statement;
+import io.github.syst3ms.skriptparser.lang.Trigger;
 import io.github.syst3ms.skriptparser.lang.TriggerContext;
+import io.github.syst3ms.skriptparser.lang.event.SkriptEvent;
 import io.github.syst3ms.skriptparser.parsing.ParseContext;
 import io.github.syst3ms.skriptparser.registration.SkriptRegistration;
 import io.github.syst3ms.skriptparser.registration.context.ContextValue;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
 
 public class EvtPlayerJoin extends SkriptEvent {
 
@@ -26,11 +36,36 @@ public class EvtPlayerJoin extends SkriptEvent {
             .register();
     }
 
+    private static EventRegistration<Void, PlayerConnectEvent> connectListeners;
+    private static EventRegistration<String, PlayerReadyEvent> readyListener;
+    private static EventRegistration<Void, PlayerDisconnectEvent> disconnectListener;
     private int pattern;
 
     @Override
     public boolean init(Expression<?> @NotNull [] expressions, int matchedPattern, @NotNull ParseContext parseContext) {
         this.pattern = matchedPattern;
+
+        EventRegistry registry = HySk.getInstance().getEventRegistry();
+        if (connectListeners == null) {
+            connectListeners = registry.register(PlayerConnectEvent.class, playerConnectEvent -> {
+                Player player = playerConnectEvent.getHolder().getComponent(Player.getComponentType());
+                for (Trigger trigger : this.getTriggers()) {
+                    Statement.runAll(trigger, new PlayerEventContext(player, 0));
+                }
+            });
+        }
+        if (readyListener == null) {
+            readyListener = registry.registerGlobal(PlayerReadyEvent.class, playerReadyEvent -> {
+                Player player = playerReadyEvent.getPlayer();
+                for (Trigger trigger : this.getTriggers()) {
+                    Statement.runAll(trigger, new PlayerEventContext(player, 1));
+                }
+            });
+        }
+        if (disconnectListener == null) {
+            disconnectListener = registry.register(PlayerDisconnectEvent.class, playerDisconnectEvent -> {
+            });
+        }
         return true;
     }
 

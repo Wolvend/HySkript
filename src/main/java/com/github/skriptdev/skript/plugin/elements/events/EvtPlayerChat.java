@@ -1,10 +1,15 @@
 package com.github.skriptdev.skript.plugin.elements.events;
 
 import com.github.skriptdev.skript.api.skript.eventcontext.CancellableContext;
+import com.github.skriptdev.skript.plugin.HySk;
+import com.hypixel.hytale.event.EventRegistration;
+import com.hypixel.hytale.server.core.event.events.player.PlayerChatEvent;
 import com.hypixel.hytale.server.core.universe.PlayerRef;
 import io.github.syst3ms.skriptparser.lang.Expression;
-import io.github.syst3ms.skriptparser.lang.SkriptEvent;
+import io.github.syst3ms.skriptparser.lang.Statement;
+import io.github.syst3ms.skriptparser.lang.Trigger;
 import io.github.syst3ms.skriptparser.lang.TriggerContext;
+import io.github.syst3ms.skriptparser.lang.event.SkriptEvent;
 import io.github.syst3ms.skriptparser.parsing.ParseContext;
 import io.github.syst3ms.skriptparser.registration.SkriptRegistration;
 import io.github.syst3ms.skriptparser.registration.context.ContextValue;
@@ -98,8 +103,23 @@ public class EvtPlayerChat extends SkriptEvent {
 //            .register();
     }
 
+    private static EventRegistration<String, PlayerChatEvent> chatListener;
+
     @Override
     public boolean init(Expression<?> @NotNull [] expressions, int matchedPattern, @NotNull ParseContext parseContext) {
+        if (chatListener == null) {
+            chatListener = HySk.getInstance().getEventRegistry().registerAsyncGlobal(PlayerChatEvent.class, future -> {
+                future.thenAccept(event -> {
+                    PlayerChatEventContext ctx = new PlayerChatEventContext(event.getContent(), event.getSender());
+                    for (Trigger trigger : this.getTriggers()) {
+                        Statement.runAll(trigger, ctx);
+                    }
+                    if (ctx.isMessageChanged()) event.setContent(ctx.getMessage()[0]);
+                    event.setCancelled(ctx.isCancelled());
+                });
+                return future;
+            });
+        }
         return true;
     }
 
