@@ -31,6 +31,11 @@ public class ExprUUIDRandom implements Expression<UUID> {
     }
 
     @Override
+    public boolean isSingle() {
+        return true;
+    }
+
+    @Override
     public String toString(@NotNull TriggerContext ctx, boolean debug) {
         return "random uuid";
     }
