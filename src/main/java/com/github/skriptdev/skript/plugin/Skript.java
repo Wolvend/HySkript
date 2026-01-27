@@ -2,13 +2,13 @@ package com.github.skriptdev.skript.plugin;
 
 import com.github.skriptdev.skript.api.skript.ScriptsLoader;
 import com.github.skriptdev.skript.api.skript.command.ArgUtils;
+import com.github.skriptdev.skript.api.skript.registration.SkriptRegistration;
 import com.github.skriptdev.skript.api.utils.ReflectionUtils;
 import com.github.skriptdev.skript.api.utils.Utils;
 import com.github.skriptdev.skript.plugin.elements.ElementRegistration;
 import io.github.syst3ms.skriptparser.Parser;
 import io.github.syst3ms.skriptparser.log.SkriptLogger;
 import io.github.syst3ms.skriptparser.registration.SkriptAddon;
-import io.github.syst3ms.skriptparser.registration.SkriptRegistration;
 
 import java.nio.file.Path;
 
@@ -54,7 +54,7 @@ public class Skript extends SkriptAddon {
     }
 
     private void printSyntaxCount() {
-        SkriptRegistration mainRegistration = Parser.getMainRegistration();
+        io.github.syst3ms.skriptparser.registration.SkriptRegistration mainRegistration = Parser.getMainRegistration();
 
         int eventSize = this.registration.getEvents().size() + mainRegistration.getEvents().size();
         int effectSize = this.registration.getEffects().size() + mainRegistration.getEffects().size();

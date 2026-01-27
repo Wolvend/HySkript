@@ -1,6 +1,7 @@
 package com.github.skriptdev.skript.plugin.elements.events;
 
-import io.github.syst3ms.skriptparser.registration.SkriptRegistration;
+
+import com.github.skriptdev.skript.api.skript.registration.SkriptRegistration;
 
 public class EventHandler {
 
@@ -8,6 +9,7 @@ public class EventHandler {
         EvtLoad.register(registration);
         EvtPlayerChat.register(registration);
         EvtPlayerJoin.register(registration);
+        SimpleEvents.register(registration);
     }
 
 }

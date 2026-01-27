@@ -1,6 +1,6 @@
 package com.github.skriptdev.skript.plugin.elements.effects;
 
-import com.github.skriptdev.skript.api.skript.eventcontext.CancellableContext;
+import com.github.skriptdev.skript.api.skript.event.CancellableContext;
 import io.github.syst3ms.skriptparser.lang.Effect;
 import io.github.syst3ms.skriptparser.lang.Expression;
 import io.github.syst3ms.skriptparser.lang.TriggerContext;

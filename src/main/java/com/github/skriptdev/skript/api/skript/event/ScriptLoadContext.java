@@ -1,4 +1,4 @@
-package com.github.skriptdev.skript.api.skript.eventcontext;
+package com.github.skriptdev.skript.api.skript.event;
 
 import com.hypixel.hytale.server.core.command.system.CommandSender;
 import com.hypixel.hytale.server.core.console.ConsoleSender;

@@ -1,6 +1,6 @@
 package com.github.skriptdev.skript.plugin.elements.effects;
 
-import com.github.skriptdev.skript.api.skript.eventcontext.PlayerEventContext;
+import com.github.skriptdev.skript.api.skript.event.PlayerEventContext;
 import com.github.skriptdev.skript.api.utils.Utils;
 import com.hypixel.hytale.server.core.Message;
 import com.hypixel.hytale.server.core.command.system.CommandSender;

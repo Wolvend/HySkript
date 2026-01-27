@@ -1,6 +1,6 @@
 package com.github.skriptdev.skript.plugin.elements.expressions;
 
-import io.github.syst3ms.skriptparser.registration.SkriptRegistration;
+import com.github.skriptdev.skript.api.skript.registration.SkriptRegistration;
 
 public class ExpressionHandler {
 
@@ -9,6 +9,7 @@ public class ExpressionHandler {
         ExprBlockType.register(registration);
         ExprChatMessage.register(registration);
         ExprClassInfoOf.register(registration);
+        ExprConsole.register(registration);
         ExprInventory.register(registration);
         ExprItemStack.register(registration);
         ExprItemType.register(registration);

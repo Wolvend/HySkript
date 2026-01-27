@@ -1,7 +1,7 @@
 package com.github.skriptdev.skript.plugin.elements.events;
 
 import com.hypixel.hytale.server.core.command.system.CommandSender;
-import com.github.skriptdev.skript.api.skript.eventcontext.ScriptLoadContext;
+import com.github.skriptdev.skript.api.skript.event.ScriptLoadContext;
 import io.github.syst3ms.skriptparser.lang.Expression;
 import io.github.syst3ms.skriptparser.lang.Statement;
 import io.github.syst3ms.skriptparser.lang.Trigger;

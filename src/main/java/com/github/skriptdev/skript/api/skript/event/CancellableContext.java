@@ -1,4 +1,4 @@
-package com.github.skriptdev.skript.api.skript.eventcontext;
+package com.github.skriptdev.skript.api.skript.event;
 
 import io.github.syst3ms.skriptparser.lang.TriggerContext;
 

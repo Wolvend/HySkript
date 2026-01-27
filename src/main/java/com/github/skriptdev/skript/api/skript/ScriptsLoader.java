@@ -21,7 +21,6 @@ public class ScriptsLoader {
     }
 
     public void loadScripts(Path directory, boolean reload) {
-        ScriptLoader.getTriggerMap().clear();
         this.loadedScriptCount = 0;
         Utils.log((reload ? "Reloading" : "Loading") + " scripts...");
         long start = System.currentTimeMillis();
