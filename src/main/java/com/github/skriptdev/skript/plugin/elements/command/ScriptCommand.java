@@ -8,6 +8,7 @@ import com.hypixel.hytale.server.core.universe.world.World;
 import io.github.syst3ms.skriptparser.file.FileSection;
 import io.github.syst3ms.skriptparser.lang.Expression;
 import io.github.syst3ms.skriptparser.lang.Statement;
+import io.github.syst3ms.skriptparser.lang.Structure;
 import io.github.syst3ms.skriptparser.lang.TriggerContext;
 import io.github.syst3ms.skriptparser.lang.event.SkriptEvent;
 import io.github.syst3ms.skriptparser.log.SkriptLogger;
@@ -19,7 +20,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-public class ScriptCommand extends SkriptEvent implements ScriptCommandParent {
+public class ScriptCommand extends Structure implements ScriptCommandParent {
 
     @Override
     public void loadChild(ScriptCommandBuilder parent, SkriptLogger logger) {
