@@ -23,8 +23,10 @@ public class SkriptRegistration extends io.github.syst3ms.skriptparser.registrat
             this.cv = SkriptRegistration.this.newContextValue(IEventContext.class,
                 returnType, true, pattern,
                 iEventContext -> {
+                    IBaseEvent contextEvent = iEventContext.event();
+                    if (!event.isAssignableFrom(contextEvent.getClass())) return null;
                     RETURN[] o = (RETURN[]) Array.newInstance(returnType, 1);
-                    o[0] = function.apply((E) iEventContext.event());
+                    o[0] = function.apply((E) contextEvent);
                     return o;
                 });
 
