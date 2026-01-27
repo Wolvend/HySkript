@@ -10,6 +10,7 @@ public class ExpressionHandler {
         ExprChatMessage.register(registration);
         ExprClassInfoOf.register(registration);
         ExprConsole.register(registration);
+        ExprEntityHealth.register(registration);
         ExprInventory.register(registration);
         ExprItemStack.register(registration);
         ExprItemType.register(registration);
