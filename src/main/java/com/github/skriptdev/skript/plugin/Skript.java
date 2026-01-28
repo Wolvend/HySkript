@@ -3,12 +3,18 @@ package com.github.skriptdev.skript.plugin;
 import com.github.skriptdev.skript.api.skript.ScriptsLoader;
 import com.github.skriptdev.skript.api.skript.command.ArgUtils;
 import com.github.skriptdev.skript.api.skript.registration.SkriptRegistration;
+import com.github.skriptdev.skript.api.skript.variables.JsonVariableStorage;
 import com.github.skriptdev.skript.api.utils.ReflectionUtils;
 import com.github.skriptdev.skript.api.utils.Utils;
 import com.github.skriptdev.skript.plugin.elements.ElementRegistration;
 import io.github.syst3ms.skriptparser.Parser;
+import io.github.syst3ms.skriptparser.config.Config;
+import io.github.syst3ms.skriptparser.config.Config.ConfigSection;
+import io.github.syst3ms.skriptparser.log.ErrorType;
+import io.github.syst3ms.skriptparser.log.LogEntry;
 import io.github.syst3ms.skriptparser.log.SkriptLogger;
 import io.github.syst3ms.skriptparser.registration.SkriptAddon;
+import io.github.syst3ms.skriptparser.variables.Variables;
 
 import java.nio.file.Path;
 
@@ -16,6 +22,7 @@ public class Skript extends SkriptAddon {
 
     public static Skript INSTANCE;
     private final HySk hySk;
+    private final Config skriptConfig;
     private final Path scriptsPath;
     private final SkriptLogger logger;
     private SkriptRegistration registration;
@@ -26,10 +33,18 @@ public class Skript extends SkriptAddon {
         INSTANCE = this;
         this.hySk = hySk;
         this.scriptsPath = hySk.getDataDirectory().resolve("scripts");
-        this.logger = new SkriptLogger(true);
+        this.logger = new SkriptLogger();
+
+        Path skriptConfigPath = hySk.getDataDirectory().resolve("config.sk");
+        this.skriptConfig = new Config(skriptConfigPath, "/config.sk", this.logger);
+        this.logger.setDebug(this.skriptConfig.getBoolean("debug"));
 
         Utils.log("Setting up HySkript!");
         setup();
+        this.logger.finalizeLogs();
+        for (LogEntry logEntry : this.logger.close()) {
+            Utils.log(null, logEntry);
+        }
     }
 
     private void setup() {
@@ -45,12 +60,21 @@ public class Skript extends SkriptAddon {
         printSyntaxCount();
         Utils.log("HySkript setup complete!");
 
+        // LOAD VARIABLES
+        loadVariables();
+
         // LOAD SCRIPTS
         this.scriptsLoader = new ScriptsLoader(this);
         this.scriptsLoader.loadScripts(null, this.scriptsPath, false);
 
         // FINALIZE SCRIPT LOADING
         Parser.getMainRegistration().getRegisterer().finishedLoading();
+    }
+
+    public void shutdown() {
+        Utils.log("Saving variables...");
+        Variables.shutdown();
+        Utils.log("Variable saving complete!");
     }
 
     private void printSyntaxCount() {
@@ -94,6 +118,18 @@ public class Skript extends SkriptAddon {
 
     public ScriptsLoader getScriptsLoader() {
         return this.scriptsLoader;
+    }
+
+    public void loadVariables() {
+        Utils.log("Loading variables...");
+        Variables.registerStorage(JsonVariableStorage.class, "json-database");
+        ConfigSection databases = this.skriptConfig.getConfigSection("databases");
+        if (databases == null) {
+            this.logger.error("Databases section not found in config.sk", ErrorType.STRUCTURE_ERROR);
+            return;
+        }
+        Variables.load(this.logger, databases);
+        Utils.log("Finished loading variables!");
     }
 
 }

@@ -53,6 +53,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
 
+@SuppressWarnings("deprecation")
 public class Types {
 
     public static void register(SkriptRegistration registration) {
@@ -74,18 +75,16 @@ public class Types {
             .description("Represents a UUID.")
             .examples("set {_uuid} to uuid of {_player}")
             .since("INSERT VERSION")
+            .toStringFunction(UUID::toString)
             .serializer(new TypeSerializer<>() {
-                // TODO no clue if this actually works, will need to test
                 @Override
-                public JsonElement serialize(@NotNull Gson gson, @NotNull UUID uuid) {
-                    String json = gson.toJson(uuid, UUID.class);
-                    return gson.fromJson(json, JsonElement.class);
+                public JsonElement serialize(@NotNull Gson gson, @NotNull UUID value) {
+                    return gson.toJsonTree(value.toString());
                 }
 
                 @Override
                 public UUID deserialize(@NotNull Gson gson, @NotNull JsonElement element) {
-                    UUID uuid = gson.fromJson(element.toString(), UUID.class);
-                    return uuid == null ? UUID.fromString(element.getAsString()) : uuid;
+                    return UUID.fromString(element.getAsString());
                 }
             })
             .register();
@@ -114,7 +113,6 @@ public class Types {
             .description("Represents a stylized message sent to a message receiver.")
             .since("INSERT VERSION")
             .serializer(new TypeSerializer<>() {
-
                 @Override
                 public JsonElement serialize(@NotNull Gson gson, @NotNull Message value) {
                     BsonValue encode = Message.CODEC.encode(value, new ExtraInfo());
@@ -139,7 +137,6 @@ public class Types {
                 "Often used for the rotation of entities in a world.")
             .since("INSERT VERSION")
             .serializer(new TypeSerializer<>() {
-
                 @Override
                 public JsonElement serialize(@NotNull Gson gson, @NotNull Vector3f value) {
                     BsonDocument encode = Vector3f.CODEC.encode(value, new ExtraInfo());
@@ -270,6 +267,18 @@ public class Types {
             .description("Represents an inventory of an entity or block.")
             .since("INSERT VERSION")
             .toStringFunction(Inventory::toString)
+            .serializer(new TypeSerializer<>() {
+                @Override
+                public JsonElement serialize(@NotNull Gson gson, @NotNull Inventory value) {
+                    BsonDocument encode = Inventory.CODEC.encode(value, new ExtraInfo());
+                    return gson.fromJson(encode.toJson(), JsonElement.class);
+                }
+
+                @Override
+                public Inventory deserialize(@NotNull Gson gson, @NotNull JsonElement element) {
+                    return Inventory.CODEC.decode(BsonDocument.parse(element.toString()), new ExtraInfo());
+                }
+            })
             .register();
         EnumRegistry.register(registration, InventoryActionType.class, "inventoryactiontype", "inventoryActionType@s")
             .name("Inventory Action Type")
