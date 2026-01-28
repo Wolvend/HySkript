@@ -11,6 +11,7 @@ public class ExpressionHandler {
         ExprClassInfoOf.register(registration);
         ExprConsole.register(registration);
         ExprEntityHealth.register(registration);
+        ExprEntityStat.register(registration);
         ExprInventory.register(registration);
         ExprItemStack.register(registration);
         ExprItemType.register(registration);

@@ -37,6 +37,7 @@ import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.inventory.Inventory;
 import com.hypixel.hytale.server.core.inventory.ItemStack;
 import com.hypixel.hytale.server.core.modules.entity.damage.DamageCause;
+import com.hypixel.hytale.server.core.modules.entitystats.asset.EntityStatType;
 import com.hypixel.hytale.server.core.modules.interaction.interaction.config.Interaction;
 import com.hypixel.hytale.server.core.receiver.IMessageReceiver;
 import com.hypixel.hytale.server.core.universe.PlayerRef;
@@ -334,6 +335,12 @@ public class Types {
             .description("Represents the types of effects that can be applied to entities.", autoGenMessage())
             .since("INSERT VERSION")
             .toStringFunction(EntityEffect::getId)
+            .register();
+        AssetStoreRegistry.register(registration, EntityStatType.class, EntityStatType.getAssetMap(),
+            "entitystattype", "entityStatType@s")
+            .name("Entity Stat Type")
+            .description("Represents the types of stats that can be applied to entities.", autoGenMessage())
+            .since("INSERT VERSION")
             .register();
         AssetStoreRegistry.register(registration, Environment.class, Environment.getAssetMap(),
                 "environment", "environment@s")
