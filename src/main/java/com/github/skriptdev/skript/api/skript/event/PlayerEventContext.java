@@ -3,6 +3,9 @@ package com.github.skriptdev.skript.api.skript.event;
 import com.hypixel.hytale.server.core.entity.entities.Player;
 import io.github.syst3ms.skriptparser.lang.TriggerContext;
 
+/**
+ * A {@link TriggerContext} for player-related events.
+ */
 public class PlayerEventContext implements TriggerContext {
 
     private final Player player;
@@ -25,4 +28,5 @@ public class PlayerEventContext implements TriggerContext {
     public String getName() {
         return "player-join";
     }
+
 }

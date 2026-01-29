@@ -9,6 +9,9 @@ import io.github.syst3ms.skriptparser.log.LogEntry;
 import java.awt.*;
 import java.util.logging.Level;
 
+/**
+ * Utility class for quick method usage.
+ */
 public class Utils {
 
     static final Message CORE_PREFIX = TinyMsg.parse("<color:736E6E>[<gradient:07CAE5:0DD22B>HySkript<color:736E6E>] ");

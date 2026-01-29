@@ -7,6 +7,9 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.TreeMap;
 
+/**
+ * Registry holder for NPC Roles.
+ */
 public class NPCRegistry {
 
     private static final Map<String, NPCRole> ROLE_NAME_MAP = new TreeMap<>();
@@ -21,6 +24,12 @@ public class NPCRegistry {
         }
     }
 
+    /**
+     * Get an NPCRole by its index;
+     *
+     * @param index Index of the role
+     * @return NPCRole with the given index, or null if not found
+     */
     public static NPCRole getByIndex(int index) {
         return ROLE_INDEX_MAP.get(index);
     }

@@ -59,6 +59,19 @@ tasks {
         archiveClassifier.set("sources")
         from(sourceSets.main.get().allSource)
     }
+    javadoc {
+        title = "HySkript API - $projectVersion"
+        options.overview = "src/main/javadoc/overview.html"
+        options.encoding = Charsets.UTF_8.name()
+        exclude(
+            "com/github/skriptdev/skript/plugin/elements",
+            "com/github/skriptdev/skript/plugin/command"
+        )
+        (options as StandardJavadocDocletOptions).links(
+            "https://javadoc.io/doc/org.jetbrains/annotations/latest/",
+            "https://skriptdev.github.io/docs/skript-parser/latest/"
+        )
+    }
 }
 
 publishing {

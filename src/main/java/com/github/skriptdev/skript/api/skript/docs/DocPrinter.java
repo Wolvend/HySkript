@@ -37,8 +37,14 @@ import java.util.Locale;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+/**
+ * Documentation printer.
+ */
 public class DocPrinter {
 
+    /**
+     * Print all docs to file.
+     */
     public static void printDocs() {
         Skript skript = HySk.getInstance().getSkript();
         SkriptRegistration registration = skript.getRegistration();

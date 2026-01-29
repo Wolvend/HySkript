@@ -18,9 +18,14 @@ import io.github.syst3ms.skriptparser.registration.SkriptAddon;
 import io.github.syst3ms.skriptparser.registration.SkriptEventInfo;
 import io.github.syst3ms.skriptparser.structures.functions.Functions;
 import io.github.syst3ms.skriptparser.variables.Variables;
+import org.jetbrains.annotations.NotNull;
 
 import java.nio.file.Path;
 
+/**
+ * Main class for the Skript aspects of HySkript.
+ */
+@SuppressWarnings("unused")
 public class Skript extends SkriptAddon {
 
     public static Skript INSTANCE;
@@ -32,7 +37,7 @@ public class Skript extends SkriptAddon {
     private ElementRegistration elementRegistration;
     private ScriptsLoader scriptsLoader;
 
-    public Skript(HySk hySk) {
+    Skript(HySk hySk) {
         INSTANCE = this;
         this.hySk = hySk;
         this.scriptsPath = hySk.getDataDirectory().resolve("scripts");
@@ -117,31 +122,7 @@ public class Skript extends SkriptAddon {
         Utils.log("- Functions: %s", funcSize);
     }
 
-    public HySk getPlugin() {
-        return this.hySk;
-    }
-
-    public Path getScriptsPath() {
-        return this.scriptsPath;
-    }
-
-    public SkriptLogger getLogger() {
-        return this.logger;
-    }
-
-    public SkriptRegistration getRegistration() {
-        return this.registration;
-    }
-
-    public ElementRegistration getElementRegistration() {
-        return this.elementRegistration;
-    }
-
-    public ScriptsLoader getScriptsLoader() {
-        return this.scriptsLoader;
-    }
-
-    public void loadVariables() {
+    private void loadVariables() {
         Utils.log("Loading variables...");
         Variables.registerStorage(JsonVariableStorage.class, "json-database");
         ConfigSection databases = this.skriptConfig.getConfigSection("databases");
@@ -151,6 +132,54 @@ public class Skript extends SkriptAddon {
         }
         Variables.load(this.logger, databases);
         Utils.log("Finished loading variables!");
+    }
+
+    /**
+     * Get the instance of the HySkript plugin.
+     *
+     * @return The instance of HySkript.
+     */
+    public @NotNull HySk getPlugin() {
+        return this.hySk;
+    }
+
+    /**
+     * Get the Skript configuration.
+     *
+     * @return The Skript configuration.
+     */
+    public @NotNull Config getSkriptConfig() {
+        return this.skriptConfig;
+    }
+
+    /**
+     * Get the path where scripts are stored.
+     *
+     * @return The path to the scripts directory.
+     */
+    public @NotNull Path getScriptsPath() {
+        return this.scriptsPath;
+    }
+
+    public SkriptLogger getLogger() {
+        return this.logger;
+    }
+
+    /**
+     * Get the registration for Skript elements.
+     *
+     * @return The Skript registration.
+     */
+    public @NotNull SkriptRegistration getRegistration() {
+        return this.registration;
+    }
+
+    public ElementRegistration getElementRegistration() {
+        return this.elementRegistration;
+    }
+
+    public ScriptsLoader getScriptsLoader() {
+        return this.scriptsLoader;
     }
 
 }

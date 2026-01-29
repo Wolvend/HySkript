@@ -19,8 +19,15 @@ import org.jetbrains.annotations.Nullable;
 import java.nio.file.Path;
 import java.util.concurrent.CompletableFuture;
 
+/**
+ * Main command for HySkript.
+ */
 public class SkriptCommand extends AbstractCommandCollection {
 
+    /**
+     * @param registry Plugin command registry
+     * @hidden
+     */
     public SkriptCommand(CommandRegistry registry) {
         super("skript", "Skript commands");
         addAliases("sk");

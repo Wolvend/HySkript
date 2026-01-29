@@ -3,16 +3,35 @@ package com.github.skriptdev.skript.api.skript.registration;
 import com.hypixel.hytale.assetstore.JsonAsset;
 import com.hypixel.hytale.assetstore.map.DefaultAssetMap;
 import io.github.syst3ms.skriptparser.registration.SkriptRegistration;
+import io.github.syst3ms.skriptparser.registration.SkriptRegistration.TypeRegistrar;
 
 import java.util.Locale;
 import java.util.Map;
 import java.util.TreeMap;
 
+/**
+ * Registry related to {@link com.hypixel.hytale.assetstore.AssetStore AssetStores}.
+ *
+ * @param <AS> Asset store type
+ */
 public class AssetStoreRegistry<AS> {
 
     private final Map<String, AS> assetStoreValues = new TreeMap<>();
 
-    public static <K extends String, T extends JsonAsset<K>> SkriptRegistration.TypeRegistrar<T> register(
+    /**
+     * Create a new {@link TypeRegistrar} with for an {@link com.hypixel.hytale.assetstore.AssetStore AssetStore}.
+     * Remember to register it with {@link TypeRegistrar#register()}
+     *
+     * @param registration The registration to register to
+     * @param c            Asset store class
+     * @param assetMap     Asset map for the store
+     * @param name         Name of the new type
+     * @param pattern      Pattern for the type
+     * @param <K>          Key type for the asset map
+     * @param <T>          Asset type
+     * @return New {@link TypeRegistrar}
+     */
+    public static <K extends String, T extends JsonAsset<K>> TypeRegistrar<T> register(
         SkriptRegistration registration,
         Class<T> c,
         DefaultAssetMap<K, T> assetMap,

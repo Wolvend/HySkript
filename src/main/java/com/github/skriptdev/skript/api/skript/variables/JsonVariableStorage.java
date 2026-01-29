@@ -37,6 +37,9 @@ import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
+/**
+ * Instance of {@link VariableStorage} that stores variables in a JSON file.
+ */
 public class JsonVariableStorage extends VariableStorage {
 
     public enum Type {

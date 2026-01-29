@@ -6,10 +6,16 @@ import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Field;
 
+/**
+ * Utilities for reflection operations.
+ */
 public class ReflectionUtils {
 
     private static HytaleBanProvider BAN_PROVIDER;
 
+    /**
+     * @hidden
+     */
     public static void init() {
         AccessControlModule accessControlModule = AccessControlModule.get();
         try {
