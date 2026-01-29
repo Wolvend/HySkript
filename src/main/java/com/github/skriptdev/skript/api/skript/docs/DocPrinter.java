@@ -10,12 +10,17 @@ import io.github.syst3ms.skriptparser.lang.CodeSection;
 import io.github.syst3ms.skriptparser.lang.Effect;
 import io.github.syst3ms.skriptparser.lang.Structure;
 import io.github.syst3ms.skriptparser.pattern.PatternElement;
+import io.github.syst3ms.skriptparser.pattern.TextElement;
 import io.github.syst3ms.skriptparser.registration.ExpressionInfo;
 import io.github.syst3ms.skriptparser.registration.SkriptRegistration;
 import io.github.syst3ms.skriptparser.registration.SyntaxInfo;
 import io.github.syst3ms.skriptparser.registration.context.ContextValue;
+import io.github.syst3ms.skriptparser.structures.functions.FunctionParameter;
+import io.github.syst3ms.skriptparser.structures.functions.Functions;
+import io.github.syst3ms.skriptparser.structures.functions.JavaFunction;
 import io.github.syst3ms.skriptparser.types.PatternType;
 import io.github.syst3ms.skriptparser.types.Type;
+import io.github.syst3ms.skriptparser.types.TypeManager;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
@@ -26,6 +31,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class DocPrinter {
@@ -88,6 +94,13 @@ public class DocPrinter {
             writer = new PrintWriter(file, StandardCharsets.UTF_8);
             printSections(writer, registration);
             printSections(writer, Parser.getMainRegistration());
+            writer.close();
+
+            // FUNCTIONS
+            Utils.log("Printing functions");
+            file = getFile("functions");
+            writer = new PrintWriter(file, StandardCharsets.UTF_8);
+            printFunctions(writer);
             writer.close();
 
             Utils.log("Documentation printed!");
@@ -162,6 +175,44 @@ public class DocPrinter {
         }
     }
 
+    private static void printFunctions(PrintWriter writer) {
+        Functions.getGlobalFunctions().forEach(function -> {
+            if (function instanceof JavaFunction<?> jf) {
+                FunctionParameter<?>[] parameters = jf.getParameters();
+
+                List<String> parameterNames = new ArrayList<>();
+                for (FunctionParameter<?> parameter : parameters) {
+                    Optional<? extends Type<?>> byClass = TypeManager.getByClass(parameter.getType());
+                    if (byClass.isPresent()) {
+                        Type<?> type = byClass.get();
+                        String typeName;
+                        if (parameter.isSingle()) {
+                            typeName = type.getBaseName();
+                        } else {
+                            typeName = type.getPluralForm();
+                        }
+                        String format = String.format("%s:%s", parameter.getName(), typeName);
+                        parameterNames.add(format);
+                    }
+                }
+                // Create a pattern for a function
+                String pattern = String.format("%s(%s)", jf.getName(),  String.join(", ", parameterNames));
+                TextElement textElement = new TextElement(pattern);
+
+                printDocumentation("Function", writer, jf.getDocumentation(), List.of(textElement));
+                Optional<Class<?>> returnType = (Optional<Class<?>>) jf.getReturnType();
+                if (returnType.isPresent()) {
+                    Optional<? extends Type<?>> byClass = TypeManager.getByClass(returnType.get());
+                    if (byClass.isPresent()) {
+                        String t = getLinkForType(byClass.get(), jf.isReturnSingle());
+                        writer.println("- **Return Type**: " + t);
+                    }
+                }
+
+            }
+        });
+    }
+
     private static void printEffects(PrintWriter writer, SkriptRegistration registration) {
         for (SyntaxInfo<? extends Effect> effect : registration.getEffects()) {
             Documentation documentation = effect.getDocumentation();
@@ -231,11 +282,15 @@ public class DocPrinter {
             }
         }
         if (!patterns.isEmpty()) {
-            writer.println("- **Patterns**:");
-            patterns.forEach(pattern -> {
-                String r = pattern.toString().replaceAll("-?\\w+:", "");
-                writer.println("   - `" + r + "`");
-            });
+            if (patterns.size() == 1) {
+                writer.println("- **Pattern**: `" + patterns.getFirst() + "`");
+            } else {
+                writer.println("- **Patterns**:");
+                patterns.forEach(pattern -> {
+                    String r = pattern.toString().replaceAll("-?\\w+:", "");
+                    writer.println("   - `" + r + "`");
+                });
+            }
         }
         if (documentation.getExamples() != null) {
             writer.println("- **Examples**:  ");
