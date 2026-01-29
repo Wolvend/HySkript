@@ -15,6 +15,7 @@ import io.github.syst3ms.skriptparser.registration.ExpressionInfo;
 import io.github.syst3ms.skriptparser.registration.SkriptRegistration;
 import io.github.syst3ms.skriptparser.registration.SyntaxInfo;
 import io.github.syst3ms.skriptparser.registration.context.ContextValue;
+import io.github.syst3ms.skriptparser.structures.functions.Function;
 import io.github.syst3ms.skriptparser.structures.functions.FunctionParameter;
 import io.github.syst3ms.skriptparser.structures.functions.Functions;
 import io.github.syst3ms.skriptparser.structures.functions.JavaFunction;
@@ -177,7 +178,7 @@ public class DocPrinter {
 
     @SuppressWarnings("unchecked")
     private static void printFunctions(PrintWriter writer) {
-        Functions.getGlobalFunctions().forEach(function -> {
+        Functions.getGlobalFunctions().stream().sorted(Comparator.comparing(Function::getName)).forEach(function -> {
             if (function instanceof JavaFunction<?> jf) {
                 FunctionParameter<?>[] parameters = jf.getParameters();
 
