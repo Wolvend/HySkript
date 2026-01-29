@@ -8,6 +8,7 @@ import com.github.skriptdev.skript.plugin.elements.conditions.ConditionHandler;
 import com.github.skriptdev.skript.plugin.elements.effects.EffectHandler;
 import com.github.skriptdev.skript.plugin.elements.events.EventHandler;
 import com.github.skriptdev.skript.plugin.elements.expressions.ExpressionHandler;
+import com.github.skriptdev.skript.plugin.elements.functions.DefaultFunctions;
 import com.github.skriptdev.skript.plugin.elements.sections.SectionHandler;
 import com.github.skriptdev.skript.plugin.elements.types.Types;
 import io.github.syst3ms.skriptparser.Parser;
@@ -40,6 +41,9 @@ public class ElementRegistration {
 
         // EVENTS
         EventHandler.register(this.registration);
+
+        // FUNCTIONS
+        DefaultFunctions.register();
 
         // COMMAND
         ScriptCommand.register(this.registration);
