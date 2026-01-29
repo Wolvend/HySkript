@@ -16,6 +16,7 @@ import io.github.syst3ms.skriptparser.log.LogEntry;
 import io.github.syst3ms.skriptparser.log.SkriptLogger;
 import io.github.syst3ms.skriptparser.registration.SkriptAddon;
 import io.github.syst3ms.skriptparser.registration.SkriptEventInfo;
+import io.github.syst3ms.skriptparser.structures.functions.Functions;
 import io.github.syst3ms.skriptparser.variables.Variables;
 
 import java.nio.file.Path;
@@ -102,8 +103,9 @@ public class Skript extends SkriptAddon {
         int expsSize = this.registration.getExpressions().size() + mainRegistration.getExpressions().size();
         int secSize = this.registration.getSections().size() + mainRegistration.getSections().size();
         int typeSize = this.registration.getTypes().size() + mainRegistration.getTypes().size();
+        int funcSize = Functions.getGlobalFunctions().size();
 
-        int total = structureSize + eventSize + effectSize + expsSize + secSize + typeSize;
+        int total = structureSize + eventSize + effectSize + expsSize + secSize + typeSize + funcSize;
 
         Utils.log("Loaded HySkript %s elements:", total);
         Utils.log("- Types: %s", typeSize);
@@ -112,6 +114,7 @@ public class Skript extends SkriptAddon {
         Utils.log("- Effects: %s", effectSize);
         Utils.log("- Expressions: %s", expsSize);
         Utils.log("- Sections: %s", secSize);
+        Utils.log("- Functions: %s", funcSize);
     }
 
     public HySk getPlugin() {
