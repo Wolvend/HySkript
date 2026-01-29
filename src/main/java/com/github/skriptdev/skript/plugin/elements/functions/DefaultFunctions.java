@@ -4,16 +4,50 @@ import com.hypixel.hytale.math.vector.Location;
 import com.hypixel.hytale.math.vector.Vector3f;
 import com.hypixel.hytale.math.vector.Vector3i;
 import com.hypixel.hytale.protocol.Vector3d;
+import com.hypixel.hytale.server.core.asset.type.item.config.Item;
+import com.hypixel.hytale.server.core.inventory.ItemStack;
 import com.hypixel.hytale.server.core.universe.Universe;
 import com.hypixel.hytale.server.core.universe.world.World;
 import io.github.syst3ms.skriptparser.structures.functions.FunctionParameter;
 import io.github.syst3ms.skriptparser.structures.functions.Functions;
 import io.github.syst3ms.skriptparser.structures.functions.JavaFunction;
+import org.bson.BsonDocument;
 
 public class DefaultFunctions {
 
     public static void register() {
+        itemFunctions();
         positionFunctions();
+    }
+
+    private static void itemFunctions() {
+        Functions.newJavaFunction(new JavaFunction<>(
+                "itemstack",
+                new FunctionParameter[]{
+                    new FunctionParameter<>("type", Item.class, true),
+                    new FunctionParameter<>("quantity", Number.class, true),
+                    new FunctionParameter<>("durability", Number.class, true),
+                    new FunctionParameter<>("maxDurability", Number.class, true)
+                },
+                ItemStack.class,
+                true) {
+                @Override
+                public ItemStack[] executeSimple(Object[][] params) {
+                    Item type = (Item) params[0][0];
+                    Number quantity = (Number) params[1][0];
+                    Number durability = (Number) params[2][0];
+                    Number maxDurability = (Number) params[3][0];
+                    int max = maxDurability.intValue();
+                    ItemStack itemStack = new ItemStack(type.getId(), quantity.intValue(),
+                        Math.clamp(durability.intValue(), 0, max), max, new BsonDocument());
+                    return new ItemStack[]{itemStack};
+                }
+            })
+            .name("ItemStack")
+            .description("Creates a new ItemStack with the given parameters.")
+            .examples("set {_stack} to itemstack(Food_Fish_Grilled, 1, 50, 100)")
+            .since("INSERT VERSION")
+            .register();
     }
 
     private static void positionFunctions() {
