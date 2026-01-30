@@ -2,6 +2,7 @@ package com.github.skriptdev.skript.plugin.elements.events;
 
 
 import com.github.skriptdev.skript.api.skript.registration.SkriptRegistration;
+import com.github.skriptdev.skript.plugin.elements.events.entity.EvtEntityDamage;
 import com.github.skriptdev.skript.plugin.elements.events.entity.EvtEntityDeath;
 import com.github.skriptdev.skript.plugin.elements.events.entity.EvtEntityRemove;
 import com.github.skriptdev.skript.plugin.elements.events.entity.EvtLivingEntityInvChange;
@@ -22,6 +23,7 @@ public class EventHandler {
 
     public static void register(SkriptRegistration registration) {
         // ENTITY
+        EvtEntityDamage.register(registration);
         EvtEntityRemove.register(registration);
         EvtEntityDeath.register(registration);
         EvtLivingEntityInvChange.register(registration);
