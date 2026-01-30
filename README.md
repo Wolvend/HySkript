@@ -1,4 +1,5 @@
-Skript but for Hytale.
+Skript but for Hytale.  
+![GitHub all releases](https://img.shields.io/github/downloads/SkriptDev/HySkript/total)
 
 HySkript is a [**Skript**](https://github.com/SkriptLang/Skript) like plugin for Hytale servers.  
 It allows writing your own little plugins in English like syntaxes.  
