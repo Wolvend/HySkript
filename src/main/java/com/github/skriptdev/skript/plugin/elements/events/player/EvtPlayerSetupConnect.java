@@ -41,7 +41,7 @@ public class EvtPlayerSetupConnect extends EventRegistrationEvent {
 
     @Override
     public boolean check(TriggerContext triggerContext) {
-        return false;
+        return triggerContext instanceof PlayerSetupConnectContext;
     }
 
     @Override

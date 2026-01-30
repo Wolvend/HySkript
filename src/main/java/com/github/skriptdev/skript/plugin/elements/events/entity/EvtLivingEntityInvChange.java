@@ -36,7 +36,7 @@ public class EvtLivingEntityInvChange extends EventRegistrationEvent {
 
     @Override
     public boolean check(TriggerContext triggerContext) {
-        return false;
+        return triggerContext instanceof InvChangeContext;
     }
 
     @Override

@@ -42,7 +42,7 @@ public class EvtPlayerAddToWorld extends EventRegistrationEvent {
 
     @Override
     public boolean check(TriggerContext triggerContext) {
-        return false;
+        return triggerContext instanceof AddContext;
     }
 
     @Override

@@ -32,7 +32,7 @@ public class EvtShutdown extends EventRegistrationEvent {
 
     @Override
     public boolean check(TriggerContext triggerContext) {
-        return false;
+        return triggerContext instanceof ShutdownContext;
     }
 
     @Override
