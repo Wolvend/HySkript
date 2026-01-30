@@ -22,7 +22,7 @@ public class ExprInventory implements Expression<Inventory> {
                 "An inventory can also be cleared.")
             .examples("set {_inv} to inventory of player",
                 "clear inventory of player")
-            .since("INSERT VERSION")
+            .since("1.0.0")
             .register();
     }
 

@@ -19,7 +19,7 @@ public class EffSendMessage extends Effect {
             .name("Send Message")
             .description("Sends a message to a command sender such as a player or the console.")
             .examples("send \"Welcome to the server\" to player")
-            .since("INSERT VERSION")
+            .since("1.0.0")
             .register();
     }
 

@@ -16,7 +16,7 @@ public class ExprLocationOf extends PropertyExpression<Entity, Location> {
             .name("Location of Entity")
             .description("Returns the location of an entity.")
             .examples("set {_loc} to location of context-player")
-            .since("INSERT VERSION")
+            .since("1.0.0")
             .register();
     }
 

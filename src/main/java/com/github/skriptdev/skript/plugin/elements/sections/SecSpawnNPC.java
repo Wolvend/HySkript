@@ -56,7 +56,7 @@ public class SecSpawnNPC extends CodeSection {
                 "\t\tset {_p} to player",
                 "\t\tspawn a sheep at location of player:",
                 "\t\t\tsend \"ooOOoo a sheep has joined you\" to {_p}")
-            .since("INSERT VERSION")
+            .since("1.0.0")
             .register();
 
         registration.newContextValue(SpawnMobContext.class, Entity.class, true,

@@ -19,7 +19,7 @@ public class ExprWorld implements Expression<World> {
             .name("World")
             .description("Get a world by name or UUID.")
             .examples("set {_world} to world \"default\"")
-            .since("INSERT VERSION")
+            .since("1.0.0")
             .register();
     }
 

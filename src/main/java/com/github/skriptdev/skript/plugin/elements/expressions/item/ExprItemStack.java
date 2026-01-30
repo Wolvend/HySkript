@@ -19,7 +19,7 @@ public class ExprItemStack implements Expression<ItemStack> {
             .description("Create a new itemstack from an item.")
             .examples("set {_stack} to itemstack of Food_Fish_Grilled",
                 "add itemstack of 3 of Food_Fish_Grilled to inventory of player")
-            .since("INSERT VERSION")
+            .since("1.0.0")
             .register();
     }
 

@@ -21,7 +21,7 @@ public class EffKick extends Effect {
             .examples("kick all players due to \"Cheating!\"",
                 "kick player due to \"Bad chat message!\"",
                 "kick all players")
-            .since("INSERT VERSION")
+            .since("1.0.0")
             .register();
     }
 

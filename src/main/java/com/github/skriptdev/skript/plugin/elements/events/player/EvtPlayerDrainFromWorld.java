@@ -19,7 +19,7 @@ public class EvtPlayerDrainFromWorld extends SkriptEvent {
                 "drain player from world", "player drained from world", "player drain from world")
             .name("Player Drain From World")
             .description("Really not sure...") // TODO put real docs
-            .since("INSERT VERSION")
+            .since("1.0.0")
             .register();
         reg.addContextValue(DrainContext.class, World.class, true, "world", DrainContext::getWorld);
     }

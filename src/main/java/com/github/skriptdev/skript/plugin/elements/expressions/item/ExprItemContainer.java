@@ -23,7 +23,7 @@ public class ExprItemContainer implements Expression<ItemContainer> {
                 "combined everything item container of %inventory%")
             .name("Item Container of Inventory")
             .description("Returns different item containers of an inventory.")
-            .since("INSERT VERSION")
+            .since("1.0.0")
             .register();
     }
 

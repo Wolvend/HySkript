@@ -24,7 +24,7 @@ public class EvtPlayerMouseMove extends SkriptEvent {
         reg.newEvent(EvtPlayerMouseClick.class, "player mouse motion", "player mouse move")
             .name("Player Mouse Motion")
             .description("Called when a player moves their mouse.")
-            .since("INSERT VERSION")
+            .since("1.0.0")
             .setHandledContexts(MouseMoveContext.class)
             .register();
 

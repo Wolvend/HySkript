@@ -17,7 +17,7 @@ public class EffCancelEvent extends Effect {
             .description("Cancels/uncancels the current event.")
             .examples("on chat:",
                 "\tcancel event")
-            .since("INSERT VERSION")
+            .since("1.0.0")
             .register();
     }
 

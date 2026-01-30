@@ -22,7 +22,7 @@ public class EvtEntityRemove extends SkriptEvent {
                 "entity remove", "entity removed", "entity removal")
             .name("Entity Remove")
             .description("Called when an entity is removed from the world.")
-            .since("INSERT VERSION")
+            .since("1.0.0")
             .setHandledContexts(EntityRemoveEventContext.class)
             .register();
         reg.addContextValue(EntityRemoveEventContext.class, Entity.class, true, "entity", EntityRemoveEventContext::getEntity);

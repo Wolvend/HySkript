@@ -23,7 +23,7 @@ public class EvtPlayerJoin extends SkriptEvent {
         registration.newEvent(EvtPlayerJoin.class, "player connect", "player ready", "player quit")
             .name("Player Join/Quit")
             .description("Events triggered when a player joins or quits the server.")
-            .since("INSERT VERSION")
+            .since("1.0.0")
             .setHandledContexts(PlayerEventContext.class)
             .register();
 

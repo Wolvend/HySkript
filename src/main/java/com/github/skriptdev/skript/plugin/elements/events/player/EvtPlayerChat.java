@@ -26,7 +26,7 @@ public class EvtPlayerChat extends SkriptEvent {
                 "\tif name of context-sender = \"bob\":",
                 "\t\tcancel event",
                 "\t\tsend \"You said: %message% and we cancelled that!!!\" to context-sender")
-            .since("INSERT VERSION")
+            .since("1.0.0")
             .register();
 
         registration.addContextValue(PlayerChatContext.class, String.class,

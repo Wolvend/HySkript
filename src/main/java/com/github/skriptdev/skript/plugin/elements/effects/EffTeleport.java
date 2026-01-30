@@ -24,7 +24,7 @@ public class EffTeleport extends Effect {
             .description("Teleport entities to a location.")
             .examples("teleport all players to {_location}",
                 "teleport player to bed location of player")
-            .since("INSERT VERSION")
+            .since("1.0.0")
             .register();
     }
 

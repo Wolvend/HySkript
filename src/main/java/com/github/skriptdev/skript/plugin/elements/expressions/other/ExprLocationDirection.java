@@ -22,7 +22,7 @@ public class ExprLocationDirection implements Expression<Location> {
             .examples("set {_loc} to location above {_loc}",
                 "set {_loc} to location 3 north of location of player",
                 "set {_loc} to location 3 blocks below location of player")
-            .since("INSERT VERSION")
+            .since("1.0.0")
             .register();
     }
 

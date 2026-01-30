@@ -22,7 +22,7 @@ public class ExprMessageLink extends PropertyExpression<Message,String> {
                 "\tset {_message} to message from \"Don't forget to check out our discord!\"",
                 "\tset message link of {_message} to \"https://discord.com/my_link\"",
                 "\tsend {_message} to player")
-            .since("INSERT VERSION")
+            .since("1.0.0")
             .register();
     }
 

@@ -16,7 +16,7 @@ public class EvtLoad extends SkriptEvent implements StartOnLoadEvent {
         reg.newEvent(EvtLoad.class, "[script] load[ing]")
             .name("Script Loading")
             .description("Triggered when a script is loaded.")
-            .since("INSERT VERSION")
+            .since("1.0.0")
             .setHandledContexts(ScriptLoadContext.class)
             .register();
     }

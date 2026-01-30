@@ -17,7 +17,7 @@ public class ExprName extends PropertyExpression<Object, String> {
                 "Currently supports players, entities, and worlds.")
             .examples("set {_name} to name of player",
                 "set {_w} to name of world of player")
-            .since("INSERT VERSION")
+            .since("1.0.0")
             .register();
     }
 

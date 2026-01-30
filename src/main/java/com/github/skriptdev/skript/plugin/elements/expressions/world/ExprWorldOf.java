@@ -23,7 +23,7 @@ public class ExprWorldOf implements Expression<World> {
                 "The world of a location can also be set.")
             .examples("set {_world} to world of {_location}",
                 "set world of {_loc} to world of player")
-            .since("INSERT VERSION")
+            .since("1.0.0")
             .register();
     }
 

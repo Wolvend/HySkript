@@ -31,7 +31,7 @@ public class ExprWorldSpawn extends PropertyExpression<World, Location> {
                 "When setting you can use a location, vector3i, vector3d, or a vector3f.")
             .examples("teleport all players to world spawn of world of player",
                 "set world spawn of world of player to location of player")
-            .since("INSERT VERSION")
+            .since("1.0.0")
             .register();
     }
 

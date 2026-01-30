@@ -17,7 +17,7 @@ public class ExprUUID extends PropertyExpression<Object, UUID> {
             .name("UUID of Object")
             .description("Get the UUID of a player, player ref, entity, or world.")
             .examples("set {_uuid} to uuid of {_player}")
-            .since("INSERT VERSION")
+            .since("1.0.0")
             .register();
     }
 

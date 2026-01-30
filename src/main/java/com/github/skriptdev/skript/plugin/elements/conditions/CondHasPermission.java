@@ -18,7 +18,7 @@ public class CondHasPermission extends ConditionalExpression {
             .name("Permission")
             .description("Checks if the specified player(s) have the specified permission.")
             .examples("if player has permission \"hytale.admin\":")
-            .since("INSERT VERSION")
+            .since("1.0.0")
             .register();
     }
 

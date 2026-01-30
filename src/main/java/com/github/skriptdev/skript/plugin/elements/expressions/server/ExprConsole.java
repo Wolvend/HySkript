@@ -14,7 +14,7 @@ public class ExprConsole implements Expression<CommandSender> {
             .name("Console")
             .description("Returns the console (as a CommandSender).")
             .examples("send \"Hello Mr Console!\" to console")
-            .since("INSERT VERSION")
+            .since("1.0.0")
             .register();
 
     }

@@ -26,7 +26,7 @@ public class EffKill extends Effect {
             .description("Kills the specified entities with an optional damage cause.")
             .examples("kill all players",
                 "kill all players with damage cause slashing")
-            .since("INSERT VERSION")
+            .since("1.0.0")
             .register();
     }
 

@@ -30,7 +30,7 @@ public class ExprMessage implements Expression<Message> {
                 "set {_message} to message translation from \"server.chat.playerMessage\"",
                 "on player ready:",
                 "\tsend formatted message from \"<gradient:F5330C:27F5D6>WELCOME TO THE SERVER!!!\" to player")
-            .since("INSERT VERSION")
+            .since("1.0.0")
             .register();
     }
 

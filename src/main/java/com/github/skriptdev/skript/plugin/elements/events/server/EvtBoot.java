@@ -19,7 +19,7 @@ public class EvtBoot extends SkriptEvent {
         reg.newEvent(EvtBoot.class, "boot", "server boot")
             .name("Server Boot")
             .description("Called when the server is starting up.")
-            .since("INSERT VERSION")
+            .since("1.0.0")
             .register();
     }
 

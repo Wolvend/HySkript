@@ -31,7 +31,7 @@ public class EvtPlayerBreakBlock extends SystemEvent<EntityEventSystem<EntitySto
         reg.newEvent(EvtPlayerBreakBlock.class, "player block break", "player break block", "player breaks block")
             .name("Player Block Break")
             .description("Called when a player breaks a block.")
-            .since("INSERT VERSION")
+            .since("1.0.0")
             .examples("on player break block:",
                 "\tif player doesn't have permission \"le.breaky.break\":",
                 "\t\tcancel event")

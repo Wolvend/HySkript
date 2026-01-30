@@ -31,7 +31,7 @@ public class EvtEntityDamage extends SkriptEvent {
                 "**NOTE**: This event is cancellable but doesn't appear to work when trying to cancel.")
             .examples("on entity damage:",
                 "\tbroadcast \"Poor %context-victim%\" was damaged by %context-damage-amount%")
-            .since("INSERT VERSION")
+            .since("1.0.0")
             .register();
 
         reg.addContextValue(EntityDamageContext.class, Entity.class, true, "victim", EntityDamageContext::getVictim);

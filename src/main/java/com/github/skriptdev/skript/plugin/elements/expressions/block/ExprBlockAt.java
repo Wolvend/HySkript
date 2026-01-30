@@ -23,7 +23,7 @@ public class ExprBlockAt implements Expression<Block> {
             .name("Block At")
             .description("Returns the block at a location.")
             .examples("set {_block} to block at player's location")
-            .since("INSERT VERSION")
+            .since("1.0.0")
             .register();
     }
 

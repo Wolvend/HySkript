@@ -33,7 +33,7 @@ public class EvtPlayerDropItemRequest extends SystemEvent<EntityEventSystem<Enti
             .description("Called when a player tries to drops an item.",
                 "This event is called before the drop happens.",
                 "Cancelling this event will prevent the item from being dropped and the player will keep the item.")
-            .since("INSERT VERSION")
+            .since("1.0.0")
             .register();
 
         reg.addContextValue(RequestDropItemContext.class, Player.class, true, "player", RequestDropItemContext::getPlayer);

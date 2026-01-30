@@ -7,8 +7,12 @@ plugins {
 java.sourceCompatibility = JavaVersion.VERSION_25
 
 group = "com.github.SkriptDev"
-val projectVersion = "1.0.0"
+val projectVersion = "1.0.0-beta1"
 val hytaleVersion = "2026.01.29-301e13929"
+// You can find Hytale versions on their maven repo:
+// https://maven.hytale.com/release/com/hypixel/hytale/Server/maven-metadata.xml
+// https://maven.hytale.com/pre-release/com/hypixel/hytale/Server/maven-metadata.xml
+// (Pre-releases shouldn't be used for production)
 
 repositories {
     mavenCentral()

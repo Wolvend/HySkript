@@ -22,7 +22,7 @@ public class ExprBlockType implements Expression<BlockType> {
             .examples("set {_block} to blocktype at location of player",
                 "set {_block} to blocktype at vector3i(1, 2, 3) in world of player",
                 "if blocktype at vector3i(1,1,1) = rock_stone_brick:")
-            .since("INSERT VERSION")
+            .since("1.0.0")
             .register();
     }
 

@@ -18,7 +18,7 @@ public class ExprVector3i implements Expression<Vector3i> {
                 "Often used for the position of blocks in a world.")
             .examples("set {_pos} to vector3i from 1, 2, 3",
                 "set {_pos} to vector3i(1, 2, 3)")
-            .since("INSERT VERSION")
+            .since("1.0.0")
             .register();
     }
 

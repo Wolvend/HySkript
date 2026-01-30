@@ -117,7 +117,7 @@ public class ScriptCommand extends Structure implements ScriptCommandParent {
                 "\tdescription: Will teleport all players to the world spawn",
                 "\ttrigger:",
                 "\t\tteleport all players to spawn location of context-world")
-            .since("INSERT VERSION")
+            .since("1.0.0")
             .register();
 
         registration.newContextValue(ScriptCommandContext.class, Player.class, true,

@@ -20,7 +20,7 @@ public class EvtLivingEntityInvChange extends SkriptEvent {
                 "living entity inventory change", "living entity inventory changed", "living entity inventory change event")
             .name("Living Entity Inventory Change")
             .description("Called when a living entity's inventory changes.")
-            .since("INSERT VERSION")
+            .since("1.0.0")
             .setHandledContexts(InvChangeContext.class)
             .register();
 

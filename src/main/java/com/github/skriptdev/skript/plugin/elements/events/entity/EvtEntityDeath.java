@@ -39,7 +39,7 @@ public class EvtEntityDeath extends SkriptEvent {
                 "",
                 "on death of player:",
                 "\tset {lost::%uuid of context-victim%} to context-lost-items")
-            .since("INSERT VERSION")
+            .since("1.0.0")
             .register();
 
         registration.addContextValue(EntityDeathContext.class,

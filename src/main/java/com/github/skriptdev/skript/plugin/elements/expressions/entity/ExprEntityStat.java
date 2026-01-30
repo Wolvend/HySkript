@@ -29,7 +29,7 @@ public class ExprEntityStat implements Expression<Number> {
                 "set ammo stat of player to 5",
                 "remove 3 from SignatureEnergy stat of player",
                 "reset immunity stat of all players")
-            .since("INSERT VERSION")
+            .since("1.0.0")
             .register();
     }
 

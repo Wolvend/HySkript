@@ -23,7 +23,7 @@ public class ExprMessageColor extends PropertyExpression<Message, String> {
                 "\tset {_message} to message from \"Welcome to the server %context-player%\"",
                 "\tset message color of {_message} to \"##0CB1F7\"",
                 "\tsend {_message} to player")
-            .since("INSERT VERSION")
+            .since("1.0.0")
             .register();
     }
 

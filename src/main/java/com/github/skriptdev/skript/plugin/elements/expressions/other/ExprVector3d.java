@@ -18,7 +18,7 @@ public class ExprVector3d implements Expression<Vector3d> {
                 "Often used for the position of entities in a world.")
             .examples("set {_pos} to Vector3d from 1.1, 2, 3.3",
                 "set {_pos} to Vector3d(1.1, 2.5, 3)")
-            .since("INSERT VERSION")
+            .since("1.0.0")
             .register();
     }
 

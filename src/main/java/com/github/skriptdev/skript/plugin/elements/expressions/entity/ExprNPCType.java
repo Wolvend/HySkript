@@ -18,7 +18,7 @@ public class ExprNPCType extends PropertyExpression<Entity, NPCRole> {
             .description("Returns the NPC type of an NPC entity.")
             .examples("set {_type} to npc type of target entity",
                 "if npc type of {_entity} = sheep:")
-            .since("INSERT VERSION")
+            .since("1.0.0")
             .register();
     }
 

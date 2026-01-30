@@ -58,7 +58,7 @@ public class EffBan extends Effect {
                 "ban {_p} for 10 minutes due to \"Be nicer in chat\" by player",
                 "unban player",
                 "unban {_uuid}")
-            .since("INSERT VERSION")
+            .since("1.0.0")
             .register();
     }
 

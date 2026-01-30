@@ -18,7 +18,7 @@ public class ExprVector3f implements Expression<Vector3f> {
                 "Often used for the rotation of entities in a world.")
             .examples("set {_pos} to vector3f from 1.1, 2, 3.3",
                 "set {_pos} to vector3f(1.1, 2.5, 3)")
-            .since("INSERT VERSION")
+            .since("1.0.0")
             .register();
     }
 

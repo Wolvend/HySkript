@@ -36,7 +36,7 @@ public class ExprMessageParam implements Expression<Object> {
                 "\tset message string param \"username\" of {_m} to \"SomeUserName\"",
                 "\tset message string param \"message\" of {_m} to \"some message I guess\"",
                 "\tsend {_m} to player")
-            .since("INSERT VERSION")
+            .since("1.0.0")
             .register();
     }
 

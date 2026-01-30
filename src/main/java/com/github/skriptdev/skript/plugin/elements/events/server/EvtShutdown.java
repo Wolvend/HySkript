@@ -17,7 +17,7 @@ public class EvtShutdown extends SkriptEvent {
         reg.newEvent(EvtShutdown.class, "shutdown", "server shutdown")
             .name("Server Shutdown")
             .description("Called when the server is shutting down.")
-            .since("INSERT VERSION")
+            .since("1.0.0")
             .register();
     }
 

@@ -24,7 +24,7 @@ public class ExprMessageProperties implements Expression<Boolean> {
             .description("Get/set different properties of a message.")
             .examples("set bold property of {_msg} to true",
                 "set monospace property of {_msg} to false")
-            .since("INSERT VERSION")
+            .since("1.0.0")
             .register();
     }
 

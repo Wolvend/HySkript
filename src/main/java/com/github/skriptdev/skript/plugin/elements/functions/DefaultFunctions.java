@@ -46,7 +46,7 @@ public class DefaultFunctions {
             .name("ItemStack")
             .description("Creates a new ItemStack with the given parameters.")
             .examples("set {_stack} to itemstack(Food_Fish_Grilled, 1, 50, 100)")
-            .since("INSERT VERSION")
+            .since("1.0.0")
             .register();
     }
 
@@ -73,7 +73,7 @@ public class DefaultFunctions {
             .name("Location")
             .description("Creates a location in a world.")
             .examples("set {_loc} to location(1, 100, 1, world of player)")
-            .since("INSERT VERSION")
+            .since("1.0.0")
             .register();
 
         Functions.newJavaFunction(new JavaFunction<>(
@@ -96,7 +96,7 @@ public class DefaultFunctions {
             .name("Vector3i")
             .description("Creates a vector3i with integer coordinates.")
             .examples("set {_v} to vector3i(1, 100, 1)")
-            .since("INSERT VERSION")
+            .since("1.0.0")
             .register();
 
         Functions.newJavaFunction(new JavaFunction<>(
@@ -119,7 +119,7 @@ public class DefaultFunctions {
             .name("Vector3f")
             .description("Creates a vector3f with float coordinates.")
             .examples("set {_v} to vector3f(1.234, 5.3, 1.999)")
-            .since("INSERT VERSION")
+            .since("1.0.0")
             .register();
 
         Functions.newJavaFunction(new JavaFunction<>(
@@ -142,7 +142,7 @@ public class DefaultFunctions {
             .name("Vector3d")
             .description("Creates a vector3d with double coordinates.")
             .examples("set {_v} to vector3d(1.234, 5.3, 1.999)")
-            .since("INSERT VERSION")
+            .since("1.0.0")
             .register();
 
         Functions.newJavaFunction(new JavaFunction<>(
@@ -161,7 +161,7 @@ public class DefaultFunctions {
             .name("World")
             .description("Returns the world with the given name.")
             .examples("set {_world} to world(\"default\")")
-            .since("INSERT VERSION")
+            .since("1.0.0")
             .register();
     }
 

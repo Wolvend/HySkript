@@ -14,7 +14,7 @@ public class ExprItemType extends PropertyExpression<ItemStack, Item> {
             .name("Item Type")
             .description("Returns the item type of an itemstack.")
             .examples("set {_item} to itemtype of {_item}")
-            .since("INSERT VERSION")
+            .since("1.0.0")
             .register();
     }
 

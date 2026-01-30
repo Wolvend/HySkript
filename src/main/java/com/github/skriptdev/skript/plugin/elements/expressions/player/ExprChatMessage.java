@@ -22,7 +22,7 @@ public class ExprChatMessage implements Expression<String> {
                 "\tloop {badwords::*}:",
                 "\t\tif chat message contains loop-value:",
                 "\t\t\treplace loop-value with \"****\" in chat message")
-            .since("INSERT VERSION")
+            .since("1.0.0")
             .register();
     }
 

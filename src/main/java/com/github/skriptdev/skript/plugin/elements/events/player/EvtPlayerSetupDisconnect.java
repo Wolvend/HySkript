@@ -19,7 +19,7 @@ public class EvtPlayerSetupDisconnect extends SkriptEvent {
         reg.newEvent(EvtPlayerSetupDisconnect.class, "player setup disconnect")
             .name("Player Setup Disconnect")
             .description("Called when a player is disconnecting from the server.")
-            .since("INSERT VERSION")
+            .since("1.0.0")
             .setHandledContexts(PlayerSetupDisconnectContext.class)
             .register();
 

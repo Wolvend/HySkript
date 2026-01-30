@@ -20,7 +20,7 @@ public class SecExecuteInWorld extends CodeSection {
             .description("Executes the code inside the section in the specified world.")
             .examples("execute in world of player:",
                 "\tkill player")
-            .since("INSERT VERSION")
+            .since("1.0.0")
             .register();
     }
 

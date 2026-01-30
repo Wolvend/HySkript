@@ -20,7 +20,7 @@ public class EvtPlayerSetupConnect extends SkriptEvent {
         reg.newEvent(EvtPlayerSetupConnect.class, "player setup connect")
             .name("Player Setup Connect")
             .description("Called when a player is connecting to the server.")
-            .since("INSERT VERSION")
+            .since("1.0.0")
             .setHandledContexts(PlayerSetupConnectContext.class)
             .register();
 

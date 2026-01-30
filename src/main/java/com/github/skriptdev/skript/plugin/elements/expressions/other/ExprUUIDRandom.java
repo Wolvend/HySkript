@@ -16,7 +16,7 @@ public class ExprUUIDRandom implements Expression<UUID> {
             .name("UUID - Random")
             .description("Generates a random UUID.")
             .examples("set {_uuid} to random uuid")
-            .since("INSERT VERSION")
+            .since("1.0.0")
             .register();
     }
 

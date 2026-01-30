@@ -31,7 +31,7 @@ public class ExprPlayerSpawns implements Expression<Location> {
             .examples("set {_locs::*} to respawn locations of player",
                 "set {_locs::*} to respawn locations of player in world of player",
                 "teleport player to random element out of respawn locations of player in world of player")
-            .since("INSERT VERSION")
+            .since("1.0.0")
             .register();
     }
 

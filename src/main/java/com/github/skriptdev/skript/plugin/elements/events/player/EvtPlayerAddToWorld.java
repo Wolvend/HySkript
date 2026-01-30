@@ -23,7 +23,7 @@ public class EvtPlayerAddToWorld extends SkriptEvent {
             .description("Called when a player joins a world.")
             .examples("on player added to world:",
                 "\tsend \"Welcome to the world!\" to context-player")
-            .since("INSERT VERSION")
+            .since("1.0.0")
             .register();
 
         reg.addContextValue(AddContext.class, World.class, true, "world", AddContext::getWorld);

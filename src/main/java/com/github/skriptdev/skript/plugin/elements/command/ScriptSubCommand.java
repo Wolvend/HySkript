@@ -21,7 +21,7 @@ public class ScriptSubCommand extends CodeSection implements ScriptCommandParent
         registration.newSection(ScriptSubCommand.class, "sub command <.+>")
             .name("Sub Command")
             .description("Creates a sub command for a top level command or another sub command.")
-            .since("INSERT VERSION")
+            .since("1.0.0")
             .register();
     }
 

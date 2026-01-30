@@ -29,7 +29,7 @@ public class ExprEntityHealth extends PropertyExpression<LivingEntity, Number> {
             .examples("set {_health} to health of player",
                 "set health of player to 20",
                 "if health of player is greater than 0:")
-            .since("INSERT VERSION")
+            .since("1.0.0")
             .register();
     }
 

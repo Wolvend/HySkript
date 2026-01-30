@@ -35,7 +35,7 @@ public class EffDelay extends Effect {
                 "(wait|halt) (0:until|1:while) %=boolean% [for %*duration%]")
             .name("Delay")
             .description("Delays the execution of the next statements for a specified duration.")
-            .since("INSERT VERSION")
+            .since("1.0.0")
             .register();
     }
 
