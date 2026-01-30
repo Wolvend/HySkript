@@ -17,6 +17,7 @@ import com.hypixel.hytale.server.core.modules.entity.damage.Damage;
 import com.hypixel.hytale.server.core.receiver.IMessageReceiver;
 import io.github.syst3ms.skriptparser.types.changers.TypeSerializer;
 import org.bson.BsonDocument;
+import org.bson.BsonString;
 import org.bson.BsonValue;
 import org.jetbrains.annotations.NotNull;
 
@@ -134,6 +135,37 @@ public class TypesServer {
             .name("Location")
             .description("Represents a location in a world.",
                 "A location contains a world, a position (vector3d) and a rotation (vector3f).")
+            .serializer(new TypeSerializer<>() {
+                @Override
+                public JsonElement serialize(@NotNull Gson gson, @NotNull Location location) {
+                    BsonDocument bsonDocument = new BsonDocument();
+                    String world = location.getWorld();
+                    if (world != null) {
+                        // This shouldn't be null, but let's be safe
+                        bsonDocument.put("world", new BsonString(world));
+                    }
+                    bsonDocument.put("position", Vector3d.CODEC.encode(location.getPosition(), new ExtraInfo()));
+                    bsonDocument.put("rotation", Vector3f.CODEC.encode(location.getRotation(), new ExtraInfo()));
+
+                    return gson.fromJson(bsonDocument.toJson(), JsonElement.class);
+                }
+
+                @Override
+                public Location deserialize(@NotNull Gson gson, @NotNull JsonElement element) {
+                    BsonDocument decode = BsonDocument.parse(element.toString());
+                    Vector3d position = Vector3d.CODEC.decode(decode.get("position"), new ExtraInfo());
+                    Vector3f rotation = Vector3f.CODEC.decode(decode.get("rotation"), new ExtraInfo());
+
+                    String world = null;
+                    if (decode.containsKey("world")) {
+                        // This shouldn't be null, but let's be safe
+                        world = decode.getString("world").getValue();
+                    }
+                    assert position != null;
+                    assert rotation != null;
+                    return new Location(world, position, rotation);
+                }
+            })
             .since("1.0.0")
             .register();
     }
