@@ -147,6 +147,10 @@ public class Block {
         return this.pos;
     }
 
+    public @NotNull Location getLocation() {
+        return new Location(this.world.getName(), this.pos.getX(), this.pos.getY(), this.pos.getZ());
+    }
+
     public String toTypeString() {
         return String.format("[%s] block at (%s,%s,%s) in '%s'",
             this.type.getId(), this.pos.getX(), this.pos.getY(), this.pos.getZ(), this.world.getName());
