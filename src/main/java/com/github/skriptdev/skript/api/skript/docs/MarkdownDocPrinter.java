@@ -300,13 +300,45 @@ public class MarkdownDocPrinter {
                 writer.println("[Click Here](https://github.com/SkriptDev/HySkript/wiki/_usage-" + documentation.getName().replace(" ", "-") + ")");
                 File usageFile = getFile("_usage-" + documentation.getName());
                 try {
+                    List<String> values = new ArrayList<>();
+                    List<String> variations = new ArrayList<>();
+                    for (String s : usage.split(", ")) {
+                        if (s.startsWith("*")) {
+                            variations.add(s);
+                        } else {
+                            values.add(s);
+                        }
+                    }
+                    boolean hasVariations = !variations.isEmpty();
                     PrintWriter usageWriter = new PrintWriter(usageFile, StandardCharsets.UTF_8);
                     usageWriter.println("# Usage: " + documentation.getName());
+
+                    usageWriter.println("<details>");
+                    usageWriter.println("<summary>Values</summary>");
+                    usageWriter.println();
                     usageWriter.println("```yaml"); // Yaml makes it a nicer blue
-                    for (String s : usage.split(", ")) {
+                    for (String s : values.stream().sorted().toList()) {
                         usageWriter.println(s);
                     }
                     usageWriter.println("```");
+                    usageWriter.println();
+                    usageWriter.println("</details>");
+                    usageWriter.println();
+
+                    if (hasVariations) {
+                        usageWriter.println("<details>");
+                        usageWriter.println("<summary>Variations</summary>");
+                        usageWriter.println();
+                        usageWriter.println("```yaml"); // Yaml makes it a nicer blue
+                        for (String s : variations.stream().sorted().toList()) {
+                            usageWriter.println(s);
+                        }
+                        usageWriter.println("```");
+                        usageWriter.println();
+                        usageWriter.println("</details>");
+                        usageWriter.println();
+                    }
+
                     usageWriter.close();
                 } catch (IOException e) {
                     throw new RuntimeException(e);
