@@ -6,10 +6,12 @@ import com.github.skriptdev.skript.plugin.elements.expressions.block.ExprBlockFl
 import com.github.skriptdev.skript.plugin.elements.expressions.block.ExprBlockTypeAtLocation;
 import com.github.skriptdev.skript.plugin.elements.expressions.block.ExprBlockTypeOfBlock;
 import com.github.skriptdev.skript.plugin.elements.expressions.block.ExprBlockFluidLevel;
+import com.github.skriptdev.skript.plugin.elements.expressions.block.ExprTargetBlockOfPlayer;
 import com.github.skriptdev.skript.plugin.elements.expressions.entity.ExprEntityHealth;
 import com.github.skriptdev.skript.plugin.elements.expressions.entity.ExprEntityStat;
 import com.github.skriptdev.skript.plugin.elements.expressions.entity.ExprNPCType;
 import com.github.skriptdev.skript.plugin.elements.expressions.entity.ExprName;
+import com.github.skriptdev.skript.plugin.elements.expressions.entity.ExprTargetEntityOfEntity;
 import com.github.skriptdev.skript.plugin.elements.expressions.item.ExprInventory;
 import com.github.skriptdev.skript.plugin.elements.expressions.item.ExprItemContainer;
 import com.github.skriptdev.skript.plugin.elements.expressions.item.ExprItemStack;
@@ -44,12 +46,14 @@ public class ExpressionHandler {
         ExprBlockFluidLevel.register(registration);
         ExprBlockTypeAtLocation.register(registration);
         ExprBlockTypeOfBlock.register(registration);
+        ExprTargetBlockOfPlayer.register(registration);
 
         // ENTITY
         ExprEntityHealth.register(registration);
         ExprEntityStat.register(registration);
         ExprName.register(registration);
         ExprNPCType.register(registration);
+        ExprTargetEntityOfEntity.register(registration);
 
         // ITEM
         ExprInventory.register(registration);
