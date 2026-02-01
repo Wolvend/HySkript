@@ -7,6 +7,7 @@ import com.github.skriptdev.skript.plugin.elements.expressions.block.ExprBlockTy
 import com.github.skriptdev.skript.plugin.elements.expressions.block.ExprBlockTypeOfBlock;
 import com.github.skriptdev.skript.plugin.elements.expressions.block.ExprBlockFluidLevel;
 import com.github.skriptdev.skript.plugin.elements.expressions.block.ExprTargetBlockOfPlayer;
+import com.github.skriptdev.skript.plugin.elements.expressions.entity.ExprActiveSlot;
 import com.github.skriptdev.skript.plugin.elements.expressions.entity.ExprEntityHealth;
 import com.github.skriptdev.skript.plugin.elements.expressions.entity.ExprEntityStat;
 import com.github.skriptdev.skript.plugin.elements.expressions.entity.ExprHeldItem;
@@ -53,6 +54,7 @@ public class ExpressionHandler {
         ExprTargetBlockOfPlayer.register(registration);
 
         // ENTITY
+        ExprActiveSlot.register(registration);
         ExprEntityHealth.register(registration);
         ExprEntityStat.register(registration);
         ExprHeldItem.register(registration);
