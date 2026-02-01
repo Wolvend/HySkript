@@ -1,6 +1,7 @@
 package com.github.skriptdev.skript.plugin.elements.events.player;
 
 import com.github.skriptdev.skript.api.skript.event.CancellableContext;
+import com.github.skriptdev.skript.api.skript.event.PlayerContext;
 import com.github.skriptdev.skript.api.skript.registration.SkriptRegistration;
 import com.github.skriptdev.skript.plugin.HySk;
 import com.hypixel.hytale.event.EventRegistration;
@@ -60,9 +61,9 @@ public class EvtPlayerMouseMove extends SkriptEvent {
         return "player mouse motion event";
     }
 
-    private record MouseMoveContext(PlayerMouseMotionEvent event) implements TriggerContext, CancellableContext {
+    private record MouseMoveContext(PlayerMouseMotionEvent event) implements PlayerContext, CancellableContext {
 
-        private Player[] getPlayer() {
+        public Player[] getPlayer() {
             return new Player[]{this.event.getPlayer()};
         }
 

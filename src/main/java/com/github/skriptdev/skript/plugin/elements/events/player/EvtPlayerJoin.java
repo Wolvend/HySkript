@@ -1,5 +1,6 @@
 package com.github.skriptdev.skript.plugin.elements.events.player;
 
+import com.github.skriptdev.skript.api.skript.event.PlayerContext;
 import com.github.skriptdev.skript.plugin.HySk;
 import com.hypixel.hytale.event.EventRegistration;
 import com.hypixel.hytale.event.EventRegistry;
@@ -83,7 +84,7 @@ public class EvtPlayerJoin extends SkriptEvent {
         return "player " + t;
     }
 
-    public static class PlayerEventContext implements TriggerContext {
+    public static class PlayerEventContext implements PlayerContext {
 
         private final Player player;
         private final int pattern;

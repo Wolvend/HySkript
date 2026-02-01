@@ -2,6 +2,7 @@ package com.github.skriptdev.skript.plugin.elements.events.player;
 
 import com.github.skriptdev.skript.api.hytale.Block;
 import com.github.skriptdev.skript.api.skript.event.CancellableContext;
+import com.github.skriptdev.skript.api.skript.event.PlayerContext;
 import com.github.skriptdev.skript.api.skript.event.SystemEvent;
 import com.github.skriptdev.skript.api.skript.registration.SkriptRegistration;
 import com.hypixel.hytale.component.ArchetypeChunk;
@@ -69,9 +70,9 @@ public class EvtPlayerBreakBlock extends SystemEvent<EntityEventSystem<EntitySto
         return "player block break";
     }
 
-    private record BreakBlockEventContext(BreakBlockEvent event, Player player) implements TriggerContext, CancellableContext {
+    private record BreakBlockEventContext(BreakBlockEvent event, Player player) implements PlayerContext, CancellableContext {
 
-        private Player[] getPlayer() {
+        public Player[] getPlayer() {
             return new Player[]{this.player};
         }
 

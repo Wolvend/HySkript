@@ -1,5 +1,6 @@
 package com.github.skriptdev.skript.plugin.command;
 
+import com.github.skriptdev.skript.api.skript.event.PlayerContext;
 import com.github.skriptdev.skript.api.utils.Utils;
 import com.github.skriptdev.skript.plugin.Skript;
 import com.hypixel.hytale.component.Ref;
@@ -11,7 +12,6 @@ import com.hypixel.hytale.server.core.universe.Universe;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import io.github.syst3ms.skriptparser.lang.Effect;
-import io.github.syst3ms.skriptparser.lang.TriggerContext;
 import io.github.syst3ms.skriptparser.log.LogEntry;
 import io.github.syst3ms.skriptparser.log.SkriptLogger;
 import io.github.syst3ms.skriptparser.parsing.ParserState;
@@ -100,7 +100,7 @@ public class EffectCommands {
         });
     }
 
-    private record PlayerEffectContext(Player player) implements TriggerContext {
+    private record PlayerEffectContext(Player player) implements PlayerContext {
 
         public Player[] getPlayer() {
             return new Player[]{this.player};
