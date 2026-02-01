@@ -210,7 +210,7 @@ public class JsonDocPrinter {
     private void printFunctions(BsonDocument mainDocs, SkriptRegistration registration) {
         String addonKey = registration.getRegisterer().getAddonName().toLowerCase(Locale.ROOT).replace(" ", "_");
         BsonArray functionsArray = mainDocs.getArray("functions", new BsonArray());
-        Functions.getGlobalFunctions().stream().sorted(Comparator.comparing(Function::getName)).forEach(function -> {
+        Functions.getJavaFunctions().stream().sorted(Comparator.comparing(Function::getName)).forEach(function -> {
             if (function instanceof JavaFunction<?> jf) {
                 Documentation documentation = jf.getDocumentation();
                 if (documentation.isNoDoc()) return;

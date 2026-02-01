@@ -198,7 +198,7 @@ public class MarkdownDocPrinter {
 
     @SuppressWarnings("unchecked")
     private static void printFunctions(PrintWriter writer) {
-        Functions.getGlobalFunctions().stream().sorted(Comparator.comparing(Function::getName)).forEach(function -> {
+        Functions.getJavaFunctions().stream().sorted(Comparator.comparing(Function::getName)).forEach(function -> {
             if (function instanceof JavaFunction<?> jf) {
                 FunctionParameter<?>[] parameters = jf.getParameters();
 

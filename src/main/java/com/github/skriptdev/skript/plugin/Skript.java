@@ -120,7 +120,7 @@ public class Skript extends SkriptAddon {
         int expsSize = this.registration.getExpressions().size() + mainRegistration.getExpressions().size();
         int secSize = this.registration.getSections().size() + mainRegistration.getSections().size();
         int typeSize = this.registration.getTypes().size() + mainRegistration.getTypes().size();
-        int funcSize = Functions.getGlobalFunctions().size();
+        int funcSize = Functions.getAllFunctions().size();
 
         int total = structureSize + eventSize + effectSize + expsSize + secSize + typeSize + funcSize;
 
