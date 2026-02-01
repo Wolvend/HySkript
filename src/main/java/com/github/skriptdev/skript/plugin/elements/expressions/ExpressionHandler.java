@@ -18,6 +18,7 @@ import com.github.skriptdev.skript.plugin.elements.expressions.item.ExprItemCont
 import com.github.skriptdev.skript.plugin.elements.expressions.item.ExprItemStack;
 import com.github.skriptdev.skript.plugin.elements.expressions.item.ExprItemType;
 import com.github.skriptdev.skript.plugin.elements.expressions.item.ExprItemsInInventory;
+import com.github.skriptdev.skript.plugin.elements.expressions.other.ExprCast;
 import com.github.skriptdev.skript.plugin.elements.expressions.other.ExprClassInfoOf;
 import com.github.skriptdev.skript.plugin.elements.expressions.other.ExprLocationDirection;
 import com.github.skriptdev.skript.plugin.elements.expressions.other.ExprLocationOf;
@@ -66,6 +67,7 @@ public class ExpressionHandler {
         ExprItemType.register(registration);
 
         // OTHER
+        ExprCast.register(registration);
         ExprClassInfoOf.register(registration);
         ExprLocationDirection.register(registration);
         ExprLocationOf.register(registration);
