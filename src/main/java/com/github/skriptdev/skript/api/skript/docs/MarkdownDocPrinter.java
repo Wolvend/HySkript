@@ -141,9 +141,11 @@ public class MarkdownDocPrinter {
 
             List<ContextValue<?, ?>> valuesForThisEvent = new ArrayList<>();
             contextValues.forEach(contextValue -> {
-                if (event.getContexts().contains(contextValue.getContext())) {
-                    valuesForThisEvent.add(contextValue);
-                }
+                event.getContexts().forEach(context -> {
+                    if (contextValue.getContext().isAssignableFrom(context)) {
+                        valuesForThisEvent.add(contextValue);
+                    }
+                });
             });
             if (!valuesForThisEvent.isEmpty()) {
                 writer.println("- **ContextValues**:");
@@ -198,7 +200,7 @@ public class MarkdownDocPrinter {
 
     @SuppressWarnings("unchecked")
     private static void printFunctions(PrintWriter writer) {
-        Functions.getGlobalFunctions().stream().sorted(Comparator.comparing(Function::getName)).forEach(function -> {
+        Functions.getJavaFunctions().stream().sorted(Comparator.comparing(Function::getName)).forEach(function -> {
             if (function instanceof JavaFunction<?> jf) {
                 FunctionParameter<?>[] parameters = jf.getParameters();
 

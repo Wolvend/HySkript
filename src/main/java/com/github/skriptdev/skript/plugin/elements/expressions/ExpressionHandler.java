@@ -7,18 +7,23 @@ import com.github.skriptdev.skript.plugin.elements.expressions.block.ExprBlockTy
 import com.github.skriptdev.skript.plugin.elements.expressions.block.ExprBlockTypeOfBlock;
 import com.github.skriptdev.skript.plugin.elements.expressions.block.ExprBlockFluidLevel;
 import com.github.skriptdev.skript.plugin.elements.expressions.block.ExprTargetBlockOfPlayer;
+import com.github.skriptdev.skript.plugin.elements.expressions.entity.ExprActiveSlot;
 import com.github.skriptdev.skript.plugin.elements.expressions.entity.ExprEntityHealth;
 import com.github.skriptdev.skript.plugin.elements.expressions.entity.ExprEntityStat;
+import com.github.skriptdev.skript.plugin.elements.expressions.entity.ExprHeldItem;
 import com.github.skriptdev.skript.plugin.elements.expressions.entity.ExprNPCType;
 import com.github.skriptdev.skript.plugin.elements.expressions.entity.ExprName;
 import com.github.skriptdev.skript.plugin.elements.expressions.entity.ExprTargetEntityOfEntity;
 import com.github.skriptdev.skript.plugin.elements.expressions.item.ExprInventory;
 import com.github.skriptdev.skript.plugin.elements.expressions.item.ExprInventorySlot;
+import com.github.skriptdev.skript.plugin.elements.expressions.item.ExprInventorySlots;
 import com.github.skriptdev.skript.plugin.elements.expressions.item.ExprItemContainer;
 import com.github.skriptdev.skript.plugin.elements.expressions.item.ExprItemStack;
 import com.github.skriptdev.skript.plugin.elements.expressions.item.ExprItemType;
 import com.github.skriptdev.skript.plugin.elements.expressions.item.ExprItemsInInventory;
+import com.github.skriptdev.skript.plugin.elements.expressions.other.ExprCast;
 import com.github.skriptdev.skript.plugin.elements.expressions.other.ExprClassInfoOf;
+import com.github.skriptdev.skript.plugin.elements.expressions.other.ExprDistance;
 import com.github.skriptdev.skript.plugin.elements.expressions.other.ExprLocationDirection;
 import com.github.skriptdev.skript.plugin.elements.expressions.other.ExprLocationOf;
 import com.github.skriptdev.skript.plugin.elements.expressions.other.ExprMessage;
@@ -51,8 +56,10 @@ public class ExpressionHandler {
         ExprTargetBlockOfPlayer.register(registration);
 
         // ENTITY
+        ExprActiveSlot.register(registration);
         ExprEntityHealth.register(registration);
         ExprEntityStat.register(registration);
+        ExprHeldItem.register(registration);
         ExprName.register(registration);
         ExprNPCType.register(registration);
         ExprTargetEntityOfEntity.register(registration);
@@ -60,13 +67,16 @@ public class ExpressionHandler {
         // ITEM
         ExprInventory.register(registration);
         ExprInventorySlot.register(registration);
+        ExprInventorySlots.register(registration);
         ExprItemContainer.register(registration);
         ExprItemsInInventory.register(registration);
         ExprItemStack.register(registration);
         ExprItemType.register(registration);
 
         // OTHER
+        ExprCast.register(registration);
         ExprClassInfoOf.register(registration);
+        ExprDistance.register(registration);
         ExprLocationDirection.register(registration);
         ExprLocationOf.register(registration);
         ExprMessage.register(registration);

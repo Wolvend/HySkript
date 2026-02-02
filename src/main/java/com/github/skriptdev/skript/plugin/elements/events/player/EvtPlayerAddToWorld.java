@@ -1,5 +1,6 @@
 package com.github.skriptdev.skript.plugin.elements.events.player;
 
+import com.github.skriptdev.skript.api.skript.event.PlayerContext;
 import com.github.skriptdev.skript.api.skript.registration.SkriptRegistration;
 import com.github.skriptdev.skript.plugin.HySk;
 import com.hypixel.hytale.component.Holder;
@@ -27,7 +28,6 @@ public class EvtPlayerAddToWorld extends SkriptEvent {
             .register();
 
         reg.addContextValue(AddContext.class, World.class, true, "world", AddContext::getWorld);
-        reg.addContextValue(AddContext.class, Player.class, true, "player", AddContext::getPlayer);
     }
 
     private static EventRegistration<String, AddPlayerToWorldEvent> LISTENER;
@@ -53,7 +53,7 @@ public class EvtPlayerAddToWorld extends SkriptEvent {
         return "";
     }
 
-    private record AddContext(AddPlayerToWorldEvent event) implements TriggerContext {
+    private record AddContext(AddPlayerToWorldEvent event) implements PlayerContext {
 
         public World[] getWorld() {
             return new World[]{this.event.getWorld()};

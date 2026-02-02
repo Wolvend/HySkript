@@ -1,6 +1,7 @@
 package com.github.skriptdev.skript.plugin.elements.events.player;
 
 import com.github.skriptdev.skript.api.skript.event.CancellableContext;
+import com.github.skriptdev.skript.api.skript.event.PlayerContext;
 import com.github.skriptdev.skript.api.skript.event.SystemEvent;
 import com.github.skriptdev.skript.api.skript.registration.SkriptRegistration;
 import com.github.skriptdev.skript.plugin.HySk;
@@ -36,7 +37,6 @@ public class EvtPlayerDropItem extends SystemEvent<EntityEventSystem<EntityStore
             .since("1.0.0")
             .register();
 
-        reg.addContextValue(DropItemContext.class, Player.class, true, "player", DropItemContext::getPlayer);
         reg.addContextValue(DropItemContext.class, Float.class, true, "throw-speed", DropItemContext::getThrowSpeed);
         reg.addContextValue(DropItemContext.class, Item.class, true, "dropped-item", DropItemContext::getItem);
         reg.addContextValue(DropItemContext.class, ItemStack.class, true, "dropped-itemstack", DropItemContext::getItemStack);
@@ -63,7 +63,7 @@ public class EvtPlayerDropItem extends SystemEvent<EntityEventSystem<EntityStore
         return "player drop item event";
     }
 
-    private record DropItemContext(Player player, Drop drop) implements TriggerContext, CancellableContext {
+    private record DropItemContext(Player player, Drop drop) implements PlayerContext, CancellableContext {
 
         public Player[] getPlayer() {
             return new Player[]{this.player};

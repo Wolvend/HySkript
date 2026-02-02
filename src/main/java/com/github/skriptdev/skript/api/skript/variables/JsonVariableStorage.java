@@ -115,7 +115,17 @@ public class JsonVariableStorage extends VariableStorage {
             if (this.bsonDocument == null) {
                 this.bsonDocument = new BsonDocument();
             }
-            JsonElement jsonElement = BsonUtil.translateBsonToJson(this.bsonDocument);
+            BsonDocument variablesDocument;
+            if (this.bsonDocument.containsKey("variables")) {
+                variablesDocument = this.bsonDocument.getDocument("variables");
+            } else {
+                // Legacy file format (TODO remove before first release)
+                this.logger.warn("Your variables file is outdated. HySkript will create a backup then convert for you.");
+                Files.move(this.file.toPath(), this.file.toPath().resolveSibling(this.file.getName() + ".bak"));
+                variablesDocument = this.bsonDocument.clone();
+                this.bsonDocument = new BsonDocument();
+            }
+            JsonElement jsonElement = BsonUtil.translateBsonToJson(variablesDocument);
             if (jsonElement instanceof JsonObject jsonObject) {
                 jsonObject.entrySet().forEach(entry -> {
                     String name = entry.getKey();
@@ -167,6 +177,8 @@ public class JsonVariableStorage extends VariableStorage {
     protected boolean save(@NotNull String name, @Nullable String type, @Nullable JsonElement value) {
         BsonDocument myDocument = BsonDocument.parse("{}");
 
+        BsonDocument variablesDocument = this.bsonDocument.getDocument("variables", new BsonDocument());
+
         if (type != null && value != null) {
             try {
                 BsonValue bsonValue = BsonUtil.translateJsonToBson(value);
@@ -197,11 +209,12 @@ public class JsonVariableStorage extends VariableStorage {
             } catch (Exception e) {
                 Utils.error("Failed to parse value: " + value);
             }
+            variablesDocument.put(name, myDocument);
         } else {
-            this.bsonDocument.remove(name);
+            variablesDocument.remove(name);
         }
 
-        this.bsonDocument.put(name, myDocument);
+        this.bsonDocument.put("variables", variablesDocument);
         this.changes.incrementAndGet();
         return true;
     }
@@ -254,6 +267,7 @@ public class JsonVariableStorage extends VariableStorage {
     }
 
     public void writeBsonFile() throws IOException {
+        writePluginData();
         if (this.type == Type.JSON) {
             FileWriter fileWriter = new FileWriter(this.file);
             JsonWriterSettings.Builder indent = JsonWriterSettings.builder().indent(true);
@@ -270,6 +284,12 @@ public class JsonVariableStorage extends VariableStorage {
                 fos.write(bsonBytes);
             }
         }
+    }
+
+    private void writePluginData() {
+        BsonDocument pluginData = this.bsonDocument.getDocument("data", new BsonDocument());
+        pluginData.put("version", new BsonString(HySk.getInstance().getManifest().getVersion().toString()));
+        this.bsonDocument.put("data", pluginData);
     }
 
 }

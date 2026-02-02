@@ -1,6 +1,7 @@
 package com.github.skriptdev.skript.plugin.elements.events;
 
 
+import com.github.skriptdev.skript.api.skript.event.PlayerContext;
 import com.github.skriptdev.skript.api.skript.registration.SkriptRegistration;
 import com.github.skriptdev.skript.plugin.elements.events.entity.EvtEntityDamage;
 import com.github.skriptdev.skript.plugin.elements.events.entity.EvtEntityDeath;
@@ -9,6 +10,7 @@ import com.github.skriptdev.skript.plugin.elements.events.entity.EvtLivingEntity
 import com.github.skriptdev.skript.plugin.elements.events.player.EvtPlayerAddToWorld;
 import com.github.skriptdev.skript.plugin.elements.events.player.EvtPlayerBreakBlock;
 import com.github.skriptdev.skript.plugin.elements.events.player.EvtPlayerChat;
+import com.github.skriptdev.skript.plugin.elements.events.player.EvtPlayerDamageBlock;
 import com.github.skriptdev.skript.plugin.elements.events.player.EvtPlayerDrainFromWorld;
 import com.github.skriptdev.skript.plugin.elements.events.player.EvtPlayerDropItem;
 import com.github.skriptdev.skript.plugin.elements.events.player.EvtPlayerDropItemRequest;
@@ -17,9 +19,12 @@ import com.github.skriptdev.skript.plugin.elements.events.player.EvtPlayerMouseC
 import com.github.skriptdev.skript.plugin.elements.events.player.EvtPlayerMouseMove;
 import com.github.skriptdev.skript.plugin.elements.events.player.EvtPlayerSetupConnect;
 import com.github.skriptdev.skript.plugin.elements.events.player.EvtPlayerSetupDisconnect;
+import com.github.skriptdev.skript.plugin.elements.events.player.EvtPlayerUseBlock;
 import com.github.skriptdev.skript.plugin.elements.events.server.EvtBoot;
 import com.github.skriptdev.skript.plugin.elements.events.server.EvtShutdown;
 import com.github.skriptdev.skript.plugin.elements.events.skript.EvtLoad;
+import com.hypixel.hytale.server.core.entity.entities.Player;
+import io.github.syst3ms.skriptparser.registration.context.ContextValue.Usage;
 
 public class EventHandler {
 
@@ -34,6 +39,7 @@ public class EventHandler {
         EvtPlayerAddToWorld.register(registration);
         EvtPlayerBreakBlock.register(registration);
         EvtPlayerChat.register(registration);
+        EvtPlayerDamageBlock.register(registration);
         EvtPlayerDrainFromWorld.register(registration);
         EvtPlayerDropItem.register(registration);
         EvtPlayerDropItemRequest.register(registration);
@@ -42,6 +48,7 @@ public class EventHandler {
         EvtPlayerMouseMove.register(registration);
         EvtPlayerSetupConnect.register(registration);
         EvtPlayerSetupDisconnect.register(registration);
+        EvtPlayerUseBlock.register(registration);
 
         // SERVER
         EvtBoot.register(registration);
@@ -49,6 +56,15 @@ public class EventHandler {
 
         // SKRIPT
         EvtLoad.register(registration);
+
+        // CONTEXT
+        registerGlobalContexts(registration);
+    }
+
+    private static void registerGlobalContexts(SkriptRegistration reg) {
+        reg.newContextValue(PlayerContext.class, Player.class, true, "player", PlayerContext::getPlayer)
+            .setUsage(Usage.EXPRESSION_OR_ALONE)
+            .register();
     }
 
 }
