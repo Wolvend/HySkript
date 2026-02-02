@@ -141,9 +141,11 @@ public class MarkdownDocPrinter {
 
             List<ContextValue<?, ?>> valuesForThisEvent = new ArrayList<>();
             contextValues.forEach(contextValue -> {
-                if (event.getContexts().contains(contextValue.getContext())) {
-                    valuesForThisEvent.add(contextValue);
-                }
+                event.getContexts().forEach(context -> {
+                    if (contextValue.getContext().isAssignableFrom(context)) {
+                        valuesForThisEvent.add(contextValue);
+                    }
+                });
             });
             if (!valuesForThisEvent.isEmpty()) {
                 writer.println("- **ContextValues**:");
