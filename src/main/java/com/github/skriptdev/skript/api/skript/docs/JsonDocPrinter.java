@@ -164,10 +164,10 @@ public class JsonDocPrinter {
             Documentation documentation = event.getDocumentation();
             if (documentation.isNoDoc()) return;
 
-            BsonDocument structureDoc = new BsonDocument();
-
             if (Structure.class.isAssignableFrom(event.getSyntaxClass())) {
+                BsonDocument structureDoc = new BsonDocument();
                 printDocumentation("structure", structureDoc, event);
+                structuresArray.add(structureDoc);
             }
         });
 
@@ -402,7 +402,7 @@ public class JsonDocPrinter {
 
         // PATTERNS
         List<PatternElement> patterns = syntaxInfo.getPatterns();
-        if (patterns.isEmpty()) {
+        if (!patterns.isEmpty()) {
             BsonArray patternArray = new BsonArray();
             patterns.forEach(pattern -> patternArray.add(new BsonString(pattern.toString())));
             syntaxDoc.put("patterns", patternArray);
