@@ -41,6 +41,8 @@ public class EffSendMessage extends Effect {
     @Override
     protected void execute(@NotNull TriggerContext ctx) {
         Object[] messages = this.messages.getValues(ctx);
+        if (messages == null || messages.length == 0) return;
+
         if (this.senders != null) {
             for (IMessageReceiver commandSender : this.senders.getArray(ctx)) {
                 for (Object value : messages) {
