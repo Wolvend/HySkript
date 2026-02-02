@@ -21,7 +21,7 @@ public class ExprActiveSlot implements Expression<Number> {
             .name("Active Slot")
             .description("Get/set the active slot of a living entity.",
                 "**Note**: This seems extremely borked on the server, so please use with caution.")
-            .since("INSERT VERSION")
+            .since("1.0.0")
             .register();
     }
 

@@ -39,7 +39,7 @@ public class EvtPlayerUseBlock extends SystemEvent<EntityEventSystem<EntityStore
             .name("Player Use Block")
             .description("Called when a player uses a block.",
                 "Pre is cancellable, post is not.")
-            .since("INSERT VERSION")
+            .since("1.0.0")
             .register();
 
         reg.addContextValue(UseBlockContext.class, BlockType.class, true, "blocktype", UseBlockContext::getBlockType);

@@ -17,7 +17,7 @@ public class TypesBlock {
         EnumRegistry.register(registration, InteractionType.class, "interactiontype", "interactiontype@s")
             .name("Interaction Type")
             .description("Represents the types of interactions that can be performed on a block.")
-            .since("INSERT VERSION")
+            .since("1.0.0")
             .register();
     }
 

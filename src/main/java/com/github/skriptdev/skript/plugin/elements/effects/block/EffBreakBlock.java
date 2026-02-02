@@ -21,7 +21,7 @@ public class EffBreakBlock extends Effect {
                 "- `256` = Breaks the block with particles and performs update of block above (default).",
                 "- Any other number doesn't do anything different than the few stated above.")
             .examples("break target block of player with settings 0")
-            .since("INSERT VERSION")
+            .since("1.0.0")
             .register();
     }
 

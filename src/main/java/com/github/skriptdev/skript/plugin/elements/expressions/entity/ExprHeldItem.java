@@ -29,7 +29,7 @@ public class ExprHeldItem implements Expression<ItemStack> {
                 "- **Tool**: Not really sure what this is.")
             .examples("set held item of player to itemstack of ingredient_poop",
                 "set utility item of player to itemstack of furniture_crude_torch")
-            .since("INSERT VERSION")
+            .since("1.0.0")
             .register();
     }
 

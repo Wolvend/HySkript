@@ -33,7 +33,7 @@ public class EvtPlayerDamageBlock extends SystemEvent<EntityEventSystem<EntitySt
             .setHandledContexts(DamageBlockContext.class)
             .name("Block Damage")
             .description("Called when a block is damaged by a player.")
-            .since("INSERT VERSION")
+            .since("1.0.0")
             .register();
 
         reg.addContextValue(DamageBlockContext.class, Block.class, true, "block", DamageBlockContext::getBlock);

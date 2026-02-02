@@ -21,7 +21,7 @@ public class ExprCast implements Expression<Object> {
             .examples("set {_i} to ingredient_poop as Item",
                 "set {_bt} to ingredient_poop as BlockType",
                 "set {_f} to 1 as Float")
-            .since("INSERT VERSION")
+            .since("1.0.0")
             .register();
     }
 

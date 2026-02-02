@@ -17,7 +17,7 @@ public class ExprDistance implements Expression<Number> {
             .name("Distance Between Locations")
             .description("Returns the distance between two locations.")
             .examples("set {_distance} to distance between player's location and location of target block")
-            .since("INSERT VERSION")
+            .since("1.0.0")
             .register();
     }
 

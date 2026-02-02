@@ -21,7 +21,7 @@ public class ExprInventorySlots implements Expression<Number> {
             .description("Returns all slots in an Inventory or ItemContainer as numbers.")
             .examples("loop slots of inventory of player:",
                 "loop slots of hotbar item container of inventory of player:")
-            .since("INSERT VERSION")
+            .since("1.0.0")
             .register();
     }
 
