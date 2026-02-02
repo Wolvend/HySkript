@@ -307,17 +307,22 @@ public class JsonDocPrinter {
     private void printTypes(BsonDocument mainDocs, SkriptRegistration registration) {
         BsonArray typesArray = mainDocs.getArray("types", new BsonArray());
 
-        String addonName = registration.getRegisterer().getAddonName().toLowerCase(Locale.ROOT).replace(" ", "_");
-
         registration.getTypes().forEach(type -> {
             Documentation documentation = type.getDocumentation();
             if (documentation.isNoDoc()) return;
 
             BsonDocument syntaxDoc = new BsonDocument();
+
+            // NAME and ID
             String baseName = type.getBaseName();
             String docName = documentation.getName();
             syntaxDoc.put("name", new BsonString(docName != null ? docName : baseName));
             syntaxDoc.put("id", getId("type", baseName));
+
+            // EXPERIMENTAL
+            if (documentation.isExperimental()) {
+                syntaxDoc.put("experimental", new BsonString(documentation.getExperimentalMessage()));
+            }
 
             // DESCRIPTION
             BsonArray descriptionArray = new BsonArray();
@@ -385,7 +390,9 @@ public class JsonDocPrinter {
         syntaxDoc.put("id", getId(type, syntaxInfo));
 
         // EXPERIMENTAL
-        // TODO
+        if (documentation.isExperimental()) {
+            syntaxDoc.put("experimental", new BsonString(documentation.getExperimentalMessage()));
+        }
 
         // DESCRIPTION
         BsonArray descriptionArray = new BsonArray();
