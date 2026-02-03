@@ -22,11 +22,17 @@ public class EvtPlayerChat extends SkriptEvent {
         reg.newEvent(EvtPlayerChat.class, "[player] chat")
             .setHandledContexts(PlayerChatContext.class)
             .name("Player Chat")
-            .description("Event triggered when a player sends a message in chat.")
+            .description("Event triggered when a player sends a message in chat.",
+                "The message can be changed by setting `context-message`.",
+                "The message format can be changed by setting `context-message-format` (to a Message) or `context-format` (to a String).")
             .examples("on player chat:",
                 "\tif name of context-sender = \"bob\":",
                 "\t\tcancel event",
-                "\t\tsend \"You said: %message% and we cancelled that!!!\" to context-sender")
+                "\t\tsend \"You said: %message% and we cancelled that!!!\" to context-sender",
+                "",
+                "on player chat:",
+                "\tset {_message} to formatted message from \"[<blue>MyServer<reset>] <red>%name of context-playerref%<reset>: %context-message%\"",
+                "\tset context-message-format to {_message}")
             .since("1.0.0")
             .register();
 
@@ -106,7 +112,10 @@ public class EvtPlayerChat extends SkriptEvent {
             this.event.setFormatter(new PlayerChatEvent.Formatter() {
                 @Override
                 public @NotNull Message format(@NotNull PlayerRef playerRef, @NotNull String s) {
-                    return Message.raw(format).param("message", s).param("player", Message.raw(playerRef.getUsername()));
+                    return Message.raw(format)
+                        .param("message", s)
+                        .param("player", playerRef.getUsername())
+                        .param("username", playerRef.getUsername());
                 }
             });
         }
@@ -115,8 +124,10 @@ public class EvtPlayerChat extends SkriptEvent {
             this.event.setFormatter(new PlayerChatEvent.Formatter() {
                 @Override
                 public @NotNull Message format(@NotNull PlayerRef playerRef, @NotNull String s) {
-                    Message insert = Message.empty().insert(format); // Clone what is passed thru
-                    return insert.param("message", s).param("player", Message.raw(playerRef.getUsername()));
+                    return format
+                        .param("message", s)
+                        .param("player", playerRef.getUsername())
+                        .param("username", playerRef.getUsername());
                 }
             });
         }
