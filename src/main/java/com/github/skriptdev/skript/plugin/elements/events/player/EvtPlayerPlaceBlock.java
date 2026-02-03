@@ -40,7 +40,7 @@ public class EvtPlayerPlaceBlock extends SystemEvent<EntityEventSystem<EntitySto
                 "\tset {_past} to past context-blocktype",
                 "\tset {_future} to context-blocktype",
                 "\tbroadcast \"%context-player% placed %{_future}% over %{_past}%\"")
-            .since("INSERT VERSION")
+            .since("1.0.0")
             .setHandledContexts(PlaceBlockContext.class)
             .register();
 

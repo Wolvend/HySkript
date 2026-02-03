@@ -19,7 +19,7 @@ public class TypesWorld {
         EnumRegistry.register(reg, SoundCategory.class, "soundcategory", "soundcategor@y@ies")
             .name("Sound Category")
             .description("Represents a sound category.")
-            .since("INSERT VERSION")
+            .since("1.0.0")
             .register();
         reg.newType(World.class, "world", "world@s")
             .name("World")
@@ -30,7 +30,7 @@ public class TypesWorld {
         reg.newType(Zone.class, "zone", "zone@s")
             .name("Zone")
             .description("Represents a zone in the game.")
-            .since("INSERT VERSION")
+            .since("1.0.0")
             .toStringFunction(zone -> String.format("Zone{id=%s, name=%s}", zone.id(), zone.name()))
             .register();
     }

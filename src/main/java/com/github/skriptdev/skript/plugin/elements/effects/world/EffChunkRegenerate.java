@@ -17,7 +17,7 @@ public class EffChunkRegenerate extends Effect {
             .name("Chunk Regenerate")
             .description("Regenerates the specified chunks.")
             .examples("regenerate chunk at player's location")
-            .since("INSERT VERSION")
+            .since("1.0.0")
             .register();
     }
 

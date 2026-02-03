@@ -40,7 +40,7 @@ public class SecPlaySound extends CodeSection {
                 " - `3d` = Whether the sound should be 3D ([optional, `location` is required for this] default: false).",
                 " - `sound-category` = The category of the sound ([optional] default: ambient).")
             .experimental("This seems a bit messy/buggy and may change in the future.")
-            .since("INSERT VERSION")
+            .since("1.0.0")
             .register();
     }
 

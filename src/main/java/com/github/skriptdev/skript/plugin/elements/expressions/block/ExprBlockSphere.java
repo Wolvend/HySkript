@@ -26,7 +26,7 @@ public class ExprBlockSphere implements Expression<Block> {
             .examples("set {_blocks::*} to blocks in radius 5 of player's location",
                 "loop blocks in radius 5 of player's location:",
                 "\tset blocktype of loop-block to empty")
-            .since("INSERT VERSION")
+            .since("1.0.0")
             .register();
     }
 

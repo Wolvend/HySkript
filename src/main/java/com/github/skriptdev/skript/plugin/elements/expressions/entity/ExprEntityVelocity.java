@@ -24,7 +24,7 @@ public class ExprEntityVelocity implements Expression<Vector3d> {
             .description("Get/set/add to the velocity of an entity.")
             .examples("set velocity of player to vector3d(1, 2, 3)",
                 "add vector3d(1, 2, 3) to velocity of target entity of player")
-            .since("INSERT VERSION")
+            .since("1.0.0")
             .register();
     }
 

@@ -31,7 +31,7 @@ public class EvtEntityPickupItem extends SystemEvent<EntityEventSystem<EntitySto
                 "player interactively pickup item", "player interactively picked up item")
             .name("Entity Interactively Pickup Item")
             .description("Called when picking up an item after interacting, such as clicking `F` on a block.")
-            .since("INSERT VERSION")
+            .since("1.0.0")
             .setHandledContexts(PickupItemContext.class)
             .register();
 

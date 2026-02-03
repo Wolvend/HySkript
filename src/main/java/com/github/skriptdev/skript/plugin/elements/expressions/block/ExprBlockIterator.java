@@ -26,7 +26,7 @@ public class ExprBlockIterator implements Expression<Block> {
             .description("Get all blocks within (cuboid) or between (straight line) two locations.")
             .examples("loop blocks within {_loc1} and {_loc2}:",
                 "\tset blocktype of loop-value to rock_stone")
-            .since("INSERT VERSION")
+            .since("1.0.0")
             .register();
     }
 

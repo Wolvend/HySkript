@@ -26,7 +26,7 @@ public class EffSpawnEntity extends Effect {
             .examples("player command /sheep:",
                 "\ttrigger:",
                 "\t\tspawn a sheep at location of player")
-            .since("INSERT VERSION")
+            .since("1.0.0")
             .register();
     }
 

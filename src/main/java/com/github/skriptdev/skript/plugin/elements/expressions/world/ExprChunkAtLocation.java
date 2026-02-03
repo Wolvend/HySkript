@@ -21,7 +21,7 @@ public class ExprChunkAtLocation implements Expression<WorldChunk> {
             .description("Get the chunk at a location.")
             .examples("set {_chunk} to chunk at player's location",
                 "regenerate chunk at player's location")
-            .since("INSERT VERSION")
+            .since("1.0.0")
             .register();
     }
 
