@@ -7,6 +7,7 @@ import com.github.skriptdev.skript.api.skript.event.PlayerContext;
 import com.github.skriptdev.skript.api.skript.registration.SkriptRegistration;
 import com.github.skriptdev.skript.plugin.elements.events.entity.EvtEntityDamage;
 import com.github.skriptdev.skript.plugin.elements.events.entity.EvtEntityDeath;
+import com.github.skriptdev.skript.plugin.elements.events.entity.EvtEntityPickupItem;
 import com.github.skriptdev.skript.plugin.elements.events.entity.EvtEntityRemove;
 import com.github.skriptdev.skript.plugin.elements.events.entity.EvtLivingEntityInvChange;
 import com.github.skriptdev.skript.plugin.elements.events.player.EvtPlayerAddToWorld;
@@ -34,8 +35,9 @@ public class EventHandler {
     public static void register(SkriptRegistration registration) {
         // ENTITY
         EvtEntityDamage.register(registration);
-        EvtEntityRemove.register(registration);
         EvtEntityDeath.register(registration);
+        EvtEntityPickupItem.register(registration);
+        EvtEntityRemove.register(registration);
         EvtLivingEntityInvChange.register(registration);
 
         // PLAYER
