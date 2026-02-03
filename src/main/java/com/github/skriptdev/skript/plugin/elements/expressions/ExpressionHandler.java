@@ -42,6 +42,7 @@ import com.github.skriptdev.skript.plugin.elements.expressions.player.ExprAllPla
 import com.github.skriptdev.skript.plugin.elements.expressions.player.ExprChatMessage;
 import com.github.skriptdev.skript.plugin.elements.expressions.player.ExprPlayerSpawns;
 import com.github.skriptdev.skript.plugin.elements.expressions.server.ExprConsole;
+import com.github.skriptdev.skript.plugin.elements.expressions.world.ExprChunkAtLocation;
 import com.github.skriptdev.skript.plugin.elements.expressions.world.ExprWorld;
 import com.github.skriptdev.skript.plugin.elements.expressions.world.ExprWorldOf;
 import com.github.skriptdev.skript.plugin.elements.expressions.world.ExprWorldSpawn;
@@ -103,6 +104,7 @@ public class ExpressionHandler {
         ExprConsole.register(registration);
 
         // WORLD
+        ExprChunkAtLocation.register(registration);
         ExprWorld.register(registration);
         ExprWorldOf.register(registration);
         ExprWorldSpawn.register(registration);

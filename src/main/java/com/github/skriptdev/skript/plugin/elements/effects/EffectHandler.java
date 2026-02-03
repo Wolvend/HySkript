@@ -12,6 +12,7 @@ import com.github.skriptdev.skript.plugin.elements.effects.other.EffBroadcast;
 import com.github.skriptdev.skript.plugin.elements.effects.other.EffCancelEvent;
 import com.github.skriptdev.skript.plugin.elements.effects.other.EffDelay;
 import com.github.skriptdev.skript.plugin.elements.effects.player.EffKick;
+import com.github.skriptdev.skript.plugin.elements.effects.world.EffChunkRegenerate;
 
 public class EffectHandler {
 
@@ -34,6 +35,9 @@ public class EffectHandler {
         // PLAYER
         EffBan.register(registration);
         EffKick.register(registration);
+
+        // WORLD
+        EffChunkRegenerate.register(registration);
     }
 
 }
