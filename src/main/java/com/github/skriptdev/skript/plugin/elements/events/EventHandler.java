@@ -19,6 +19,7 @@ import com.github.skriptdev.skript.plugin.elements.events.player.EvtPlayerDropIt
 import com.github.skriptdev.skript.plugin.elements.events.player.EvtPlayerJoin;
 import com.github.skriptdev.skript.plugin.elements.events.player.EvtPlayerMouseClick;
 import com.github.skriptdev.skript.plugin.elements.events.player.EvtPlayerMouseMove;
+import com.github.skriptdev.skript.plugin.elements.events.player.EvtPlayerPlaceBlock;
 import com.github.skriptdev.skript.plugin.elements.events.player.EvtPlayerSetupConnect;
 import com.github.skriptdev.skript.plugin.elements.events.player.EvtPlayerSetupDisconnect;
 import com.github.skriptdev.skript.plugin.elements.events.player.EvtPlayerUseBlock;
@@ -48,6 +49,7 @@ public class EventHandler {
         EvtPlayerJoin.register(registration);
         EvtPlayerMouseClick.register(registration);
         EvtPlayerMouseMove.register(registration);
+        EvtPlayerPlaceBlock.register(registration);
         EvtPlayerSetupConnect.register(registration);
         EvtPlayerSetupDisconnect.register(registration);
         EvtPlayerUseBlock.register(registration);
