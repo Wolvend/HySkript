@@ -44,6 +44,8 @@ import com.github.skriptdev.skript.plugin.elements.expressions.other.ExprVector3
 import com.github.skriptdev.skript.plugin.elements.expressions.other.ExprVector3i;
 import com.github.skriptdev.skript.plugin.elements.expressions.player.ExprAllPlayers;
 import com.github.skriptdev.skript.plugin.elements.expressions.player.ExprChatMessage;
+import com.github.skriptdev.skript.plugin.elements.expressions.player.ExprPlayerPermissionGroup;
+import com.github.skriptdev.skript.plugin.elements.expressions.player.ExprPlayerPermissions;
 import com.github.skriptdev.skript.plugin.elements.expressions.player.ExprPlayerSpawns;
 import com.github.skriptdev.skript.plugin.elements.expressions.server.ExprConsole;
 import com.github.skriptdev.skript.plugin.elements.expressions.world.ExprChunkAtLocation;
@@ -109,6 +111,8 @@ public class ExpressionHandler {
         // PLAYER
         ExprAllPlayers.register(registration);
         ExprChatMessage.register(registration);
+        ExprPlayerPermissionGroup.register(registration);
+        ExprPlayerPermissions.register(registration);
         ExprPlayerSpawns.register(registration);
 
         // SERVER
