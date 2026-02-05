@@ -57,16 +57,13 @@ public class EvtPlayerCraftRecipe extends SystemEvent<EntityEventSystem<EntitySt
     @Override
     public boolean init(Expression<?>[] expressions, int matchedPattern, ParseContext parseContext) {
         this.pattern = matchedPattern;
-        Utils.warn("init recipe event");
         if (PRE_SYSTEM == null) {
             PRE_SYSTEM = new PreCraftRecipeSystem();
             REGISTRY.registerSystem(PRE_SYSTEM);
-            Utils.warn("pre Crafting system");
         }
         if (POST_SYSTEM == null) {
             POST_SYSTEM = new PostCraftRecipeSystem();
             REGISTRY.registerSystem(POST_SYSTEM);
-            Utils.warn("post Crafting system");
         }
         return true;
     }
@@ -139,8 +136,6 @@ public class EvtPlayerCraftRecipe extends SystemEvent<EntityEventSystem<EntitySt
                            @NotNull Store<EntityStore> store, @NotNull CommandBuffer<EntityStore> commandBuffer,
                            @NotNull CraftRecipeEvent.Pre event) {
 
-            Utils.log("pre Crafting recipe has been called");
-
             Ref<EntityStore> ref = archetypeChunk.getReferenceTo(i);
             Player player = store.getComponent(ref, Player.getComponentType());
             if (player == null) return;
@@ -165,8 +160,6 @@ public class EvtPlayerCraftRecipe extends SystemEvent<EntityEventSystem<EntitySt
         public void handle(int i, @NotNull ArchetypeChunk<EntityStore> archetypeChunk,
                            @NotNull Store<EntityStore> store, @NotNull CommandBuffer<EntityStore> commandBuffer,
                            @NotNull CraftRecipeEvent.Post event) {
-
-            Utils.log("post Crafting recipe has been called");
 
             Ref<EntityStore> ref = archetypeChunk.getReferenceTo(i);
             Player player = store.getComponent(ref, Player.getComponentType());
