@@ -36,7 +36,7 @@ public class EnumRegistry<E extends Enum<E>> {
         }
         EnumRegistry<T> eEnumRegistry = new EnumRegistry<>();
         for (T e : enumClass.getEnumConstants()) {
-            eEnumRegistry.values.put(e.name(), e);
+            eEnumRegistry.values.put(e.name().toLowerCase(Locale.ROOT), e);
         }
         return registration.newType(enumClass, name, pattern)
             .usage(String.join(", ", eEnumRegistry.values.keySet()))
