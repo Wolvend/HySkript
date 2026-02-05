@@ -13,7 +13,7 @@ public class TypesPlayer {
         EnumRegistry.register(reg, GameMode.class, "gamemode", "gamemode@s")
             .name("GameMode")
             .description("Represents a game mode.")
-            .since("INSERT VERSION")
+            .since("1.0.0")
             .register();
         reg.newType(Player.class, "player", "player@s")
             .name("Player")

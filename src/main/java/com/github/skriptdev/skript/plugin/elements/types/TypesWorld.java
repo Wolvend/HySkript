@@ -22,12 +22,12 @@ public class TypesWorld {
         reg.newType(RelativeDoublePosition.class, "relativeposition", "relativePosition@s")
             .name("Relative Position")
             .description("Represents a position relative to another position.")
-            .since("INSERT VERSION")
+            .since("1.0.0")
             .register();
         reg.newType(RelativeIntPosition.class, "relativeblockposition", "relativeBlockPosition@s")
             .name("Relative Block Position")
             .description("Represents a block position relative to another block position.")
-            .since("INSERT VERSION")
+            .since("1.0.0")
             .register();
         EnumRegistry.register(reg, SoundCategory.class, "soundcategory", "soundcategor@y@ies")
             .name("Sound Category")

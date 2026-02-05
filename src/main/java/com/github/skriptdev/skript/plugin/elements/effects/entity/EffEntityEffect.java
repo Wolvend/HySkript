@@ -29,7 +29,7 @@ public class EffEntityEffect extends Effect {
                 "You can also apply an infinite effect, which will last forever.")
             .examples("apply freeze to player for 1 minute",
                 "apply infinite entity effect freeze to all players")
-            .since("INSERT VERSION")
+            .since("1.0.0")
             .register();
     }
 

@@ -18,7 +18,7 @@ public class ExprGameMode extends PropertyExpression<Player, GameMode> {
             .name("GameMode of a player")
             .description("Returns the game mode of a player.")
             .examples("set {_gm} to game-mode of context-player")
-            .since("INSERT VERSION")
+            .since("1.0.0")
             .register();
     }
 

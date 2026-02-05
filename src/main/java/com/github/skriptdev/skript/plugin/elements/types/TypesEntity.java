@@ -14,7 +14,7 @@ public class TypesEntity {
         reg.newType(ActiveEntityEffect.class, "activeentityeffect", "activeEntityEffect@s")
             .name("Active Entity Effect")
             .description("Represents an active EntityEffect applied to an entity.")
-            .since("INSERT VERSION")
+            .since("1.0.0")
             .toStringFunction(ActiveEntityEffect::toString)
             .register();
         reg.newType(Entity.class, "entity", "entit@y@ies")

@@ -30,7 +30,7 @@ public class ExprPlayerPermissions implements Expression<String> {
                 "remove \"some.perm\" from permissions of player",
                 "add \"some.perm\" to permissions of player",
                 "add \"some.perm\" to permssions of group \"some.group\"")
-            .since("INSERT VERSION")
+            .since("1.0.0")
             .register();
     }
 

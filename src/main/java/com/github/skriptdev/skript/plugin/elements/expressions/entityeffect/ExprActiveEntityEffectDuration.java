@@ -19,7 +19,7 @@ public class ExprActiveEntityEffectDuration extends PropertyExpression<ActiveEnt
             .description("Returns the duration of an ActiveEntityEffect.",
                 "You can get the initial duration or the remaining duration. Will default to remaining if not explicitly specified.")
             .examples("if remaining effect duration of {_effect} is less than 10 seconds:")
-            .since("INSERT VERSION")
+            .since("1.0.0")
             .register();
     }
 

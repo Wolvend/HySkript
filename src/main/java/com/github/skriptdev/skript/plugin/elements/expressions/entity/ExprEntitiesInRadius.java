@@ -40,7 +40,7 @@ public class ExprEntitiesInRadius implements Expression<Entity> {
                 "loop entities of type cow in radius 5 around {_loc}:",
                 "loop entities within {_loc1} and {_loc2}:",
                 "loop entities of type sheep within {_loc1} and {_loc2}")
-            .since("INSERT VERSION")
+            .since("1.0.0")
             .register();
     }
 

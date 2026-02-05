@@ -30,7 +30,7 @@ public class EvtPlayerChangeGameMode extends SystemEvent<EntityEventSystem<Entit
                 .setHandledContexts(PlayerChangeGameModeContext.class)
                 .name("Player Change GameMode")
                 .description("Called when a player's game-mode is changed.")
-                .since("INSERT VERSION")
+                .since("1.0.0")
                 .register();
 
         reg.newSingleContextValue(PlayerChangeGameModeContext.class, GameMode.class, "game[(-| )]mode", PlayerChangeGameModeContext::getOldGameMode)

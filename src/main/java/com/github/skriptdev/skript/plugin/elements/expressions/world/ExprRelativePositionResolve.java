@@ -26,7 +26,7 @@ public class ExprRelativePositionResolve implements Expression<Location> {
                 "\t\tset {_loc} to resolve {_relative} for location of player",
                 "\t\tteleport player to {_loc}",
                 "# Typing '/letp ~ ~10 ~' would teleport you 10 blocks above your location")
-            .since("INSERT VERSION")
+            .since("1.0.0")
             .register();
     }
 

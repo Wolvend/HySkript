@@ -13,7 +13,7 @@ public class ExprActiveEntityEffectEffect extends PropertyExpression<ActiveEntit
                 "entity effect", "activeentityeffects")
             .name("Active Entity Effect - Entity Effect")
             .description("Returns the EntityEffect of an ActiveEntityEffect.")
-            .since("INSERT VERSION")
+            .since("1.0.0")
             .register();
     }
 

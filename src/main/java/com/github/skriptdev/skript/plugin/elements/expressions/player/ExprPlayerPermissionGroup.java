@@ -27,7 +27,7 @@ public class ExprPlayerPermissionGroup implements Expression<String> {
             .examples("set {_groups::*} to permission groups of player",
                 "add \"some.group\" to permission groups of player",
                 "remove \"some.group\" from permission groups of player")
-            .since("INSERT VERSION")
+            .since("1.0.0")
             .register();
     }
 

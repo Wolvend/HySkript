@@ -30,7 +30,7 @@ public class ExprActiveEntityEffects implements Expression<ActiveEntityEffect> {
             .examples("set {_a::*} to active entity effects of player",
                 "remove freeze from active entity effects of player",
                 "clear active entity effects of all players")
-            .since("INSERT VERSION")
+            .since("1.0.0")
             .register();
     }
 

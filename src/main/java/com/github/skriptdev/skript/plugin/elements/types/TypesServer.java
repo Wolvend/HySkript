@@ -79,7 +79,7 @@ public class TypesServer {
             .name("Vector2f")
             .description("Represents a vector in 2D space using floats.",
                 "Often used for mouse position on screen.")
-            .since("INSERT VERSION")
+            .since("1.0.0")
             .register();
         registration.newType(Vector3f.class, "vector3f", "vector3f@s")
             .name("Vector3f")
