@@ -63,14 +63,15 @@ public class ScriptsLoader {
             if (file.isDirectory()) {
                 loadedScripts.addAll(loadScriptsInDirectory(receiver, file));
             } else {
-                if (!file.getName().endsWith(".sk")) continue;
-                Utils.log(receiver, "Loading script '" + file.getName() + "'...");
+                String fileName = file.getName();
+                if (!fileName.endsWith(".sk") || fileName.startsWith("-")) continue;
+                Utils.log(receiver, "Loading script '" + fileName + "'...");
                 List<LogEntry> logEntries = ScriptLoader.loadScript(file.toPath(), false);
                 this.loadedScriptCount++;
                 for (LogEntry logEntry : logEntries) {
                     Utils.log(receiver, logEntry);
                 }
-                loadedScripts.add(file.getName().substring(0, file.getName().length() - 3));
+                loadedScripts.add(fileName.substring(0, fileName.length() - 3));
             }
         }
         return loadedScripts;
