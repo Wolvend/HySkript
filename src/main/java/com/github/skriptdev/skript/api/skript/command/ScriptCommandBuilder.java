@@ -123,7 +123,8 @@ public class ScriptCommandBuilder {
 
                         CommandSender sender = commandContext.sender();
                         Player player = store.getComponent(ref, Player.getComponentType());
-                        ScriptCommandContext context = new ScriptCommandContext(ScriptCommandBuilder.this.commandName, sender, player, world);
+                        ScriptCommandContext context = new ScriptCommandContext(ScriptCommandBuilder.this.commandName,
+                            sender, player, world);
                         createLocalVariables(commandContext, context);
                         Statement.runAll(trigger, context);
                         Variables.clearLocalVariables(context);
@@ -132,7 +133,8 @@ public class ScriptCommandBuilder {
                 case 2 -> new AbstractWorldCommand(this.commandName, description) {
 
                     @Override
-                    protected void execute(@NotNull CommandContext commandContext, @NotNull World world, @NotNull Store<EntityStore> store) {
+                    protected void execute(@NotNull CommandContext commandContext, @NotNull World world,
+                                           @NotNull Store<EntityStore> store) {
                         ScriptCommandContext context = new ScriptCommandContext(ScriptCommandBuilder.this.commandName,
                             commandContext.sender(), null, world);
                         createLocalVariables(commandContext, context);
