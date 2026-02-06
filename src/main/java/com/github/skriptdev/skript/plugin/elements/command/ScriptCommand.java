@@ -2,6 +2,7 @@ package com.github.skriptdev.skript.plugin.elements.command;
 
 import com.github.skriptdev.skript.api.skript.command.ScriptCommandBuilder;
 import com.github.skriptdev.skript.api.skript.command.ScriptCommandParent;
+import com.github.skriptdev.skript.api.skript.event.PlayerContext;
 import com.hypixel.hytale.server.core.command.system.CommandSender;
 import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.universe.world.World;
@@ -26,19 +27,8 @@ public class ScriptCommand extends Structure implements ScriptCommandParent {
         // UNUSED IN TOP LEVEL COMMAND
     }
 
-    public static class ScriptCommandContext implements TriggerContext {
-
-        private final String command;
-        private final CommandSender sender;
-        private final Player player;
-        private final World world;
-
-        public ScriptCommandContext(String command, CommandSender sender, Player player, World world) {
-            this.command = command;
-            this.sender = sender;
-            this.player = player;
-            this.world = world;
-        }
+    public record ScriptCommandContext(String command, CommandSender sender, Player player, World world)
+        implements PlayerContext {
 
         public String getCommand() {
             return this.command;
@@ -120,26 +110,18 @@ public class ScriptCommand extends Structure implements ScriptCommandParent {
             .since("1.0.0")
             .register();
 
-        reg.newSingleContextValue(ScriptCommandContext.class, Player.class,
-                "player", ScriptCommandContext::getPlayer)
-            .setUsage(Usage.EXPRESSION_OR_ALONE)
-            .register();
-
         reg.newSingleContextValue(ScriptCommandContext.class, CommandSender.class,
                 "sender", ScriptCommandContext::getSender)
             .setUsage(Usage.EXPRESSION_OR_ALONE)
             .register();
-
         reg.newSingleContextValue(ScriptCommandContext.class, World.class,
                 "world", ScriptCommandContext::getWorld)
             .setUsage(Usage.EXPRESSION_OR_ALONE)
             .register();
-
         reg.newSingleContextValue(ScriptCommandContext.class, String.class,
                 "command", ScriptCommandContext::getCommand)
             .setUsage(Usage.EXPRESSION_OR_ALONE)
             .register();
-
     }
 
     private ScriptCommandBuilder commandBuilder;
