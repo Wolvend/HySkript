@@ -54,6 +54,7 @@ tasks {
     }
     shadowJar {
         archiveFileName = project.name + "-" + projectVersion + ".jar"
+        archiveClassifier.set("")
         relocate("io.github.syst3ms", "com.github.skriptdev.skript")
         relocate("fi.sulku.hytale", "com.github.skriptdev.skript.tinymessage")
     }
