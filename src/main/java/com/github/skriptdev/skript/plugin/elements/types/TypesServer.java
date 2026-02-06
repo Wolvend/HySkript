@@ -10,6 +10,7 @@ import com.hypixel.hytale.math.vector.Vector3d;
 import com.hypixel.hytale.math.vector.Vector3f;
 import com.hypixel.hytale.math.vector.Vector3i;
 import com.hypixel.hytale.protocol.Vector2f;
+import com.hypixel.hytale.protocol.packets.interface_.NotificationStyle;
 import com.hypixel.hytale.server.core.HytaleServer;
 import com.hypixel.hytale.server.core.Message;
 import com.hypixel.hytale.server.core.command.system.CommandSender;
@@ -69,6 +70,11 @@ public class TypesServer {
                     return Message.CODEC.decode(decode, new ExtraInfo());
                 }
             })
+            .register();
+        registration.newEnumType(NotificationStyle.class, "notificationstyle", "notificationStyle@s")
+            .name("Notification Style")
+            .description("Represents the style of a notification sent to players.")
+            .since("INSERT VERSION")
             .register();
         registration.newType(HytaleServer.class, "server", "server@s")
             .name("Server")
