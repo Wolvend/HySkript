@@ -92,7 +92,8 @@ public class ScriptCommandBuilder {
         return true;
     }
 
-    public List<Statement> setupCommand(FileSection section, ParserState parserState, SkriptLogger logger) {
+    public List<Statement> setupCommand(FileSection section, ParserState parserState, SkriptLogger logger, int commandType) {
+        this.commandType = commandType;
         this.sec.loadConfiguration(null, section, parserState, logger);
 
         Optional<CodeSection> triggerSec = this.sec.getSection("trigger");
@@ -115,7 +116,7 @@ public class ScriptCommandBuilder {
                 return List.of();
             }
 
-            this.hyCommand = switch (this.commandType) {
+            this.hyCommand = switch (commandType) {
                 case 1 -> new AbstractPlayerCommand(this.commandName, description) {
                     @Override
                     protected void execute(@NotNull CommandContext commandContext, @NotNull Store<EntityStore> store,

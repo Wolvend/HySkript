@@ -137,7 +137,7 @@ public class ScriptCommand extends Structure implements ScriptCommandParent {
 
     @Override
     public List<Statement> loadSection(@NotNull FileSection section, @NotNull ParserState parserState, @NotNull SkriptLogger logger) {
-        List<Statement> statements = this.commandBuilder.setupCommand(section, parserState, logger);
+        List<Statement> statements = this.commandBuilder.setupCommand(section, parserState, logger, this.commandType);
         this.commandBuilder.build(null);
         return statements;
     }
