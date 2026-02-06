@@ -36,14 +36,14 @@ public class SecSendNotification extends CodeSection {
                 "- `secondary-message`: Optional secondary message to display in the notification.",
                 "- `itemstack`: Optional itemstack to display in the notification.",
                 "- `icon`: Optional icon to display in the notification.",
-                "- `style`: Optional style to use for the notification.")
+                "- `style`: Optional style to use for the notification.",
+                "**NOTE**: Regarding ItemStacks, if you send multiple notifications with the same ItemStack, " +
+                    "the client will stack them and just keep adding quantity.")
             .examples("send notification \"Hello Player!\" to player:",
                 "\titemstack: itemstack of ingredient_stick",
                 "send notification \"You better be careful!!!\" to world of player:",
                 "\titemstack: itemstack of deco_fire",
                 "\tstyle: danger")
-            .experimental("Notifications are currently experimental and may change in the future." +
-                "ItemStack seems broken, as well as secondary-message not working. Could be server bugs.")
             .since("INSERT VERSION")
             .register();
     }
@@ -87,7 +87,7 @@ public class SecSendNotification extends CodeSection {
             return nextStatement;
         }
 
-        Message secondary = Message.empty();
+        Message secondary = null;
         Optional<Expression<Object>> sExp = this.config.getExpression("secondary-message", Object.class);
         if (sExp.isPresent()) {
             Optional<?> single = sExp.get().getSingle(ctx);
