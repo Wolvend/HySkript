@@ -3,3 +3,6 @@ contact_links:
   - name: 📖 HySkript Docs
     url: https://github.com/SkriptDev/HySkript/wiki
     about: Find HySkript's docs and 100's of examples
+  - name: 💻 Support
+    url: https://discord.gg/phpWHGU
+    about: Join SkriptHub's Discord server for support (and find us in the "HySkript" channels)
