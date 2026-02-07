@@ -18,6 +18,7 @@ import com.github.skriptdev.skript.plugin.elements.events.player.EvtPlayerChange
 import com.github.skriptdev.skript.plugin.elements.events.player.EvtPlayerChat;
 import com.github.skriptdev.skript.plugin.elements.events.player.EvtPlayerCraftRecipe;
 import com.github.skriptdev.skript.plugin.elements.events.player.EvtPlayerDamageBlock;
+import com.github.skriptdev.skript.plugin.elements.events.player.EvtPlayerDiscoverZone;
 import com.github.skriptdev.skript.plugin.elements.events.player.EvtPlayerDrainFromWorld;
 import com.github.skriptdev.skript.plugin.elements.events.player.EvtPlayerDropItem;
 import com.github.skriptdev.skript.plugin.elements.events.player.EvtPlayerDropItemRequest;
@@ -53,6 +54,7 @@ public class EventHandler {
         EvtPlayerChat.register(registration);
         EvtPlayerCraftRecipe.register(registration);
         EvtPlayerDamageBlock.register(registration);
+        EvtPlayerDiscoverZone.register(registration);
         EvtPlayerDrainFromWorld.register(registration);
         EvtPlayerDropItem.register(registration);
         EvtPlayerDropItemRequest.register(registration);
