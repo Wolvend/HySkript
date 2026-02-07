@@ -9,7 +9,7 @@ java.sourceCompatibility = JavaVersion.VERSION_25
 
 group = "com.github.SkriptDev"
 val projectVersion = "1.0.0-beta5"
-val hytaleVersion = "2026.01.29-301e13929"
+val hytaleVersion = "2026.02.06-aa1b071c2"
 // You can find Hytale versions on their maven repo:
 // https://maven.hytale.com/release/com/hypixel/hytale/Server/maven-metadata.xml
 // https://maven.hytale.com/pre-release/com/hypixel/hytale/Server/maven-metadata.xml
@@ -26,7 +26,7 @@ repositories {
 dependencies {
     compileOnly("com.hypixel.hytale:Server:${hytaleVersion}")
     compileOnly("org.jetbrains:annotations:26.0.2")
-    implementation("com.github.SkriptDev:skript-parser:1.0.4") {
+    implementation("com.github.SkriptDev:skript-parser:dev~patch-SNAPSHOT") {
         isTransitive = false
     }
     implementation("com.github.Zoltus:TinyMessage:2.0.1") {
@@ -44,7 +44,7 @@ tasks {
     }
     processResources {
         filesNotMatching("assets/**") {
-            expand("pluginVersion" to projectVersion)
+            expand("pluginVersion" to projectVersion, "hytaleVersion" to hytaleVersion)
         }
     }
     compileJava {
@@ -54,6 +54,7 @@ tasks {
     }
     shadowJar {
         archiveFileName = project.name + "-" + projectVersion + ".jar"
+        archiveClassifier.set("")
         relocate("io.github.syst3ms", "com.github.skriptdev.skript")
         relocate("fi.sulku.hytale", "com.github.skriptdev.skript.tinymessage")
     }

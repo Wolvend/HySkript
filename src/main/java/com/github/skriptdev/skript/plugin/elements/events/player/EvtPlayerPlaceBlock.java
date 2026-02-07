@@ -6,6 +6,7 @@ import com.github.skriptdev.skript.api.skript.event.BlockContext;
 import com.github.skriptdev.skript.api.skript.event.CancellableContext;
 import com.github.skriptdev.skript.api.skript.event.PlayerContext;
 import com.github.skriptdev.skript.api.skript.event.SystemEvent;
+import com.github.skriptdev.skript.api.skript.event.WorldContext;
 import com.github.skriptdev.skript.api.skript.registration.SkriptRegistration;
 import com.hypixel.hytale.component.ArchetypeChunk;
 import com.hypixel.hytale.component.CommandBuffer;
@@ -73,11 +74,16 @@ public class EvtPlayerPlaceBlock extends SystemEvent<EntityEventSystem<EntitySto
         return "player place block";
     }
 
-    public record PlaceBlockContext(PlaceBlockEvent event,
-                                    Player player) implements PlayerContext, BlockContext, CancellableContext {
+    public record PlaceBlockContext(PlaceBlockEvent event, Player player)
+        implements PlayerContext, BlockContext, WorldContext, CancellableContext {
 
         public Player getPlayer() {
             return this.player;
+        }
+
+        @Override
+        public World getWorld() {
+            return this.player.getWorld();
         }
 
         public Item getItemInHand() {

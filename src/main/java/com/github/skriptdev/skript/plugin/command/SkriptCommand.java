@@ -37,8 +37,8 @@ public class SkriptCommand extends AbstractCommandCollection {
      * @hidden
      */
     public SkriptCommand(CommandRegistry registry) {
-        super("skript", "Skript commands");
-        addAliases("sk");
+        super("skript", "HySkript commands");
+        addAliases("sk", "hyskript", "hysk");
 
         // Keep these in alphabetical order
         addSubCommand(addonsCommand());
@@ -56,7 +56,7 @@ public class SkriptCommand extends AbstractCommandCollection {
         protected ReloadCommand() {
             super("reload", "Reloads scripts.");
             this.stringRequiredArg = withRequiredArg("script", "A script to reload", ArgTypes.STRING);
-            addSubCommand(new AbstractCommand("all", "Reloads all scripts.") {
+            addSubCommand(new AbstractCommand("scripts", "Reloads all scripts.") {
                 @Override
                 protected CompletableFuture<Void> execute(@NotNull CommandContext commandContext) {
                     return CompletableFuture.runAsync(() -> {

@@ -7,6 +7,7 @@ import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.event.events.player.PlayerChatEvent;
 import com.hypixel.hytale.server.core.permissions.PermissionsModule;
+import com.hypixel.hytale.server.core.permissions.provider.PermissionProvider;
 import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.Universe;
 import com.hypixel.hytale.server.core.universe.world.World;
@@ -17,6 +18,7 @@ import io.github.syst3ms.skriptparser.log.SkriptLogger;
 import io.github.syst3ms.skriptparser.parsing.ParserState;
 import io.github.syst3ms.skriptparser.parsing.SyntaxParser;
 import io.github.syst3ms.skriptparser.registration.context.ContextValue.Usage;
+import io.github.syst3ms.skriptparser.variables.Variables;
 
 import java.util.List;
 import java.util.Optional;
@@ -35,11 +37,22 @@ public class EffectCommands {
                 PlayerRef sender = event.getSender();
 
                 // PERM CHECK
-                // Pretty sure the OP stuff doesn't work
                 PermissionsModule perm = PermissionsModule.get();
-                Set<String> groupsForUser = perm.getGroupsForUser(sender.getUuid());
                 if (!allowOps) {
-                    if (groupsForUser.contains("OP") && !perm.hasPermission(sender.getUuid(), permission)) {
+                    PermissionProvider provider = perm.getFirstPermissionProvider();
+                    Set<String> groupsForUser = perm.getGroupsForUser(sender.getUuid());
+                    if (groupsForUser.contains("OP")) {
+                        boolean can = false;
+                        // Check all groups
+                        for (String group : groupsForUser) {
+                            // If the group has the explicit permission, they can use effect commands
+                            if (provider.getGroupPermissions(group).contains(permission)) {
+                                can = true;
+                                break;
+                            }
+                        }
+                        if (!can) return;
+                    } else {
                         return;
                     }
                 } else if (!perm.hasPermission(sender.getUuid(), permission)) {
@@ -83,14 +96,18 @@ public class EffectCommands {
                     Utils.log(sender, logEntry);
                 }
 
-                if (world.isInThread()) {
+                Runnable code = () -> {
                     Player player = world.getEntityStore().getStore().getComponent(reference, Player.getComponentType());
-                    effect.walk(new PlayerEffectContext(player));
+                    PlayerEffectContext effectContext = new PlayerEffectContext(player);
+                    effect.walk(effectContext);
+                    // Clear local variables to prevent memory leaks
+                    Variables.clearLocalVariables(effectContext);
+                };
+
+                if (world.isInThread()) {
+                    code.run();
                 } else {
-                    world.execute(() -> {
-                        Player player = world.getEntityStore().getStore().getComponent(reference, Player.getComponentType());
-                        effect.walk(new PlayerEffectContext(player));
-                    });
+                    world.execute(code);
                 }
 
             }

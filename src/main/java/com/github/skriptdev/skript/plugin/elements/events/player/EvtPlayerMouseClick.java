@@ -13,8 +13,6 @@ import com.hypixel.hytale.server.core.entity.Entity;
 import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.event.events.player.PlayerMouseButtonEvent;
 import io.github.syst3ms.skriptparser.lang.Expression;
-import io.github.syst3ms.skriptparser.lang.Statement;
-import io.github.syst3ms.skriptparser.lang.Trigger;
 import io.github.syst3ms.skriptparser.lang.TriggerContext;
 import io.github.syst3ms.skriptparser.lang.TriggerMap;
 import io.github.syst3ms.skriptparser.lang.event.SkriptEvent;
@@ -46,9 +44,7 @@ public class EvtPlayerMouseClick extends SkriptEvent {
         if (LISTENER == null) {
             LISTENER = HySk.getInstance().getEventRegistry().registerGlobal(PlayerMouseButtonEvent.class, event -> {
                 MouseClickContext context = new MouseClickContext(event);
-                for (Trigger trigger : TriggerMap.getTriggersByContext(MouseClickContext.class)) {
-                    Statement.runAll(trigger, context);
-                }
+                TriggerMap.callTriggersByContext(context);
             });
         }
         return true;

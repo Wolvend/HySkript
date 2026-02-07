@@ -86,8 +86,10 @@ public class JsonDocPrinter {
 
         // FUNCTIONS
         Utils.log(this.sender, "Printing functions");
-        // TODO functions need to be linked to an addon or something
         printFunctions(mainDocs, this.registration);
+        if (this.includeSkriptParser) {
+            printFunctions(mainDocs, parserRegistration);
+        }
 
         // EFFECTS
         Utils.log(this.sender, "Printing effects");
@@ -208,9 +210,8 @@ public class JsonDocPrinter {
 
     @SuppressWarnings("unchecked")
     private void printFunctions(BsonDocument mainDocs, SkriptRegistration registration) {
-        String addonKey = registration.getRegisterer().getAddonName().toLowerCase(Locale.ROOT).replace(" ", "_");
         BsonArray functionsArray = mainDocs.getArray("functions", new BsonArray());
-        Functions.getJavaFunctions().stream().sorted(Comparator.comparing(Function::getName)).forEach(function -> {
+        Functions.getJavaFunctions(registration).stream().sorted(Comparator.comparing(Function::getName)).forEach(function -> {
             if (function instanceof JavaFunction<?> jf) {
                 Documentation documentation = jf.getDocumentation();
                 if (documentation.isNoDoc()) return;
@@ -219,10 +220,8 @@ public class JsonDocPrinter {
                 String name = documentation.getName();
                 if (name == null) name = function.getName();
 
-                String id = "function:" + addonKey + ":" + name.toLowerCase(Locale.ROOT).replace(" ", "_");
-
                 functionDoc.put("name", new BsonString(name));
-                functionDoc.put("id", new BsonString(id));
+                functionDoc.put("id", getId("function", name));
 
                 // Create params
                 FunctionParameter<?>[] parameters = jf.getParameters();
@@ -414,7 +413,11 @@ public class JsonDocPrinter {
         List<PatternElement> patterns = syntaxInfo.getPatterns();
         if (!patterns.isEmpty()) {
             BsonArray patternArray = new BsonArray();
-            patterns.forEach(pattern -> patternArray.add(new BsonString(pattern.toString())));
+            patterns.forEach(pattern -> {
+                // Remove parse tags in patterns, ex: "(blah:blah|bloop:bloop)"
+                String removedParseTags = pattern.toString().replaceAll("[^()\\[\\]|:\\s]*:", "");
+                patternArray.add(new BsonString(removedParseTags));
+            });
             syntaxDoc.put("patterns", patternArray);
         }
 

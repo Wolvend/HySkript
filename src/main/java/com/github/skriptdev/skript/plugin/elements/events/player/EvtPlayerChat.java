@@ -8,8 +8,6 @@ import com.hypixel.hytale.server.core.Message;
 import com.hypixel.hytale.server.core.event.events.player.PlayerChatEvent;
 import com.hypixel.hytale.server.core.universe.PlayerRef;
 import io.github.syst3ms.skriptparser.lang.Expression;
-import io.github.syst3ms.skriptparser.lang.Statement;
-import io.github.syst3ms.skriptparser.lang.Trigger;
 import io.github.syst3ms.skriptparser.lang.TriggerContext;
 import io.github.syst3ms.skriptparser.lang.TriggerMap;
 import io.github.syst3ms.skriptparser.lang.event.SkriptEvent;
@@ -31,7 +29,8 @@ public class EvtPlayerChat extends SkriptEvent {
                 "\t\tsend \"You said: %message% and we cancelled that!!!\" to context-sender",
                 "",
                 "on player chat:",
-                "\tset {_message} to formatted message from \"[<blue>MyServer<reset>] <red>%name of context-playerref%<reset>: %context-message%\"",
+                "\tset {_message} to formatted message from \"[<blue>MyServer<reset>]" +
+                    " <red>%name of context-playerref%<reset>: %context-message%\"",
                 "\tset context-message-format to {_message}")
             .since("1.0.0")
             .register();
@@ -63,9 +62,7 @@ public class EvtPlayerChat extends SkriptEvent {
             LISTENER = HySk.getInstance().getEventRegistry().registerAsyncGlobal(PlayerChatEvent.class, future -> {
                 future.thenAccept(event -> {
                     PlayerChatContext ctx = new PlayerChatContext(event);
-                    for (Trigger trigger : TriggerMap.getTriggersByContext(PlayerChatContext.class)) {
-                        Statement.runAll(trigger, ctx);
-                    }
+                    TriggerMap.callTriggersByContext(ctx);
                 });
                 return future;
             });

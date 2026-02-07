@@ -2,6 +2,8 @@ package com.github.skriptdev.skript.plugin.elements.command;
 
 import com.github.skriptdev.skript.api.skript.command.ScriptCommandBuilder;
 import com.github.skriptdev.skript.api.skript.command.ScriptCommandParent;
+import com.github.skriptdev.skript.api.skript.event.PlayerContext;
+import com.github.skriptdev.skript.api.skript.event.WorldContext;
 import com.hypixel.hytale.server.core.command.system.CommandSender;
 import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.universe.world.World;
@@ -30,14 +32,10 @@ public class ScriptCommand extends Structure implements ScriptCommandParent {
 
         private final String command;
         private final CommandSender sender;
-        private final Player player;
-        private final World world;
 
-        public ScriptCommandContext(String command, CommandSender sender, Player player, World world) {
+        public ScriptCommandContext(String command, CommandSender sender) {
             this.command = command;
             this.sender = sender;
-            this.player = player;
-            this.world = world;
         }
 
         public String getCommand() {
@@ -48,27 +46,56 @@ public class ScriptCommand extends Structure implements ScriptCommandParent {
             return this.sender;
         }
 
-        public World getWorld() {
-            return this.world;
-        }
-
-        public Player getPlayer() {
-            if (this.player == null && this.sender instanceof Player p) return p;
-            return this.player;
-        }
-
         @Override
         public String getName() {
             return "command context";
         }
     }
 
-    public static void register(SkriptRegistration registration) {
-        registration.newEvent(ScriptCommand.class,
+    public static class PlayerScriptCommandContext extends ScriptCommandContext implements PlayerContext, WorldContext {
+
+        private final Player player;
+
+        public PlayerScriptCommandContext(String command, Player player) {
+            super(command, player);
+            this.player = player;
+        }
+
+        @Override
+        public Player getPlayer() {
+            return this.player;
+        }
+
+        @Override
+        public World getWorld() {
+            return this.player.getWorld();
+        }
+
+    }
+
+    public static class WorldScriptCommandContext extends ScriptCommandContext implements WorldContext {
+
+        private final World world;
+
+        public WorldScriptCommandContext(String command, CommandSender sender, World world) {
+            super(command, sender);
+            this.world = world;
+        }
+
+        @Override
+        public World getWorld() {
+            return this.world;
+        }
+    }
+
+    public static void register(SkriptRegistration reg) {
+        reg.newEvent(ScriptCommand.class,
                 "*[global] command <.+>",
                 "*player command <.+>",
                 "*world command <.+>")
-            .setHandledContexts(ScriptCommandContext.class)
+            .setHandledContexts(ScriptCommandContext.class,
+                PlayerScriptCommandContext.class,
+                WorldScriptCommandContext.class)
             .name("Command")
             .description("Create a command.",
                 "**Command Format**:",
@@ -88,7 +115,8 @@ public class ScriptCommand extends Structure implements ScriptCommandParent {
                 "**Entries**:",
                 "- `Description` = The description for your command that will show in the commands gui (optional).",
                 "- `Permission` = The permission required to execute the command (optional).",
-                "- `Aliases` = A list of aliases for the command (optional).")
+                "- `Aliases` = A list of aliases for the command (optional).",
+                "- `Trigger` = The code that will be executed when the command is executed (optional).")
             .examples("command /kill:",
                 "\tdescription: Kill all the players",
                 "\ttrigger:",
@@ -119,26 +147,14 @@ public class ScriptCommand extends Structure implements ScriptCommandParent {
             .since("1.0.0")
             .register();
 
-        registration.newSingleContextValue(ScriptCommandContext.class, Player.class,
-                "player", ScriptCommandContext::getPlayer)
-            .setUsage(Usage.EXPRESSION_OR_ALONE)
-            .register();
-
-        registration.newSingleContextValue(ScriptCommandContext.class, CommandSender.class,
+        reg.newSingleContextValue(ScriptCommandContext.class, CommandSender.class,
                 "sender", ScriptCommandContext::getSender)
             .setUsage(Usage.EXPRESSION_OR_ALONE)
             .register();
-
-        registration.newSingleContextValue(ScriptCommandContext.class, World.class,
-                "world", ScriptCommandContext::getWorld)
-            .setUsage(Usage.EXPRESSION_OR_ALONE)
-            .register();
-
-        registration.newSingleContextValue(ScriptCommandContext.class, String.class,
+        reg.newSingleContextValue(ScriptCommandContext.class, String.class,
                 "command", ScriptCommandContext::getCommand)
             .setUsage(Usage.EXPRESSION_OR_ALONE)
             .register();
-
     }
 
     private ScriptCommandBuilder commandBuilder;
@@ -154,7 +170,7 @@ public class ScriptCommand extends Structure implements ScriptCommandParent {
 
     @Override
     public List<Statement> loadSection(@NotNull FileSection section, @NotNull ParserState parserState, @NotNull SkriptLogger logger) {
-        List<Statement> statements = this.commandBuilder.setupCommand(section, parserState, logger);
+        List<Statement> statements = this.commandBuilder.setupCommand(section, parserState, logger, this.commandType);
         this.commandBuilder.build(null);
         return statements;
     }

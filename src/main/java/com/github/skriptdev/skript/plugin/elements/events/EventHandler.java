@@ -5,6 +5,7 @@ import com.github.skriptdev.skript.api.hytale.Block;
 import com.github.skriptdev.skript.api.skript.event.BlockContext;
 import com.github.skriptdev.skript.api.skript.event.PlayerContext;
 import com.github.skriptdev.skript.api.skript.event.PlayerRefContext;
+import com.github.skriptdev.skript.api.skript.event.WorldContext;
 import com.github.skriptdev.skript.api.skript.registration.SkriptRegistration;
 import com.github.skriptdev.skript.plugin.elements.events.entity.EvtEntityDamage;
 import com.github.skriptdev.skript.plugin.elements.events.entity.EvtEntityDeath;
@@ -15,7 +16,9 @@ import com.github.skriptdev.skript.plugin.elements.events.player.EvtPlayerAddToW
 import com.github.skriptdev.skript.plugin.elements.events.player.EvtPlayerBreakBlock;
 import com.github.skriptdev.skript.plugin.elements.events.player.EvtPlayerChangeGameMode;
 import com.github.skriptdev.skript.plugin.elements.events.player.EvtPlayerChat;
+import com.github.skriptdev.skript.plugin.elements.events.player.EvtPlayerCraftRecipe;
 import com.github.skriptdev.skript.plugin.elements.events.player.EvtPlayerDamageBlock;
+import com.github.skriptdev.skript.plugin.elements.events.player.EvtPlayerDiscoverZone;
 import com.github.skriptdev.skript.plugin.elements.events.player.EvtPlayerDrainFromWorld;
 import com.github.skriptdev.skript.plugin.elements.events.player.EvtPlayerDropItem;
 import com.github.skriptdev.skript.plugin.elements.events.player.EvtPlayerDropItemRequest;
@@ -31,6 +34,7 @@ import com.github.skriptdev.skript.plugin.elements.events.server.EvtShutdown;
 import com.github.skriptdev.skript.plugin.elements.events.skript.EvtLoad;
 import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.universe.PlayerRef;
+import com.hypixel.hytale.server.core.universe.world.World;
 import io.github.syst3ms.skriptparser.registration.context.ContextValue.Usage;
 
 public class EventHandler {
@@ -48,7 +52,9 @@ public class EventHandler {
         EvtPlayerBreakBlock.register(registration);
         EvtPlayerChangeGameMode.register(registration);
         EvtPlayerChat.register(registration);
+        EvtPlayerCraftRecipe.register(registration);
         EvtPlayerDamageBlock.register(registration);
+        EvtPlayerDiscoverZone.register(registration);
         EvtPlayerDrainFromWorld.register(registration);
         EvtPlayerDropItem.register(registration);
         EvtPlayerDropItemRequest.register(registration);
@@ -71,12 +77,21 @@ public class EventHandler {
         registerGlobalContexts(registration);
     }
 
+    public static void shutdown() {
+        // Shutdown any events that are running (such as a periodical)
+        // Nothing yet for now
+    }
+
     private static void registerGlobalContexts(SkriptRegistration reg) {
         reg.newSingleContextValue(BlockContext.class, Block.class,
                 "block", BlockContext::getBlock)
             .register();
         reg.newSingleContextValue(PlayerContext.class, Player.class,
                 "player", PlayerContext::getPlayer)
+            .setUsage(Usage.EXPRESSION_OR_ALONE)
+            .register();
+        reg.newSingleContextValue(WorldContext.class, World.class,
+                "world", WorldContext::getWorld)
             .setUsage(Usage.EXPRESSION_OR_ALONE)
             .register();
         reg.addSingleContextValue(PlayerRefContext.class, PlayerRef.class,

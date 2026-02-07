@@ -1,5 +1,6 @@
 package com.github.skriptdev.skript.api.skript;
 
+import com.github.skriptdev.skript.api.utils.FileUtils;
 import com.github.skriptdev.skript.api.utils.Utils;
 import com.github.skriptdev.skript.plugin.Skript;
 import com.hypixel.hytale.server.core.receiver.IMessageReceiver;
@@ -8,8 +9,12 @@ import io.github.syst3ms.skriptparser.log.LogEntry;
 import io.github.syst3ms.skriptparser.parsing.ScriptLoader;
 
 import java.io.File;
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 
 public class ScriptsLoader {
@@ -26,14 +31,25 @@ public class ScriptsLoader {
         Utils.log(receiver, (reload ? "Reloading" : "Loading") + " scripts...");
         long start = System.currentTimeMillis();
 
-        File directoryFile = directory.toFile();
-        if (!directoryFile.isDirectory()) {
-            if (!directoryFile.mkdirs()) {
+        File scriptsDirectory = directory.toFile();
+        if (!scriptsDirectory.isDirectory()) {
+            if (!scriptsDirectory.mkdirs()) {
                 Utils.error("Failed to create scripts directory!");
+                return;
+            }
+            try {
+                // Add sample scripts when creating a new scripts folder
+                File scriptsDir = new File(scriptsDirectory, "-sample-scripts");
+                if (!scriptsDir.mkdir()) {
+                    throw new RuntimeException("Failed to create sample scripts directory");
+                }
+                FileUtils.copyFromJar("/sample-scripts/", scriptsDir.toPath());
+            } catch (IOException | URISyntaxException e) {
+                Utils.error("Failed to load sample scripts, message: %s", e.getMessage());
             }
         }
 
-        List<String> scriptNames = loadScriptsInDirectory(receiver, directoryFile);
+        List<String> scriptNames = loadScriptsInDirectory(receiver, scriptsDirectory);
 
         long end = System.currentTimeMillis() - start;
         Utils.log(receiver, (reload ? "Reloaded" : "Loaded") + " %s scripts in %sms", this.loadedScriptCount, end);
@@ -46,23 +62,32 @@ public class ScriptsLoader {
         }
     }
 
-    @SuppressWarnings("DataFlowIssue")
     public List<String> loadScriptsInDirectory(IMessageReceiver receiver, File directory) {
         if (directory == null || !directory.isDirectory()) return List.of();
         List<String> loadedScripts = new ArrayList<>();
 
-        for (File file : directory.listFiles()) {
+        File[] files = directory.listFiles();
+        if (files == null) return loadedScripts;
+
+        Arrays.sort(files,
+            Comparator.comparing(File::isDirectory).reversed() // Directories first
+            .thenComparing(File::getName, String.CASE_INSENSITIVE_ORDER)); // Then sort by name alphabetically
+
+        for (File file : files) {
+            // Skip disabled files and hidden files
+            String fileName = file.getName();
+            if (fileName.startsWith("-") || fileName.startsWith(".")) continue;
             if (file.isDirectory()) {
                 loadedScripts.addAll(loadScriptsInDirectory(receiver, file));
             } else {
-                if (!file.getName().endsWith(".sk")) continue;
-                Utils.log(receiver, "Loading script '" + file.getName() + "'...");
+                if (!fileName.endsWith(".sk")) continue;
+                Utils.log(receiver, "Loading script '" + fileName + "'...");
                 List<LogEntry> logEntries = ScriptLoader.loadScript(file.toPath(), false);
                 this.loadedScriptCount++;
                 for (LogEntry logEntry : logEntries) {
                     Utils.log(receiver, logEntry);
                 }
-                loadedScripts.add(file.getName().substring(0, file.getName().length() - 3));
+                loadedScripts.add(fileName.substring(0, fileName.length() - 3));
             }
         }
         return loadedScripts;
@@ -104,6 +129,10 @@ public class ScriptsLoader {
             // Run load events after reloading a script
             Parser.getMainRegistration().getRegisterer().finishedLoading(scriptName);
         }
+    }
+
+    public void shutdown() {
+        // TODO clear triggers here
     }
 
 }

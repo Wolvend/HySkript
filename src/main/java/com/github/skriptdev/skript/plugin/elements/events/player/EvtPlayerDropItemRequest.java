@@ -3,6 +3,7 @@ package com.github.skriptdev.skript.plugin.elements.events.player;
 import com.github.skriptdev.skript.api.skript.event.CancellableContext;
 import com.github.skriptdev.skript.api.skript.event.PlayerContext;
 import com.github.skriptdev.skript.api.skript.event.SystemEvent;
+import com.github.skriptdev.skript.api.skript.event.WorldContext;
 import com.github.skriptdev.skript.api.skript.registration.SkriptRegistration;
 import com.github.skriptdev.skript.plugin.HySk;
 import com.hypixel.hytale.component.ArchetypeChunk;
@@ -17,6 +18,7 @@ import com.hypixel.hytale.server.core.event.events.ecs.DropItemEvent;
 import com.hypixel.hytale.server.core.inventory.Inventory;
 import com.hypixel.hytale.server.core.inventory.ItemStack;
 import com.hypixel.hytale.server.core.inventory.container.ItemContainer;
+import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import io.github.syst3ms.skriptparser.lang.Expression;
 import io.github.syst3ms.skriptparser.lang.TriggerContext;
@@ -38,10 +40,14 @@ public class EvtPlayerDropItemRequest extends SystemEvent<EntityEventSystem<Enti
             .since("1.0.0")
             .register();
 
-        reg.addSingleContextValue(RequestDropItemContext.class, Integer.class, "slot-id", RequestDropItemContext::getSlotId);
-        reg.addSingleContextValue(RequestDropItemContext.class, Integer.class, "inventory-section-id", RequestDropItemContext::getInventorySectionId);
-        reg.addSingleContextValue(RequestDropItemContext.class, Item.class, "item", RequestDropItemContext::getItem);
-        reg.addSingleContextValue(RequestDropItemContext.class, ItemStack.class, "itemstack", RequestDropItemContext::getItemStack);
+        reg.addSingleContextValue(RequestDropItemContext.class, Integer.class,
+            "slot-id", RequestDropItemContext::getSlotId);
+        reg.addSingleContextValue(RequestDropItemContext.class, Integer.class,
+            "inventory-section-id", RequestDropItemContext::getInventorySectionId);
+        reg.addSingleContextValue(RequestDropItemContext.class, Item.class,
+            "item", RequestDropItemContext::getItem);
+        reg.addSingleContextValue(RequestDropItemContext.class, ItemStack.class,
+            "itemstack", RequestDropItemContext::getItemStack);
     }
 
     private static PlayerRequestSystem SYSTEM;
@@ -66,10 +72,15 @@ public class EvtPlayerDropItemRequest extends SystemEvent<EntityEventSystem<Enti
     }
 
     private record RequestDropItemContext(Player player, DropItemEvent.PlayerRequest request)
-        implements PlayerContext, CancellableContext {
+        implements PlayerContext, WorldContext, CancellableContext {
 
         public Player getPlayer() {
             return this.player;
+        }
+
+        @Override
+        public World getWorld() {
+            return this.player.getWorld();
         }
 
         public int getSlotId() {

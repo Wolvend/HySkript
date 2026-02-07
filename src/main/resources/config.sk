@@ -11,7 +11,6 @@ effect-commands:
     allow-ops: false
     # Whether or not ops can use effect commands.
     # If false, they will require the permission specified below in 'required-permission'.
-    # This currently does not work as Hytale does not support permissions this way.
 
     required-permission: hyskript.effect-commands
     # The permission required to use effect commands (if allow-ops is false).

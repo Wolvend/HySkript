@@ -1,6 +1,7 @@
 package com.github.skriptdev.skript.plugin.elements.events.entity;
 
 import com.github.skriptdev.skript.api.skript.event.CancellableContext;
+import com.github.skriptdev.skript.api.skript.event.WorldContext;
 import com.github.skriptdev.skript.api.skript.registration.SkriptRegistration;
 import com.github.skriptdev.skript.plugin.HySk;
 import com.hypixel.hytale.component.ArchetypeChunk;
@@ -12,6 +13,7 @@ import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.modules.entity.damage.Damage;
 import com.hypixel.hytale.server.core.modules.entity.damage.DamageCause;
 import com.hypixel.hytale.server.core.modules.entity.damage.DamageSystems;
+import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.hypixel.hytale.server.npc.entities.NPCEntity;
 import io.github.syst3ms.skriptparser.lang.Expression;
@@ -63,7 +65,7 @@ public class EvtEntityDamage extends SkriptEvent {
     }
 
     private record EntityDamageContext(Entity entity, Store<EntityStore> store, Damage damage)
-        implements TriggerContext, CancellableContext {
+        implements TriggerContext, CancellableContext, WorldContext {
 
         public Entity getVictim() {
             return this.entity;
@@ -92,6 +94,11 @@ public class EvtEntityDamage extends SkriptEvent {
         @SuppressWarnings("deprecation")
         public DamageCause getDamageCause() {
             return this.damage.getCause();
+        }
+
+        @Override
+        public World getWorld() {
+            return this.store.getExternalData().getWorld();
         }
 
         @Override

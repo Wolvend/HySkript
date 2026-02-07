@@ -3,6 +3,7 @@ package com.github.skriptdev.skript.plugin.elements.events.player;
 import com.github.skriptdev.skript.api.skript.event.CancellableContext;
 import com.github.skriptdev.skript.api.skript.event.PlayerContext;
 import com.github.skriptdev.skript.api.skript.event.SystemEvent;
+import com.github.skriptdev.skript.api.skript.event.WorldContext;
 import com.github.skriptdev.skript.api.skript.registration.SkriptRegistration;
 import com.hypixel.hytale.component.ArchetypeChunk;
 import com.hypixel.hytale.component.CommandBuffer;
@@ -14,6 +15,7 @@ import com.hypixel.hytale.protocol.GameMode;
 import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.event.events.ecs.ChangeGameModeEvent;
 import com.hypixel.hytale.server.core.universe.PlayerRef;
+import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import io.github.syst3ms.skriptparser.lang.Expression;
 import io.github.syst3ms.skriptparser.lang.TriggerContext;
@@ -33,11 +35,13 @@ public class EvtPlayerChangeGameMode extends SystemEvent<EntityEventSystem<Entit
                 .since("1.0.0")
                 .register();
 
-        reg.newSingleContextValue(PlayerChangeGameModeContext.class, GameMode.class, "game[(-| )]mode", PlayerChangeGameModeContext::getOldGameMode)
+        reg.newSingleContextValue(PlayerChangeGameModeContext.class, GameMode.class,
+                "game[(-| )]mode", PlayerChangeGameModeContext::getOldGameMode)
                 .setState(ContextValue.State.PAST)
                 .setUsage(ContextValue.Usage.EXPRESSION_OR_ALONE)
                 .register();
-        reg.newSingleContextValue(PlayerChangeGameModeContext.class, GameMode.class, "game[(-| )]mode", PlayerChangeGameModeContext::getNewGameMode)
+        reg.newSingleContextValue(PlayerChangeGameModeContext.class, GameMode.class,
+                "game[(-| )]mode", PlayerChangeGameModeContext::getNewGameMode)
                 .setState(ContextValue.State.PRESENT)
                 .setUsage(ContextValue.Usage.EXPRESSION_OR_ALONE)
                 .addSetter(PlayerChangeGameModeContext::setNewGameMode)
@@ -66,10 +70,15 @@ public class EvtPlayerChangeGameMode extends SystemEvent<EntityEventSystem<Entit
     }
 
     private record PlayerChangeGameModeContext(ChangeGameModeEvent event,  Player player)
-    implements PlayerContext, CancellableContext {
+    implements PlayerContext, CancellableContext, WorldContext {
 
         public Player getPlayer() {
             return this.player;
+        }
+
+        @Override
+        public World getWorld() {
+            return getPlayer().getWorld();
         }
 
         public GameMode getNewGameMode() {

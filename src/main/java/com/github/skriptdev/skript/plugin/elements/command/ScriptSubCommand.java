@@ -39,8 +39,7 @@ public class ScriptSubCommand extends CodeSection implements ScriptCommandParent
 
     @Override
     public void loadChild(ScriptCommandBuilder parent, SkriptLogger logger) {
-        this.commandBuilder.setupCommand(this.section, this.parserState, logger);
-        this.commandBuilder.commandType = parent.getCommandType();
+        this.commandBuilder.setupCommand(this.section, this.parserState, logger, parent.getCommandType());
         this.commandBuilder.build(parent);
     }
 

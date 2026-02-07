@@ -1,13 +1,14 @@
 package com.github.skriptdev.skript.plugin.elements.events.entity;
 
+import com.github.skriptdev.skript.api.skript.event.WorldContext;
 import com.github.skriptdev.skript.api.skript.registration.SkriptRegistration;
 import com.github.skriptdev.skript.plugin.HySk;
 import com.hypixel.hytale.event.EventRegistration;
 import com.hypixel.hytale.server.core.entity.Entity;
 import com.hypixel.hytale.server.core.event.events.entity.LivingEntityInventoryChangeEvent;
 import com.hypixel.hytale.server.core.inventory.container.ItemContainer;
+import com.hypixel.hytale.server.core.universe.world.World;
 import io.github.syst3ms.skriptparser.lang.Expression;
-import io.github.syst3ms.skriptparser.lang.Statement;
 import io.github.syst3ms.skriptparser.lang.TriggerContext;
 import io.github.syst3ms.skriptparser.lang.TriggerMap;
 import io.github.syst3ms.skriptparser.lang.event.SkriptEvent;
@@ -37,7 +38,7 @@ public class EvtLivingEntityInvChange extends SkriptEvent {
         if (LISTENER == null) {
             LISTENER = HySk.getInstance().getEventRegistry().registerGlobal(LivingEntityInventoryChangeEvent.class, event -> {
                 InvChangeContext ctx = new InvChangeContext(event);
-                TriggerMap.getTriggersByContext(InvChangeContext.class).forEach(trigger -> Statement.runAll(trigger, ctx));
+                TriggerMap.callTriggersByContext(ctx);
             });
         }
         return true;
@@ -53,7 +54,7 @@ public class EvtLivingEntityInvChange extends SkriptEvent {
         return "living entity inventory change";
     }
 
-    private record InvChangeContext(LivingEntityInventoryChangeEvent event) implements TriggerContext {
+    private record InvChangeContext(LivingEntityInventoryChangeEvent event) implements TriggerContext, WorldContext {
 
         private Entity getEntity() {
             return this.event.getEntity();
@@ -61,6 +62,11 @@ public class EvtLivingEntityInvChange extends SkriptEvent {
 
         private ItemContainer getContainer() {
             return this.event.getItemContainer();
+        }
+
+        @Override
+        public World getWorld() {
+            return this.event.getEntity().getWorld();
         }
 
         @Override

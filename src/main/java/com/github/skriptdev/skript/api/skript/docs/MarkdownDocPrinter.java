@@ -111,7 +111,8 @@ public class MarkdownDocPrinter {
             Utils.log("Printing functions");
             file = getFile("functions");
             writer = new PrintWriter(file, StandardCharsets.UTF_8);
-            printFunctions(writer);
+            printFunctions(writer, registration);
+            printFunctions(writer, Parser.getMainRegistration());
             writer.close();
 
             Utils.log("Documentation printed!");
@@ -172,7 +173,8 @@ public class MarkdownDocPrinter {
         });
     }
 
-    private static void printExpressions(PrintWriter exprWriter, PrintWriter condWriter, PrintWriter exprEffWriter, SkriptRegistration registration) {
+    private static void printExpressions(PrintWriter exprWriter, PrintWriter condWriter,
+                                         PrintWriter exprEffWriter, SkriptRegistration registration) {
         List<List<ExpressionInfo<?, ?>>> values = new ArrayList<>(registration.getExpressions().values());
         values.sort(Comparator.comparing(k -> k.getFirst().getSyntaxClass().getSimpleName()));
 
@@ -199,8 +201,8 @@ public class MarkdownDocPrinter {
     }
 
     @SuppressWarnings("unchecked")
-    private static void printFunctions(PrintWriter writer) {
-        Functions.getJavaFunctions().stream().sorted(Comparator.comparing(Function::getName)).forEach(function -> {
+    private static void printFunctions(PrintWriter writer, SkriptRegistration reg) {
+        Functions.getJavaFunctions(reg).stream().sorted(Comparator.comparing(Function::getName)).forEach(function -> {
             if (function instanceof JavaFunction<?> jf) {
                 FunctionParameter<?>[] parameters = jf.getParameters();
 
@@ -299,7 +301,8 @@ public class MarkdownDocPrinter {
                 // Asset store stuff gets really long, so plop them on another page
                 // GitHub's wiki pages seem to have a limit
                 Utils.log("Creating asset store link for: " + documentation.getName());
-                writer.println("[Click Here](https://github.com/SkriptDev/HySkript/wiki/_usage-" + documentation.getName().replace(" ", "-") + ")");
+                writer.println("[Click Here](https://github.com/SkriptDev/HySkript/wiki/_usage-" +
+                    documentation.getName().replace(" ", "-") + ")");
                 File usageFile = getFile("_usage-" + documentation.getName());
                 try {
                     List<String> values = new ArrayList<>();
