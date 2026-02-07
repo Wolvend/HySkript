@@ -13,6 +13,8 @@ import io.github.syst3ms.skriptparser.lang.Statement;
 import io.github.syst3ms.skriptparser.lang.TriggerContext;
 import io.github.syst3ms.skriptparser.parsing.ParseContext;
 import io.github.syst3ms.skriptparser.util.DurationUtils;
+import io.github.syst3ms.skriptparser.variables.VariableMap;
+import io.github.syst3ms.skriptparser.variables.Variables;
 import org.jetbrains.annotations.NotNull;
 
 import java.time.Duration;
@@ -104,12 +106,18 @@ public class EffDelay extends Effect {
             world = null;
         }
 
+        // Copy local variables to reuse after our delay
+        VariableMap variableMap = Variables.copyLocalVariables(ctx);
         if (this.isConditional) {
             var cond = condition.getSingle(ctx);
             // The code we want to run each check.
             Runnable code = () -> {
                 if (cond.filter(b -> negated == b.booleanValue()).isPresent()) {
+                    // Copy them back into the original context
+                    Variables.setLocalVariables(ctx, variableMap);
                     Statement.runAll(nextStatement, ctx);
+                    // Now delete it all
+                    Variables.clearLocalVariables(ctx);
                 }
             };
             Runnable worldTask = () -> {
@@ -126,7 +134,13 @@ public class EffDelay extends Effect {
             Optional<? extends Duration> dur = duration.getSingle(ctx);
             if (dur.isEmpty()) return nextOpt;
 
-            Runnable code = () -> Statement.runAll(nextStatement, ctx);
+            Runnable code = () -> {
+                // Copy them back into the original context
+                Variables.setLocalVariables(ctx, variableMap);
+                Statement.runAll(nextStatement, ctx);
+                // Now delete it all
+                Variables.clearLocalVariables(ctx);
+            };
             Runnable worldTask = () -> {
                 if (world == null || world.isInThread()) {
                     code.run();
