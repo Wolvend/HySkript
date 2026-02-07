@@ -1,7 +1,9 @@
 package com.github.skriptdev.skript.api.skript.command;
 
 import com.github.skriptdev.skript.plugin.HySk;
+import com.github.skriptdev.skript.plugin.elements.command.ScriptCommand.PlayerScriptCommandContext;
 import com.github.skriptdev.skript.plugin.elements.command.ScriptCommand.ScriptCommandContext;
+import com.github.skriptdev.skript.plugin.elements.command.ScriptCommand.WorldScriptCommandContext;
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.Store;
 import com.hypixel.hytale.server.core.command.system.AbstractCommand;
@@ -122,10 +124,10 @@ public class ScriptCommandBuilder {
                     protected void execute(@NotNull CommandContext commandContext, @NotNull Store<EntityStore> store,
                                            @NotNull Ref<EntityStore> ref, @NotNull PlayerRef playerRef, @NotNull World world) {
 
-                        CommandSender sender = commandContext.sender();
                         Player player = store.getComponent(ref, Player.getComponentType());
-                        ScriptCommandContext context = new ScriptCommandContext(ScriptCommandBuilder.this.commandName,
-                            sender, player, world);
+                        PlayerScriptCommandContext context = new PlayerScriptCommandContext(
+                            ScriptCommandBuilder.this.commandName, player);
+
                         createLocalVariables(commandContext, context);
                         Statement.runAll(trigger, context);
                         Variables.clearLocalVariables(context);
@@ -136,8 +138,9 @@ public class ScriptCommandBuilder {
                     @Override
                     protected void execute(@NotNull CommandContext commandContext, @NotNull World world,
                                            @NotNull Store<EntityStore> store) {
-                        ScriptCommandContext context = new ScriptCommandContext(ScriptCommandBuilder.this.commandName,
-                            commandContext.sender(), null, world);
+                        WorldScriptCommandContext context = new WorldScriptCommandContext(
+                            ScriptCommandBuilder.this.commandName, commandContext.sender(), world);
+
                         createLocalVariables(commandContext, context);
                         Statement.runAll(trigger, context);
                         Variables.clearLocalVariables(context);
@@ -152,7 +155,7 @@ public class ScriptCommandBuilder {
                             Player player = null;
                             if (sender instanceof Player p) player = p;
                             ScriptCommandContext context = new ScriptCommandContext(ScriptCommandBuilder.this.commandName,
-                                sender, player, null);
+                                sender);
 
                             createLocalVariables(commandContext, context);
                             Statement.runAll(trigger, context);
