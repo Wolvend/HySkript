@@ -1,5 +1,6 @@
 package com.github.skriptdev.skript.plugin.elements.events.entity;
 
+import com.github.skriptdev.skript.api.skript.event.WorldContext;
 import com.github.skriptdev.skript.api.skript.registration.SkriptRegistration;
 import com.github.skriptdev.skript.plugin.HySk;
 import com.hypixel.hytale.event.EventRegistration;
@@ -26,7 +27,6 @@ public class EvtEntityRemove extends SkriptEvent {
             .setHandledContexts(EntityRemoveEventContext.class)
             .register();
         reg.addSingleContextValue(EntityRemoveEventContext.class, Entity.class, "entity", EntityRemoveEventContext::getEntity);
-        reg.addSingleContextValue(EntityRemoveEventContext.class, World.class, "world", EntityRemoveEventContext::getWorld);
     }
 
     private static EventRegistration<String, EntityRemoveEvent> LISTENER;
@@ -54,7 +54,7 @@ public class EvtEntityRemove extends SkriptEvent {
         return "entity remove event";
     }
 
-    private record EntityRemoveEventContext(EntityRemoveEvent event) implements TriggerContext {
+    private record EntityRemoveEventContext(EntityRemoveEvent event) implements TriggerContext, WorldContext {
         @Override
         public String getName() {
             return "entity remove context";
@@ -64,7 +64,8 @@ public class EvtEntityRemove extends SkriptEvent {
             return this.event.getEntity();
         }
 
-        private World getWorld() {
+        @Override
+        public World getWorld() {
             return getEntity().getWorld();
         }
     }

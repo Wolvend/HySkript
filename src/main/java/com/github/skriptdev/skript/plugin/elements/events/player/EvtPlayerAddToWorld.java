@@ -1,6 +1,7 @@
 package com.github.skriptdev.skript.plugin.elements.events.player;
 
 import com.github.skriptdev.skript.api.skript.event.PlayerContext;
+import com.github.skriptdev.skript.api.skript.event.WorldContext;
 import com.github.skriptdev.skript.api.skript.registration.SkriptRegistration;
 import com.github.skriptdev.skript.plugin.HySk;
 import com.hypixel.hytale.component.Holder;
@@ -29,7 +30,6 @@ public class EvtPlayerAddToWorld extends SkriptEvent {
             .since("1.0.0")
             .register();
 
-        reg.addSingleContextValue(AddContext.class, World.class, "world", AddContext::getWorld);
         reg.newSingleContextValue(AddContext.class, Boolean.class, "should-broadcast", AddContext::shouldBroadcast)
             .addSetter(AddContext::setShouldBroadcast)
             .register();
@@ -58,8 +58,9 @@ public class EvtPlayerAddToWorld extends SkriptEvent {
         return "";
     }
 
-    private record AddContext(AddPlayerToWorldEvent event) implements PlayerContext {
+    private record AddContext(AddPlayerToWorldEvent event) implements PlayerContext, WorldContext {
 
+        @Override
         public World getWorld() {
             return this.event.getWorld();
         }

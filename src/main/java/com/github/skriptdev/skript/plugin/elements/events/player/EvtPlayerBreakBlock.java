@@ -4,6 +4,7 @@ import com.github.skriptdev.skript.api.hytale.Block;
 import com.github.skriptdev.skript.api.skript.event.CancellableContext;
 import com.github.skriptdev.skript.api.skript.event.PlayerContext;
 import com.github.skriptdev.skript.api.skript.event.SystemEvent;
+import com.github.skriptdev.skript.api.skript.event.WorldContext;
 import com.github.skriptdev.skript.api.skript.registration.SkriptRegistration;
 import com.hypixel.hytale.component.ArchetypeChunk;
 import com.hypixel.hytale.component.CommandBuffer;
@@ -43,8 +44,6 @@ public class EvtPlayerBreakBlock extends SystemEvent<EntityEventSystem<EntitySto
         reg.newSingleContextValue(BreakBlockEventContext.class, Block.class,
                 "block", BreakBlockEventContext::getBlock)
             .addSetter(BreakBlockEventContext::setTargetBlock).register();
-        reg.addSingleContextValue(BreakBlockEventContext.class, World.class,
-            "world", BreakBlockEventContext::getWorld);
         reg.addSingleContextValue(BreakBlockEventContext.class, BlockType.class,
             "blocktype", BreakBlockEventContext::getBlockType);
         reg.addSingleContextValue(BreakBlockEventContext.class, Item.class,
@@ -82,7 +81,7 @@ public class EvtPlayerBreakBlock extends SystemEvent<EntityEventSystem<EntitySto
     }
 
     private record BreakBlockEventContext(BreakBlockEvent event, Player player)
-        implements PlayerContext, CancellableContext {
+        implements PlayerContext, CancellableContext, WorldContext {
 
         public Player getPlayer() {
             return this.player;
@@ -100,7 +99,8 @@ public class EvtPlayerBreakBlock extends SystemEvent<EntityEventSystem<EntitySto
             this.event.setTargetBlock(targetBlock.getPos());
         }
 
-        private World getWorld() {
+        @Override
+        public World getWorld() {
             return this.player.getWorld();
         }
 

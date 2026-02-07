@@ -1,5 +1,6 @@
 package com.github.skriptdev.skript.plugin.elements.events.entity;
 
+import com.github.skriptdev.skript.api.skript.event.WorldContext;
 import com.github.skriptdev.skript.api.skript.registration.SkriptRegistration;
 import com.github.skriptdev.skript.plugin.HySk;
 import com.hypixel.hytale.component.CommandBuffer;
@@ -15,6 +16,7 @@ import com.hypixel.hytale.server.core.modules.entity.damage.Damage;
 import com.hypixel.hytale.server.core.modules.entity.damage.DamageCause;
 import com.hypixel.hytale.server.core.modules.entity.damage.DeathComponent;
 import com.hypixel.hytale.server.core.modules.entity.damage.DeathSystems;
+import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.hypixel.hytale.server.core.util.MessageUtil;
 import com.hypixel.hytale.server.npc.entities.NPCEntity;
@@ -143,7 +145,8 @@ public class EvtEntityDeath extends SkriptEvent {
     }
 
     @SuppressWarnings("DataFlowIssue")
-    private record EntityDeathContext(int pattern, Entity victim, DeathComponent component) implements TriggerContext {
+    private record EntityDeathContext(int pattern, Entity victim, DeathComponent component)
+        implements TriggerContext, WorldContext {
 
         public Entity getVictim() {
             return this.victim;
@@ -216,6 +219,11 @@ public class EvtEntityDeath extends SkriptEvent {
 
         public void setDeathMessageString(String deathMessage) {
             this.component.setDeathMessage(Message.raw(deathMessage));
+        }
+
+        @Override
+        public World getWorld() {
+            return this.victim.getWorld();
         }
 
         @Override

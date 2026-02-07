@@ -5,6 +5,7 @@ import com.github.skriptdev.skript.api.hytale.Block;
 import com.github.skriptdev.skript.api.skript.event.BlockContext;
 import com.github.skriptdev.skript.api.skript.event.PlayerContext;
 import com.github.skriptdev.skript.api.skript.event.PlayerRefContext;
+import com.github.skriptdev.skript.api.skript.event.WorldContext;
 import com.github.skriptdev.skript.api.skript.registration.SkriptRegistration;
 import com.github.skriptdev.skript.plugin.elements.events.entity.EvtEntityDamage;
 import com.github.skriptdev.skript.plugin.elements.events.entity.EvtEntityDeath;
@@ -32,6 +33,7 @@ import com.github.skriptdev.skript.plugin.elements.events.server.EvtShutdown;
 import com.github.skriptdev.skript.plugin.elements.events.skript.EvtLoad;
 import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.universe.PlayerRef;
+import com.hypixel.hytale.server.core.universe.world.World;
 import io.github.syst3ms.skriptparser.registration.context.ContextValue.Usage;
 
 public class EventHandler {
@@ -84,6 +86,10 @@ public class EventHandler {
             .register();
         reg.newSingleContextValue(PlayerContext.class, Player.class,
                 "player", PlayerContext::getPlayer)
+            .setUsage(Usage.EXPRESSION_OR_ALONE)
+            .register();
+        reg.newSingleContextValue(WorldContext.class, World.class,
+                "world", WorldContext::getWorld)
             .setUsage(Usage.EXPRESSION_OR_ALONE)
             .register();
         reg.addSingleContextValue(PlayerRefContext.class, PlayerRef.class,

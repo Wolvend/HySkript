@@ -3,6 +3,7 @@ package com.github.skriptdev.skript.plugin.elements.events.entity;
 import com.github.skriptdev.skript.api.skript.event.CancellableContext;
 import com.github.skriptdev.skript.api.skript.event.PlayerContext;
 import com.github.skriptdev.skript.api.skript.event.SystemEvent;
+import com.github.skriptdev.skript.api.skript.event.WorldContext;
 import com.github.skriptdev.skript.api.skript.registration.SkriptRegistration;
 import com.hypixel.hytale.component.ArchetypeChunk;
 import com.hypixel.hytale.component.CommandBuffer;
@@ -14,6 +15,7 @@ import com.hypixel.hytale.server.core.entity.Entity;
 import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.event.events.ecs.InteractivelyPickupItemEvent;
 import com.hypixel.hytale.server.core.inventory.ItemStack;
+import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.hypixel.hytale.server.npc.entities.NPCEntity;
 import io.github.syst3ms.skriptparser.lang.Expression;
@@ -66,7 +68,7 @@ public class EvtEntityPickupItem extends SystemEvent<EntityEventSystem<EntitySto
     }
 
     public record PickupItemContext(InteractivelyPickupItemEvent event, Entity entity,
-                                    int pattern) implements PlayerContext, CancellableContext {
+                                    int pattern) implements PlayerContext, CancellableContext, WorldContext {
 
         public Entity getEntity() {
             return this.entity;
@@ -79,6 +81,11 @@ public class EvtEntityPickupItem extends SystemEvent<EntityEventSystem<EntitySto
         public Player getPlayer() {
             if (this.entity instanceof Player p) return p;
             return null;
+        }
+
+        @Override
+        public World getWorld() {
+            return this.entity.getWorld();
         }
 
         @Override

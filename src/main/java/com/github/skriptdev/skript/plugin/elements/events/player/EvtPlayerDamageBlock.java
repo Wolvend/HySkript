@@ -4,6 +4,7 @@ import com.github.skriptdev.skript.api.hytale.Block;
 import com.github.skriptdev.skript.api.skript.event.CancellableContext;
 import com.github.skriptdev.skript.api.skript.event.PlayerContext;
 import com.github.skriptdev.skript.api.skript.event.SystemEvent;
+import com.github.skriptdev.skript.api.skript.event.WorldContext;
 import com.github.skriptdev.skript.api.skript.registration.SkriptRegistration;
 import com.hypixel.hytale.component.ArchetypeChunk;
 import com.hypixel.hytale.component.CommandBuffer;
@@ -65,11 +66,16 @@ public class EvtPlayerDamageBlock extends SystemEvent<EntityEventSystem<EntitySt
     }
 
     public record DamageBlockContext(DamageBlockEvent event, Player player)
-        implements PlayerContext, CancellableContext {
+        implements PlayerContext, CancellableContext, WorldContext {
 
         @Override
         public Player getPlayer() {
             return this.player;
+        }
+
+        @Override
+        public World getWorld() {
+            return this.player.getWorld();
         }
 
         public ItemStack getItemStackInHand() {

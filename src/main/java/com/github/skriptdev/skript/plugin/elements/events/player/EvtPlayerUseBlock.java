@@ -4,6 +4,7 @@ import com.github.skriptdev.skript.api.hytale.Block;
 import com.github.skriptdev.skript.api.skript.event.CancellableContext;
 import com.github.skriptdev.skript.api.skript.event.PlayerContext;
 import com.github.skriptdev.skript.api.skript.event.SystemEvent;
+import com.github.skriptdev.skript.api.skript.event.WorldContext;
 import com.github.skriptdev.skript.api.skript.registration.SkriptRegistration;
 import com.hypixel.hytale.component.ArchetypeChunk;
 import com.hypixel.hytale.component.CommandBuffer;
@@ -78,7 +79,7 @@ public class EvtPlayerUseBlock extends SystemEvent<EntityEventSystem<EntityStore
         return "player use block";
     }
 
-    public static abstract class UseBlockContext<T extends UseBlockEvent> implements PlayerContext {
+    public static abstract class UseBlockContext<T extends UseBlockEvent> implements PlayerContext, WorldContext {
 
         final T event;
         final Player player;
@@ -91,6 +92,11 @@ public class EvtPlayerUseBlock extends SystemEvent<EntityEventSystem<EntityStore
         @Override
         public Player getPlayer() {
             return this.player;
+        }
+
+        @Override
+        public World getWorld() {
+            return this.player.getWorld();
         }
 
         public BlockType getBlockType() {

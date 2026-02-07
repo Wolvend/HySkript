@@ -1,8 +1,13 @@
 package com.github.skriptdev.skript.plugin.elements.events.player;
 
+import com.github.skriptdev.skript.api.skript.event.PlayerContext;
+import com.github.skriptdev.skript.api.skript.event.WorldContext;
 import com.github.skriptdev.skript.api.skript.registration.SkriptRegistration;
 import com.github.skriptdev.skript.plugin.HySk;
 import com.hypixel.hytale.event.EventRegistration;
+import com.hypixel.hytale.server.core.entity.Entity;
+import com.hypixel.hytale.server.core.entity.EntityUtils;
+import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.event.events.player.DrainPlayerFromWorldEvent;
 import com.hypixel.hytale.server.core.universe.world.World;
 import io.github.syst3ms.skriptparser.lang.Expression;
@@ -18,12 +23,9 @@ public class EvtPlayerDrainFromWorld extends SkriptEvent {
         reg.newEvent(EvtPlayerDrainFromWorld.class,
                 "drain player from world", "player drained from world", "player drain from world")
             .name("Player Drain From World")
-            .description("Really not sure...") // TODO put real docs
+            .description("Called when a world is unloaded and players are  moved out of it.")
             .since("1.0.0")
             .register();
-
-        reg.addSingleContextValue(DrainContext.class, World.class,
-            "world", DrainContext::getWorld);
     }
 
     private static EventRegistration<String, DrainPlayerFromWorldEvent> LISTENER;
@@ -49,10 +51,17 @@ public class EvtPlayerDrainFromWorld extends SkriptEvent {
         return "drain player from world";
     }
 
-    private record DrainContext(DrainPlayerFromWorldEvent event) implements TriggerContext {
+    private record DrainContext(DrainPlayerFromWorldEvent event) implements PlayerContext, WorldContext {
 
         public World getWorld() {
             return this.event.getWorld();
+        }
+
+        @SuppressWarnings("deprecation")
+        @Override
+        public Player getPlayer() {
+            Entity entity = EntityUtils.getEntity(this.event.getHolder());
+            return entity instanceof Player p ? p : null;
         }
 
         @Override
