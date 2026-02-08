@@ -2,6 +2,7 @@ package com.github.skriptdev.skript.api.skript.config;
 
 import com.github.skriptdev.skript.api.utils.Utils;
 import com.github.skriptdev.skript.plugin.Skript;
+import com.hypixel.hytale.common.semver.Semver;
 import io.github.syst3ms.skriptparser.config.Config;
 import io.github.syst3ms.skriptparser.config.Config.ConfigSection;
 import io.github.syst3ms.skriptparser.log.ErrorType;
@@ -30,6 +31,22 @@ public class SkriptConfig {
         // Set up debug mode
         this.debug = this.config.getBoolean("debug");
         Utils.setDebug(this.debug);
+
+        // Check for update
+        String string = this.config.getString("hyskript-version");
+        if (string != null) {
+            Semver configVersion = Semver.fromString(string);
+            logger.debug("Checking for update from: " + configVersion);
+            Semver hySkriptVersion = skript.getPlugin().getManifest().getVersion();
+            if (configVersion.compareTo(hySkriptVersion) < 0) {
+                logger.debug("Updating config to version: " + hySkriptVersion);
+                updateConfig();
+            } else {
+                logger.debug("Config is up to date");
+            }
+        } else {
+            logger.error("hyskript-version not found in config.sk, no update checking can be performed.", ErrorType.STRUCTURE_ERROR);
+        }
 
         // Set up max-target-block-distance
         this.maxTargetBlockDistance = this.config.getInt("max-target-block-distance");
@@ -100,6 +117,10 @@ public class SkriptConfig {
      */
     public @Nullable ConfigSection getDatabases() {
         return this.databases;
+    }
+
+    private void updateConfig() {
+        // TODO update config
     }
 
 }
