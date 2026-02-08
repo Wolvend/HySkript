@@ -129,9 +129,10 @@ public class JsonDocPrinter {
 
             BsonDocument eventDoc = new BsonDocument();
 
-            if (!Structure.class.isAssignableFrom(event.getSyntaxClass())) {
-                printDocumentation("event", eventDoc, event);
+            if (Structure.class.isAssignableFrom(event.getSyntaxClass())) {
+                return;
             }
+            printDocumentation("event", eventDoc, event);
 
             AtomicBoolean cancellable = new AtomicBoolean(false);
             event.getContexts().forEach(context -> {
@@ -166,11 +167,13 @@ public class JsonDocPrinter {
             Documentation documentation = event.getDocumentation();
             if (documentation.isNoDoc()) return;
 
-            if (Structure.class.isAssignableFrom(event.getSyntaxClass())) {
-                BsonDocument structureDoc = new BsonDocument();
-                printDocumentation("structure", structureDoc, event);
-                structuresArray.add(structureDoc);
+            if (!Structure.class.isAssignableFrom(event.getSyntaxClass())) {
+                return;
             }
+
+            BsonDocument structureDoc = new BsonDocument();
+            printDocumentation("structure", structureDoc, event);
+            structuresArray.add(structureDoc);
         });
 
         mainDocs.put("structures", structuresArray);
