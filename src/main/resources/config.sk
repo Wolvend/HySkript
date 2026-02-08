@@ -1,5 +1,10 @@
 # HySkript Config
 
+hyskript-version: $pluginVersion
+# Do not change this value manually.
+# This is automatically updated when you update HySkript.
+# This is used to update the config if it's outdated.
+
 debug: false
 # Whether or not to enable debug mode (maybe print more verbose logs to console).
 
