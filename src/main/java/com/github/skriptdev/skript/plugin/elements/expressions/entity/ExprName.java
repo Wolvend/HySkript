@@ -20,7 +20,7 @@ public class ExprName extends PropertyExpression<Object, String> {
 
     public static void register(SkriptRegistration registration) {
         registration.newPropertyExpression(ExprName.class, String.class,
-                "[:display] name[s]", "players/playerrefs/entities/worlds")
+                "[:display] name[s]", "entities/players/playerrefs/worlds")
             .name("Name of Object")
             .description("Gets the name of an object.",
                 "Currently supports players, entities, and worlds.",
