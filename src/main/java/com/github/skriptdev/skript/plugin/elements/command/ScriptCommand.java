@@ -115,7 +115,8 @@ public class ScriptCommand extends Structure implements ScriptCommandParent {
                 "**Entries**:",
                 "- `description` = The description for your command that will show in the commands gui (optional).",
                 "- `permission` = The permission required to execute the command (optional).",
-                "- `can-generate-permission` = Whether the command should generate a permission based on the command name (optional, default true).",
+                "- `can-generate-permission` = Whether the command should generate a permission based on the command name " +
+                    "(optional, default true).",
                 "- `aliases` = A list of aliases for the command (optional).",
                 "- `trigger` = The code that will be executed when the command is executed (optional).")
             .examples("command /kill:",
