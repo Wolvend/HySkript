@@ -156,6 +156,7 @@ public class JsonDocPrinter {
             });
             eventDoc.put("cancellable", new BsonBoolean(cancellable.get()));
 
+            // CONTEXT VALUES
             List<ContextValue<?, ?>> valuesForThisEvent = new ArrayList<>();
             contextValues.forEach(contextValue -> {
                 if (event.getContexts().contains(contextValue.getContext())) {
@@ -177,8 +178,9 @@ public class JsonDocPrinter {
 
     private void printStructures(BsonDocument mainDocs, SkriptRegistration registration) {
         BsonArray structuresArray = mainDocs.getArray("structures", new BsonArray());
+        List<ContextValue<?, ?>> allContextValues = registration.getContextValues();
 
-        registration.getEvents().forEach(event -> {
+        registration.getStructures().forEach(event -> {
             Documentation documentation = event.getDocumentation();
             if (documentation.isNoDoc()) return;
 
@@ -189,6 +191,22 @@ public class JsonDocPrinter {
             BsonDocument structureDoc = new BsonDocument();
             printDocumentation("structure", structureDoc, event);
             structuresArray.add(structureDoc);
+
+            // CONTEXT VALUES
+            List<ContextValue<?, ?>> valuesForThisStructure = new ArrayList<>();
+            allContextValues.forEach(contextValue -> {
+                if (event.getContexts().contains(contextValue.getContext())) {
+                    valuesForThisStructure.add(contextValue);
+                }
+            });
+            BsonArray contextValues = structureDoc.getArray("context values", new BsonArray());
+            if (!valuesForThisStructure.isEmpty()) {
+                valuesForThisStructure.forEach(contextValue -> {
+                    contextValues.add(new BsonString("context-" + contextValue.getPattern().toString()));
+                });
+
+            }
+            structureDoc.put("context values", contextValues);
         });
 
         mainDocs.put("structures", structuresArray);
@@ -400,7 +418,7 @@ public class JsonDocPrinter {
     private void printSections(BsonDocument mainDocs, SkriptRegistration registration) {
         BsonArray sectionsArray = mainDocs.getArray("sections", new BsonArray());
         List<SyntaxInfo<? extends CodeSection>> sections = new ArrayList<>(registration.getSections());
-        sections.sort(Comparator.comparing(info -> info.getSyntaxClass().getSimpleName()));
+
         for (SyntaxInfo<? extends CodeSection> section : sections) {
             Documentation documentation = section.getDocumentation();
             if (documentation.isNoDoc()) continue;

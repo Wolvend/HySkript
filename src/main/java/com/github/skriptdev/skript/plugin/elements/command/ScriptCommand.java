@@ -89,7 +89,7 @@ public class ScriptCommand extends Structure implements ScriptCommandParent {
     }
 
     public static void register(SkriptRegistration reg) {
-        reg.newEvent(ScriptCommand.class,
+        reg.newStructure(ScriptCommand.class,
                 "*[global] command <.+>",
                 "*player command <.+>",
                 "*world command <.+>")
