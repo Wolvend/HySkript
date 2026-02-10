@@ -174,7 +174,9 @@ public class JsonDocPrinter {
                 description.add(new BsonString("**Context Values:**"));
 
                 valuesForThisEvent.forEach(contextValue -> {
-                    contextValues.add(new BsonString("context-" + contextValue.getPattern().toString()));
+                    ContextValue.State state = contextValue.getState();
+                    String contextState = state == ContextValue.State.PRESENT ? "" : state.name().toLowerCase(Locale.ROOT) + " ";
+                    contextValues.add(new BsonString(contextState + "context-" + contextValue.getPattern().toString()));
                     description.add(new BsonString(getContextValueDescription(contextValue)));
                 });
                 eventDoc.put("description", description);
@@ -219,7 +221,9 @@ public class JsonDocPrinter {
                 description.add(new BsonString("**Context Values:**"));
 
                 valuesForThisStructure.forEach(contextValue -> {
-                    contextValues.add(new BsonString("context-" + contextValue.getPattern().toString()));
+                    ContextValue.State state = contextValue.getState();
+                    String contextState = state == ContextValue.State.PRESENT ? "" : state.name().toLowerCase(Locale.ROOT) + " ";
+                    contextValues.add(new BsonString(contextState + "context-" + contextValue.getPattern().toString()));
                     description.add(new BsonString(getContextValueDescription(contextValue)));
                 });
                 structureDoc.put("description", description);
@@ -565,8 +569,11 @@ public class JsonDocPrinter {
         String baseName = pluralForms.length > 0 && !single ? pluralForms[1] : pluralForms[0];
         baseName = StringUtils.toCamelCase(baseName, false);
 
-        return String.format("`context-%s`%s(Returns %s %s)",
-            contextValue.getPattern().toString(),
+        ContextValue.State state = contextValue.getState();
+        String stateName = state == ContextValue.State.PRESENT ? "" : state.name().toLowerCase(Locale.ROOT) + " ";
+
+        return String.format("`%scontext-%s`%s(Returns %s %s)",
+            stateName, contextValue.getPattern().toString(),
             desc == null ? " " : " " + desc + " ",
             form, baseName);
     }
