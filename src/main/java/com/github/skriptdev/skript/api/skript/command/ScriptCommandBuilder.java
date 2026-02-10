@@ -9,6 +9,7 @@ import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.Store;
 import com.hypixel.hytale.server.core.command.system.AbstractCommand;
 import com.hypixel.hytale.server.core.command.system.CommandContext;
+import com.hypixel.hytale.server.core.command.system.CommandRegistration;
 import com.hypixel.hytale.server.core.command.system.CommandSender;
 import com.hypixel.hytale.server.core.command.system.arguments.system.Argument;
 import com.hypixel.hytale.server.core.command.system.arguments.system.OptionalArg;
@@ -58,6 +59,7 @@ public class ScriptCommandBuilder {
     private final Map<String, CommandArg> args = new LinkedHashMap<>();
     private final Map<String, Argument<?, ?>> argsFromCommand = new LinkedHashMap<>();
     private AbstractCommand hyCommand;
+    private CommandRegistration commandRegistration;
 
     private final SectionConfiguration sec = new SectionConfiguration.Builder()
         .addOptionalLiteral("can-generate-permission", Boolean.class)
@@ -279,6 +281,12 @@ public class ScriptCommandBuilder {
         });
     }
 
+    public void unregister() {
+        if (this.commandRegistration != null) {
+            this.commandRegistration.unregister();
+        }
+    }
+
     public String getCommandName() {
         return this.commandName;
     }
@@ -291,7 +299,7 @@ public class ScriptCommandBuilder {
         if (this.hyCommand == null) return;
 
         if (parent == null) {
-            HySk.getInstance().getCommandRegistry().registerCommand(this.hyCommand);
+            this.commandRegistration = HySk.getInstance().getCommandRegistry().registerCommand(this.hyCommand);
         } else {
             parent.hyCommand.addSubCommand(this.hyCommand);
         }

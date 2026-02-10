@@ -184,6 +184,11 @@ public class ScriptCommand extends Structure implements ScriptCommandParent {
     }
 
     @Override
+    public void unload() {
+        this.commandBuilder.unregister();
+    }
+
+    @Override
     public String toString(@NotNull TriggerContext ctx, boolean debug) {
         String type = switch (this.commandType) {
             case 1 -> "player";
