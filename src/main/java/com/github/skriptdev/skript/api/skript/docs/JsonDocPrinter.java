@@ -572,10 +572,12 @@ public class JsonDocPrinter {
         ContextValue.State state = contextValue.getState();
         String stateName = state == ContextValue.State.PRESENT ? "" : state.name().toLowerCase(Locale.ROOT) + " ";
 
-        return String.format("`%scontext-%s`%s(Returns %s %s)",
+        boolean canBeSet = contextValue.getListSetterFunction() != null || contextValue.getSingleSetterFunction() != null;
+
+        return String.format("`%scontext-%s`%s(Returns %s %s%s)",
             stateName, contextValue.getPattern().toString(),
             desc == null ? " " : " " + desc + " ",
-            form, baseName);
+            form, baseName, canBeSet ? ", can be set" : "");
     }
 
 }
